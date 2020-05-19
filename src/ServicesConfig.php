@@ -67,7 +67,8 @@ class ServicesConfig
     public function validate()
     {
         // Portico API key
-        if (!empty($this->secretApiKey)
+        if (
+            !empty($this->secretApiKey)
             && (
                 !empty($this->siteId)
                 || !empty($this->licenseId)
@@ -82,7 +83,8 @@ class ServicesConfig
         }
 
         // Portico legacy
-        if ((
+        if (
+            (
             !empty($this->siteId)
                 || !empty($this->licenseId)
                 || !empty($this->deviceId)
@@ -103,7 +105,8 @@ class ServicesConfig
         }
 
         // Realex
-        if ((empty($this->secretApiKey)
+        if (
+            (empty($this->secretApiKey)
             && (
                 empty($this->siteId)
                 && empty($this->licenseId)

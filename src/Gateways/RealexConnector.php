@@ -123,7 +123,8 @@ class RealexConnector extends XmlGateway implements IPaymentGateway, IRecurringS
     public function processAuthorization(AuthorizationBuilder $builder)
     {
         //for google payment amount and currency is required
-        if (!empty($builder->transactionModifier) &&
+        if (
+            !empty($builder->transactionModifier) &&
             $builder->transactionModifier === TransactionModifier::ENCRYPTED_MOBILE &&
             $builder->paymentMethod->mobileType === EncyptedMobileType::GOOGLE_PAY &&
             (empty($builder->amount) || empty($builder->currency))
@@ -343,8 +344,10 @@ class RealexConnector extends XmlGateway implements IPaymentGateway, IRecurringS
 
             $hash = '';
             if ($builder->transactionType === TransactionType::VERIFY) {
-                if (!empty($builder->transactionModifier) &&
-                    $builder->transactionModifier === TransactionModifier::SECURE3D) {
+                if (
+                    !empty($builder->transactionModifier) &&
+                    $builder->transactionModifier === TransactionModifier::SECURE3D
+                ) {
                     $hash = GenerationUtils::generateHash(
                         $this->sharedSecret,
                         implode('.', [
@@ -454,7 +457,8 @@ class RealexConnector extends XmlGateway implements IPaymentGateway, IRecurringS
             $mpi->appendChild($xml->createElement("cavv", $secureEcom->cavv));
             $mpi->appendChild($xml->createElement("xid", $secureEcom->xid));
 
-            if ($secureEcom->directoryServerTransactionId != null ||
+            if (
+                $secureEcom->directoryServerTransactionId != null ||
                 $secureEcom->authenticationValue != null ||
                 $secureEcom->messageVersion != null
             ) {
@@ -510,7 +514,8 @@ class RealexConnector extends XmlGateway implements IPaymentGateway, IRecurringS
         }
 
         // check for right transaction types
-        if ($builder->transactionType !== TransactionType::SALE
+        if (
+            $builder->transactionType !== TransactionType::SALE
             && $builder->transactionType !== TransactionType::AUTH
             && $builder->transactionType !== TransactionType::VERIFY
         ) {
@@ -546,8 +551,10 @@ class RealexConnector extends XmlGateway implements IPaymentGateway, IRecurringS
         if (!empty($builder->hostedPaymentData)) {
             $this->setSerializeData('CUST_NUM', $builder->hostedPaymentData->customerNumber);
 
-            if (!empty($this->hostedPaymentConfig->displaySavedCards) &&
-                !empty($builder->hostedPaymentData->customerKey)) {
+            if (
+                !empty($this->hostedPaymentConfig->displaySavedCards) &&
+                !empty($builder->hostedPaymentData->customerKey)
+            ) {
                 $this->setSerializeData('HPP_SELECT_STORED_CARD', $builder->hostedPaymentData->customerKey);
             }
 
@@ -651,7 +658,8 @@ class RealexConnector extends XmlGateway implements IPaymentGateway, IRecurringS
             $builder->currency,
         ];
 
-        if ($this->hostedPaymentConfig->cardStorageEnabled
+        if (
+            $this->hostedPaymentConfig->cardStorageEnabled
             || ($builder->hostedPaymentData != null
                 && $builder->hostedPaymentData->offerToSaveCard)
             || $this->hostedPaymentConfig->displaySavedCards
@@ -711,8 +719,10 @@ class RealexConnector extends XmlGateway implements IPaymentGateway, IRecurringS
         $request->appendChild($xml->createElement("pasref", $builder->transactionId));
 
         // rebate hash
-        if ($builder->transactionType === TransactionType::REFUND &&
-            is_null($builder->alternativePaymentType)) {
+        if (
+            $builder->transactionType === TransactionType::REFUND &&
+            is_null($builder->alternativePaymentType)
+        ) {
             $request->appendChild($xml->createElement("authcode", $builder->paymentMethod->authCode));
         }
 
@@ -794,8 +804,10 @@ class RealexConnector extends XmlGateway implements IPaymentGateway, IRecurringS
         $request->appendChild($xml->createElement("channel", $this->channel));
         $request->appendChild($xml->createElement("orderid", $orderId));
 
-        if ($builder->transactionType == TransactionType::CREATE ||
-            $builder->transactionType == TransactionType::EDIT) {
+        if (
+            $builder->transactionType == TransactionType::CREATE ||
+            $builder->transactionType == TransactionType::EDIT
+        ) {
             if ($builder->entity instanceof Customer) {
                 $hash = GenerationUtils::generateHash(
                     $this->sharedSecret,
@@ -1136,8 +1148,10 @@ class RealexConnector extends XmlGateway implements IPaymentGateway, IRecurringS
                 return 'settle';
             case TransactionType::VERIFY:
                 if ($builder->paymentMethod->paymentMethodType == PaymentMethodType::RECURRING) {
-                    if (!empty($builder->transactionModifier) &&
-                        $builder->transactionModifier === TransactionModifier::SECURE3D) {
+                    if (
+                        !empty($builder->transactionModifier) &&
+                        $builder->transactionModifier === TransactionModifier::SECURE3D
+                    ) {
                         return 'realvault-3ds-verifyenrolled';
                     }
                     return 'receipt-in-otb';
@@ -1318,7 +1332,8 @@ class RealexConnector extends XmlGateway implements IPaymentGateway, IRecurringS
             $fraudFilter->setAttribute("mode", $builder->fraudFilter);
             $request->appendChild($fraudFilter);
         }
-        if ($builder->customerId !== null || $builder->productId !== null ||
+        if (
+            $builder->customerId !== null || $builder->productId !== null ||
             $builder->clientTransactionId !== null || $builder->verifyAddress !== false
         ) {
             $tssInfo = $xml->createElement("tssinfo");

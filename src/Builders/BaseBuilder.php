@@ -84,7 +84,8 @@ abstract class BaseBuilder
                 continue;
             }
 
-            if ($this->transactionModifier === $validation->modifier
+            if (
+                $this->transactionModifier === $validation->modifier
                 && !call_user_func($validation->clause->callback, $this)
             ) {
                 throw new BuilderException($validation->clause->message);

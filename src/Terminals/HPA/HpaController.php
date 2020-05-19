@@ -238,8 +238,8 @@ class HpaController extends DeviceController
                 . "<ECRId>1004</ECRId>"
                 . "<Request>SendFile</Request>"
                 . "<RequestId>%s</RequestId>"
-                . "<FileName>".$sendFileData->imageType."</FileName>"
-                . "<FileSize>".$fileInfo['fileSize']."</FileSize>"
+                . "<FileName>" . $sendFileData->imageType . "</FileName>"
+                . "<FileSize>" . $fileInfo['fileSize'] . "</FileSize>"
                 . "<MultipleMessage>1</MultipleMessage>"
                 . "</SIP>";
 
@@ -250,7 +250,7 @@ class HpaController extends DeviceController
             $totalMessages = sizeof($splitedImageData);
 
             for ($i = 0; $i < $totalMessages; $i++) {
-                $isMultiple = ( ($i+1) != $totalMessages) ? 1 : 0;
+                $isMultiple = ( ($i + 1) != $totalMessages) ? 1 : 0;
                 $subsequentMessage = "<SIP>"
                         . "<Version>1.0</Version>"
                         . "<ECRId>1004</ECRId>"

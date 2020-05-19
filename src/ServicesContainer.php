@@ -111,14 +111,18 @@ class ServicesContainer
             }
 
             // secure 3d v1
-            if ($config->secure3dVersion === Secure3dVersion::ONE ||
-                $config->secure3dVersion === Secure3dVersion::ANY) {
+            if (
+                $config->secure3dVersion === Secure3dVersion::ONE ||
+                $config->secure3dVersion === Secure3dVersion::ANY
+            ) {
                 static::$instance->setSecure3dProvider(Secure3dVersion::ONE, $gateway);
             }
 
             // secure 3d v2
-            if ($config->secure3dVersion === Secure3dVersion::TWO ||
-                $config->secure3dVersion === Secure3dVersion::ANY) {
+            if (
+                $config->secure3dVersion === Secure3dVersion::TWO ||
+                $config->secure3dVersion === Secure3dVersion::ANY
+            ) {
                 $secure3d2 = new Gp3DSProvider();
                 $secure3d2->setMerchantId($config->merchantId);
                 $secure3d2->setAccountId($config->accountId);

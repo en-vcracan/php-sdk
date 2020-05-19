@@ -2,4 +2,6 @@
 <ruleset name="Heartland">
     <file>./src</file>
     <rule ref="PSR2"/>
+    <arg name="colors"/>
+    <arg value="p"/>
 </ruleset>

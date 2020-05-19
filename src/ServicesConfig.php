@@ -129,7 +129,9 @@ class ServicesConfig
         if ($this->secure3dVersion != null) {
             if ($this->secure3dVersion === Secure3dVersion::TWO || $this->secure3dVersion === Secure3dVersion::ANY) {
                 if (empty($this->challengeNotificationUrl)) {
-                    throw new ConfigurationException("The challenge notification URL is required for 3DS v2 processing.");
+                    throw new ConfigurationException(
+                        "The challenge notification URL is required for 3DS v2 processing."
+                    );
                 }
 
                 if (empty($this->methodNotificationUrl)) {

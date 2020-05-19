@@ -111,17 +111,22 @@ class ServicesContainer
             }
 
             // secure 3d v1
-            if ($config->secure3dVersion === Secure3dVersion::ONE || $config->secure3dVersion === Secure3dVersion::ANY) {
+            if ($config->secure3dVersion === Secure3dVersion::ONE ||
+                $config->secure3dVersion === Secure3dVersion::ANY) {
                 static::$instance->setSecure3dProvider(Secure3dVersion::ONE, $gateway);
             }
 
             // secure 3d v2
-            if ($config->secure3dVersion === Secure3dVersion::TWO || $config->secure3dVersion === Secure3dVersion::ANY) {
+            if ($config->secure3dVersion === Secure3dVersion::TWO ||
+                $config->secure3dVersion === Secure3dVersion::ANY) {
                 $secure3d2 = new Gp3DSProvider();
                 $secure3d2->setMerchantId($config->merchantId);
                 $secure3d2->setAccountId($config->accountId);
                 $secure3d2->setSharedSecret($config->sharedSecret);
-                $secure3d2->serviceUrl = $config->environment == Environment::TEST ? ServiceEndpoints::THREE_DS_AUTH_TEST : ServiceEndpoints::THREE_DS_AUTH_PRODUCTION;
+                $secure3d2->serviceUrl =
+                    $config->environment == Environment::TEST ?
+                        ServiceEndpoints::THREE_DS_AUTH_TEST :
+                        ServiceEndpoints::THREE_DS_AUTH_PRODUCTION;
                 $secure3d2->setMerchantContactUrl($config->merchantContactUrl);
                 $secure3d2->setMethodNotificationUrl($config->methodNotificationUrl);
                 $secure3d2->setChallengeNotificationUrl($config->challengeNotificationUrl);
@@ -153,9 +158,9 @@ class ServicesContainer
             $gateway->curlOptions = $config->curlOptions;
 
             $payplanEndPoint = (strpos(strtolower($config->serviceUrl), 'cert.') > 0) ?
-                                '/Portico.PayPlan.v2/':
-                                '/PayPlan.v2/';
-            
+                '/Portico.PayPlan.v2/' :
+                '/PayPlan.v2/';
+
             $recurring = new PayPlanConnector();
             $recurring->siteId = $config->siteId;
             $recurring->licenseId = $config->licenseId;

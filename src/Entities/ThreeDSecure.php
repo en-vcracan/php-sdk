@@ -319,31 +319,61 @@ class ThreeDSecure
             $this->acsStartVersion = $this->mergeValue($this->acsStartVersion, $secureEcom->acsStartVersion);
             $this->algorithm = $this->mergeValue($this->algorithm, $secureEcom->algorithm);
             $this->amount = $this->mergeValue($this->amount, $secureEcom->amount);
-            $this->authenticationSource = $this->mergeValue($this->authenticationSource, $secureEcom->authenticationSource);
+            $this->authenticationSource = $this->mergeValue(
+                $this->authenticationSource,
+                $secureEcom->authenticationSource
+            );
             $this->authenticationType = $this->mergeValue($this->authenticationType, $secureEcom->authenticationType);
-            $this->authenticationValue = $this->mergeValue($this->authenticationValue, $secureEcom->authenticationValue);
-            $this->cardHolderResponseInfo = $this->mergeValue($this->cardHolderResponseInfo, $secureEcom->cardHolderResponseInfo);
+            $this->authenticationValue = $this->mergeValue(
+                $this->authenticationValue,
+                $secureEcom->authenticationValue
+            );
+            $this->cardHolderResponseInfo = $this->mergeValue(
+                $this->cardHolderResponseInfo,
+                $secureEcom->cardHolderResponseInfo
+            );
             $this->cavv = $this->mergeValue($this->cavv, $secureEcom->cavv);
             $this->challengeMandated = $this->mergeValue($this->challengeMandated, $secureEcom->challengeMandated);
-            $this->criticalityIndicator = $this->mergeValue($this->criticalityIndicator, $secureEcom->criticalityIndicator);
+            $this->criticalityIndicator = $this->mergeValue(
+                $this->criticalityIndicator,
+                $secureEcom->criticalityIndicator
+            );
             $this->currency = $this->mergeValue($this->currency, $secureEcom->currency);
-            $this->directoryServerTransactionId = $this->mergeValue($this->directoryServerTransactionId, $secureEcom->directoryServerTransactionId);
-            $this->directoryServerEndVersion = $this->mergeValue($this->directoryServerEndVersion, $secureEcom->directoryServerEndVersion);
-            $this->directoryServerStartVersion = $this->mergeValue($this->directoryServerStartVersion, $secureEcom->directoryServerStartVersion);
+            $this->directoryServerTransactionId = $this->mergeValue(
+                $this->directoryServerTransactionId,
+                $secureEcom->directoryServerTransactionId
+            );
+            $this->directoryServerEndVersion = $this->mergeValue(
+                $this->directoryServerEndVersion,
+                $secureEcom->directoryServerEndVersion
+            );
+            $this->directoryServerStartVersion = $this->mergeValue(
+                $this->directoryServerStartVersion,
+                $secureEcom->directoryServerStartVersion
+            );
             $this->eci = $this->mergeValue($this->eci, $secureEcom->eci);
             $this->enrolled = $this->mergeValue($this->enrolled, $secureEcom->enrolled);
             $this->issuerAcsUrl = $this->mergeValue($this->issuerAcsUrl, $secureEcom->issuerAcsUrl);
             $this->messageCategory = $this->mergeValue($this->messageCategory, $secureEcom->messageCategory);
             $this->messageExtensionId = $this->mergeValue($this->messageExtensionId, $secureEcom->messageExtensionId);
-            $this->messageExtensionName = $this->mergeValue($this->messageExtensionName, $secureEcom->messageExtensionName);
+            $this->messageExtensionName = $this->mergeValue(
+                $this->messageExtensionName,
+                $secureEcom->messageExtensionName
+            );
             $this->messageVersion = $this->mergeValue($this->messageVersion, $secureEcom->messageVersion);
             $this->orderId = $this->mergeValue($this->orderId, $secureEcom->orderId);
-            $this->payerAuthenticationRequest = $this->mergeValue($this->payerAuthenticationRequest, $secureEcom->payerAuthenticationRequest);
+            $this->payerAuthenticationRequest = $this->mergeValue(
+                $this->payerAuthenticationRequest,
+                $secureEcom->payerAuthenticationRequest
+            );
             $this->paymentDataSource = $this->mergeValue($this->paymentDataSource, $secureEcom->paymentDataSource);
             $this->paymentDataType = $this->mergeValue($this->paymentDataType, $secureEcom->paymentDataType);
             $this->sdkInterface = $this->mergeValue($this->sdkInterface, $secureEcom->sdkInterface);
             $this->sdkUiType = $this->mergeValue($this->sdkUiType, $secureEcom->sdkUiType);
-            $this->serverTransactionId = $this->mergeValue($this->serverTransactionId, $secureEcom->serverTransactionId);
+            $this->serverTransactionId = $this->mergeValue(
+                $this->serverTransactionId,
+                $secureEcom->serverTransactionId
+            );
             $this->status = $this->mergeValue($this->status, $secureEcom->status);
             $this->statusReason = $this->mergeValue($this->statusReason, $secureEcom->statusReason);
             $this->version = $this->mergeValue($this->version, $secureEcom->version);

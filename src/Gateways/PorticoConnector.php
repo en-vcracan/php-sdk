@@ -196,15 +196,15 @@ class PorticoConnector extends XmlGateway implements IPaymentGateway
             $block1->appendChild($xml->createElement('Action', AliasAction::validate($builder->aliasAction)));
             $block1->appendChild($xml->createElement('Alias', $builder->alias));
         }
-      
+
         $isCheck = ($builder->paymentMethod->paymentMethodType === PaymentMethodType::ACH)
             || ($builder->paymentMethod instanceof RecurringPaymentMethod
                 && $builder->paymentMethod->paymentType === 'ACH');
 
         $propertyName = $isCheck ? 'checkHolderName' : 'cardHolderName';
         if ($isCheck
-            || $builder->billingAddress !== null 
-            || isset($builder->paymentMethod->{$propertyName}) 
+            || $builder->billingAddress !== null
+            || isset($builder->paymentMethod->{$propertyName})
         ) {
             if ($builder->transactionType !== TransactionType::REVERSAL) {
                 $address = $this->hydrateHolder($xml, $builder, $isCheck);
@@ -463,10 +463,14 @@ class PorticoConnector extends XmlGateway implements IPaymentGateway
                     );
                 }
                 if (!empty($builder->paymentMethod->threeDSecure->cavv)) {
-                    $direct->appendChild($xml->createElement('PaymentData', $builder->paymentMethod->threeDSecure->cavv));
+                    $direct->appendChild(
+                        $xml->createElement('PaymentData', $builder->paymentMethod->threeDSecure->cavv)
+                    );
                 }
                 if (!empty($builder->paymentMethod->threeDSecure->eci)) {
-                    $direct->appendChild($xml->createElement('ECommerceIndicator', $builder->paymentMethod->threeDSecure->eci));
+                    $direct->appendChild(
+                        $xml->createElement('ECommerceIndicator', $builder->paymentMethod->threeDSecure->eci)
+                    );
                 }
                 if (!empty($builder->paymentMethod->threeDSecure->xid)) {
                     $direct->appendChild($xml->createElement('XID', $builder->paymentMethod->threeDSecure->xid));
@@ -940,8 +944,8 @@ class PorticoConnector extends XmlGateway implements IPaymentGateway
      * @param string $rawResponse The XML response
      * @param BaseBuilder $builder The original transaction builder
      *
-     * @throws Exception
      * @return Transaction
+     * @throws Exception
      */
     protected function mapResponse($rawResponse, BaseBuilder $builder, $request)
     {
@@ -1078,7 +1082,7 @@ class PorticoConnector extends XmlGateway implements IPaymentGateway
         $doc = $root->Transaction->{$this->mapReportType($builder)};
 
         if ((($builder->reportType === ReportType::ACTIVITY)
-            || ($builder->reportType === ReportType::FIND_TRANSACTIONS))
+                || ($builder->reportType === ReportType::FIND_TRANSACTIONS))
             && isset($doc->Transactions)) {
             $response = [];
             foreach ($doc->Transactions as $item) {
@@ -1162,15 +1166,15 @@ class PorticoConnector extends XmlGateway implements IPaymentGateway
         if (isset($item) && (isset($item->RspCode) || isset($item->IssuerRspCode))) {
             $summary->issuerResponseCode =
                 isset($item->RspCode)
-                ? (string)$item->RspCode
-                : (string)$item->IssuerRspCode;
+                    ? (string)$item->RspCode
+                    : (string)$item->IssuerRspCode;
         }
 
         if (isset($item) && (isset($item->RspText) || isset($item->IssuerRspText))) {
             $summary->issuerResponseMessage =
                 isset($item->RspText)
-                ? (string)$item->RspText
-                : (string)$item->IssuerRspText;
+                    ? (string)$item->RspText
+                    : (string)$item->IssuerRspText;
         }
 
         if (isset($item) && isset($item->IssTxnId)) {
@@ -1641,7 +1645,7 @@ class PorticoConnector extends XmlGateway implements IPaymentGateway
         if ($isCheck && $builder->paymentMethod instanceof RecurringPaymentMethod) {
             return null;
         }
-        
+
         if ($builder->billingAddress !== null) {
             $holder->appendChild(
                 $xml->createElement($isCheck ? 'Address1' : 'CardHolderAddr', $builder->billingAddress->streetAddress1)
@@ -1880,7 +1884,7 @@ class PorticoConnector extends XmlGateway implements IPaymentGateway
 
         return $trackData;
     }
-    
+
     public function supportsHostedPayments()
     {
         return $this->supportsHostedPayments;

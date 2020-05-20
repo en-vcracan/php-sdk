@@ -77,7 +77,7 @@ abstract class Gateway
 
             $headers = [];
             foreach ($this->headers as $key => $value) {
-                $headers[] = $key . ': '. $value;
+                $headers[] = $key . ': ' . $value;
             }
 
             curl_setopt($request, CURLOPT_CONNECTTIMEOUT, $this->timeout);

@@ -1,4 +1,5 @@
 <?php
+
 namespace GlobalPayments\Api\Entities\Reporting;
 
 class LodgingData

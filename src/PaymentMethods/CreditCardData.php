@@ -171,8 +171,13 @@ class CreditCardData extends Credit implements ICardData
     /**
      * @return bool
      */
-    public function verifySignature($authorizationResponse, $merchantData = null, $amount = null, $currency = null, $orderId = null)
-    {
+    public function verifySignature(
+        $authorizationResponse,
+        $merchantData = null,
+        $amount = null,
+        $currency = null,
+        $orderId = null
+    ) {
         if (empty($this->threeDSecure)) {
             $this->threeDSecure = new ThreeDSecure();
         }

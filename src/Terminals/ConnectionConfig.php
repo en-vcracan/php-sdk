@@ -26,8 +26,10 @@ class ConnectionConfig
 
     public function validate()
     {
-        if ($this->connectionMode == ConnectionModes::HTTP ||
-                $this->connectionMode == ConnectionModes::TCP_IP) {
+        if (
+            $this->connectionMode == ConnectionModes::HTTP ||
+                $this->connectionMode == ConnectionModes::TCP_IP
+        ) {
             if (empty($this->ipAddress)) {
                 throw new ConfigurationException(
                     "IpAddress is required for TCP or HTTP communication modes."
@@ -41,7 +43,8 @@ class ConnectionConfig
             );
         }
         
-        if ($this->deviceType == DeviceType::HPA_ISC250 &&
+        if (
+            $this->deviceType == DeviceType::HPA_ISC250 &&
                 empty($this->requestIdProvider)
         ) {
             throw new ConfigurationException(

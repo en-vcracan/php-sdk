@@ -108,7 +108,7 @@ class HpaTcpInterface implements IDeviceCommInterface
             try {
                 $length = TerminalUtils::findLength($message);
                 
-                if (false === ($bytes_written = fwrite($this->tcpConnection, $length.$message))) {
+                if (false === ($bytes_written = fwrite($this->tcpConnection, $length . $message))) {
                     throw new GatewayException('Device error: failed to write to socket');
                 } else {
                     //set time out for read and write
@@ -346,8 +346,10 @@ class HpaTcpInterface implements IDeviceCommInterface
             $this->parseTransactionResponse($responseData);
         }
         
-        if ($this->requestType == HpaMessageId::GET_LAST_RESPONSE &&
-                !empty($responseData['LastResponse'])) {
+        if (
+            $this->requestType == HpaMessageId::GET_LAST_RESPONSE &&
+                !empty($responseData['LastResponse'])
+        ) {
             foreach ($responseData['LastResponse'] as $responseKey => $responseValue) {
                 $key = ($responseKey == 'SIPId' || $responseKey == 'ECRId') ?
                         strtolower($responseKey) : lcfirst($responseKey);

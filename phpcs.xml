@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
 <ruleset name="Heartland">
     <file>./src</file>
-    <rule ref="PHPCompatibility">
-    </rule>
+    <rule ref="PHPCompatibility"/>
     <rule ref="PSR12">
-        <exclude name="PSR12.Properties.ConstantVisibility.NotFound" />
+        <exclude name="PSR12.Properties.ConstantVisibility.NotFound"/>
     </rule>
     <config name="testVersion" value="5.5-"/>
     <arg name="colors"/>

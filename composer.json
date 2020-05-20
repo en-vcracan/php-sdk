@@ -20,7 +20,9 @@
     "phpunit/phpunit": "^9.1",
     "brianium/paratest": "^4.0",
     "squizlabs/php_codesniffer": "^3.5",
-    "phpstan/phpstan": "^0.12.25"
+    "phpstan/phpstan": "^0.12.25",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",
+    "phpcompatibility/php-compatibility": "^9.3"
   },
   "autoload": {
     "psr-4": {

@@ -61,7 +61,7 @@ class EcommerceTest extends TestCase
         return $config;
     }
 
-    protected function setup()
+    protected function setUp(): void
     {
         ServicesContainer::configure($this->config());
         $this->publicKey = 'pkapi_cert_jKc1FtuyAydZhZfbB3';

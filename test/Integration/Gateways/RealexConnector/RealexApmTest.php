@@ -25,7 +25,7 @@ class RealexApmTest extends TestCase {
         return $config;
     }
 
-    public function setup() {
+    public function setUp(): void {
         ServicesContainer::configure($this->config());
     }
 

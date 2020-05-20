@@ -14,7 +14,7 @@ use GlobalPayments\Api\Utils\GenerationUtils;
 
 class Realex3dSecureTests extends TestCase
 {
-    public function setup() : void
+    public function setUp(): void
     {
         ServicesContainer::configure($this->getConfig());
     }

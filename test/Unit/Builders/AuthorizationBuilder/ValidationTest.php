@@ -2,6 +2,7 @@
 
 namespace GlobalPayments\Api\Tests\Unit\Builders\AuthorizationBuilder;
 
+use GlobalPayments\Api\Entities\Exceptions\BuilderException;
 use GlobalPayments\Api\PaymentMethods\CreditCardData;
 use GlobalPayments\Api\ServicesConfig;
 use GlobalPayments\Api\ServicesContainer;
@@ -12,7 +13,7 @@ class ValidationTest extends TestCase
     protected $card;
     private $enableCryptoUrl = true;
 
-    public function setup()
+    public function setUp(): void
     {
         $card = new CreditCardData();
         $card->number = '4111111111111111';
@@ -25,64 +26,58 @@ class ValidationTest extends TestCase
         ServicesContainer::configure($this->getConfig());
     }
 
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage amount cannot be null for this transaction type.
-     */
     public function testCreditAuthNoAmount()
     {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('amount cannot be null for this transaction type.');
+
         $this->card->authorize()
             ->execute();
     }
 
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage currency cannot be null
-     */
     public function testCreditAuthNoCurrency()
     {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage("currency cannot be null");
+
         $this->card->authorize(14)
             ->execute();
     }
 
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage paymentMethod cannot be null
-     */
     public function testCreditAuthNoPaymentMethod()
     {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage("paymentMethod cannot be null");
+
         $this->card->authorize(14)
             ->withCurrency('USD')
             ->withPaymentMethod(null)
             ->execute();
     }
 
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage amount cannot be null
-     */
     public function testCreditSaleNoAmount()
     {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage("amount cannot be null");
+
         $this->card->charge()
             ->execute();
     }
 
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage currency cannot be null
-     */
     public function testCreditSaleNoCurrency()
     {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage("currency cannot be null");
+
         $this->card->charge(14)
             ->execute();
     }
 
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage paymentMethod cannot be null
-     */
     public function testCreditSaleNoPaymentMethod()
     {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage("paymentMethod cannot be null");
+
         $this->card->charge(14)
             ->withCurrency('USD')
             ->withPaymentMethod(null)

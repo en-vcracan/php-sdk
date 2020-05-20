@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class RealexSdkCertification extends TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         usleep(1500000);
     }

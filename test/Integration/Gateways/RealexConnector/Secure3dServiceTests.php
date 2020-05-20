@@ -42,7 +42,7 @@ class Secure3dServiceTests extends TestCase
     private $billingAddress;
     private $browserData;
 
-    public function setup() : void
+    public function setUp(): void
     {
         ServicesContainer::configure($this->getConfig());
 

@@ -136,7 +136,8 @@ class PayPlanConnector extends RestGateway implements IRecurringService
     {
         $request = [];
 
-        if ($builder->transactionType === TransactionType::CREATE
+        if (
+            $builder->transactionType === TransactionType::CREATE
             || $builder->transactionType === TransactionType::EDIT
         ) {
             if ($builder->entity instanceof Customer) {
@@ -183,7 +184,8 @@ class PayPlanConnector extends RestGateway implements IRecurringService
         // else do the whole shebang
         $response = json_decode($rawResponse);
 
-        if ($builder->entity instanceof Customer
+        if (
+            $builder->entity instanceof Customer
             && $builder->transactionType === TransactionType::SEARCH
         ) {
             $customers = [];
@@ -197,7 +199,8 @@ class PayPlanConnector extends RestGateway implements IRecurringService
             return $this->hydrateCustomer($response);
         }
 
-        if ($builder->entity instanceof RecurringPaymentMethod
+        if (
+            $builder->entity instanceof RecurringPaymentMethod
             && $builder->transactionType === TransactionType::SEARCH
         ) {
             $methods = [];
@@ -211,7 +214,8 @@ class PayPlanConnector extends RestGateway implements IRecurringService
             return $this->hydratePaymentMethod($response);
         }
 
-        if ($builder->entity instanceof Schedule
+        if (
+            $builder->entity instanceof Schedule
             && $builder->transactionType === TransactionType::SEARCH
         ) {
             $schedules = [];
@@ -246,7 +250,8 @@ class PayPlanConnector extends RestGateway implements IRecurringService
     protected function mapUrl(RecurringBuilder $builder)
     {
         $suffix = '';
-        if ($builder->transactionType === TransactionType::FETCH
+        if (
+            $builder->transactionType === TransactionType::FETCH
             || $builder->transactionType === TransactionType::DELETE
             || $builder->transactionType === TransactionType::EDIT
         ) {
@@ -575,7 +580,7 @@ class PayPlanConnector extends RestGateway implements IRecurringService
         $paymentMethod->address->streetAddress2 = isset($response->addressLine2) ? $response->addressLine2 : null;
         $paymentMethod->address->city = isset($response->city) ? $response->city : null;
         $paymentMethod->address->state = isset($response->stateProvince) ? $response->stateProvince : null;
-        $paymentMethod->address->postalCode= isset($response->zipPostalCode) ? $response->zipPostalCode : null;
+        $paymentMethod->address->postalCode = isset($response->zipPostalCode) ? $response->zipPostalCode : null;
         $paymentMethod->address->country = isset($response->country) ? $response->country : null;
         return $paymentMethod;
     }
@@ -617,7 +622,8 @@ class PayPlanConnector extends RestGateway implements IRecurringService
         $schedule->reprocessingCount = isset($response->reprocessingCount) ? $response->reprocessingCount : null;
         $schedule->emailReceipt = isset($response->emailReceipt) ? $response->emailReceipt : null;
         $schedule->emailNotification = isset($response->emailAdvanceNotice) ? $response->emailAdvanceNotice : null;
-        if ($schedule->emailNotification === null
+        if (
+            $schedule->emailNotification === null
             || $schedule->emailNotification === 'No'
         ) {
             $schedule->emailNotification = false;

@@ -67,7 +67,8 @@ class ServicesConfig
     public function validate()
     {
         // Portico API key
-        if (!empty($this->secretApiKey)
+        if (
+            !empty($this->secretApiKey)
             && (
                 !empty($this->siteId)
                 || !empty($this->licenseId)
@@ -82,7 +83,8 @@ class ServicesConfig
         }
 
         // Portico legacy
-        if ((
+        if (
+            (
             !empty($this->siteId)
                 || !empty($this->licenseId)
                 || !empty($this->deviceId)
@@ -103,7 +105,8 @@ class ServicesConfig
         }
 
         // Realex
-        if ((empty($this->secretApiKey)
+        if (
+            (empty($this->secretApiKey)
             && (
                 empty($this->siteId)
                 && empty($this->licenseId)
@@ -129,7 +132,9 @@ class ServicesConfig
         if ($this->secure3dVersion != null) {
             if ($this->secure3dVersion === Secure3dVersion::TWO || $this->secure3dVersion === Secure3dVersion::ANY) {
                 if (empty($this->challengeNotificationUrl)) {
-                    throw new ConfigurationException("The challenge notification URL is required for 3DS v2 processing.");
+                    throw new ConfigurationException(
+                        "The challenge notification URL is required for 3DS v2 processing."
+                    );
                 }
 
                 if (empty($this->methodNotificationUrl)) {

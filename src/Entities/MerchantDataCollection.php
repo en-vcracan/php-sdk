@@ -55,7 +55,7 @@ class MerchantDataCollection
      */
     private function indexOf($key)
     {
-        for ($i=0; $i<count($this->collection); $i++) {
+        for ($i = 0; $i < count($this->collection); $i++) {
             if ($this->collection[$i]->getKey() == $key) {
                 return $i;
             }
@@ -174,7 +174,7 @@ class MerchantDataCollection
         }
 
         $pos = strrpos($sb, '|');
-        $sb = substr($sb, 0, $pos) . substr($sb, $pos+1);
+        $sb = substr($sb, 0, $pos) . substr($sb, $pos + 1);
 
         try {
             $formatted = (string)$sb;

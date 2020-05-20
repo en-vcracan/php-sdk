@@ -73,7 +73,8 @@ class ValidationClause
             $builder = ($subProperty !== null && !empty($builder->{$subProperty}))
                         ? $builder->{$subProperty}
                         : $builder;
-            if (!property_exists($builder, $this->target->property)
+            if (
+                !property_exists($builder, $this->target->property)
                 && !isset($builder->{$this->target->property})
             ) {
                 throw new BuilderException(
@@ -116,7 +117,8 @@ class ValidationClause
             $builder = ($subProperty == null && empty($builder->{$subProperty}))
                         ? $builder->{$subProperty}
                         : $builder;
-            if (!property_exists($builder, $this->target->property)
+            if (
+                !property_exists($builder, $this->target->property)
                 && !isset($builder->{$this->target->property})
             ) {
                 throw new BuilderException(

@@ -641,7 +641,8 @@ class AuthorizationBuilder extends TransactionBuilder
 
     public function withClientTransactionId($clientTransactionId)
     {
-        if ($this->transactionType !== TransactionType::REVERSAL && $this->transactionType !== TransactionType::REFUND
+        if (
+            $this->transactionType !== TransactionType::REVERSAL && $this->transactionType !== TransactionType::REFUND
         ) {
             $this->clientTransactionId = $clientTransactionId;
             return $this;

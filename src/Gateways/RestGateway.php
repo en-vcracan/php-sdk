@@ -36,7 +36,9 @@ abstract class RestGateway extends Gateway
                 sprintf(
                     'Status Code: %s - %s',
                     $response->statusCode,
-                    isset($error->error_description) ? $error->error_description : (isset($error->message) ? $error->message : (string) $error)
+                    isset($error->error_description) ?
+                        $error->error_description :
+                        (isset($error->message) ? $error->message : (string) $error)
                 )
             );
         }

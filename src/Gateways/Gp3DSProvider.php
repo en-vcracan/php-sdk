@@ -44,26 +44,31 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
     {
         $this->accountId = $accountId;
     }
+
     /** @return void */
     public function setMerchantId($merchantId)
     {
         $this->merchantId = $merchantId;
     }
+
     /** @return void */
     public function setSharedSecret($sharedSecret)
     {
         $this->sharedSecret = $sharedSecret;
     }
+
     /** @return void */
     public function setChallengeNotificationUrl($challengeNotificationUrl)
     {
         $this->challengeNotificationUrl = $challengeNotificationUrl;
     }
+
     /** @return void */
     public function setMerchantContactUrl($merchantContactUrl)
     {
         $this->merchantContactUrl = $merchantContactUrl;
     }
+
     /** @return void */
     public function setMethodNotificationUrl($methodNotificationUrl)
     {
@@ -79,8 +84,8 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
     }
 
     /**
-     * @throws ApiException
-     * @return Transaction */
+     * @return Transaction *@throws ApiException
+     */
     public function processSecure3d(Secure3dBuilder $builder)
     {
         $transType = $builder->getTransactionType();
@@ -99,7 +104,11 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
             if ($paymentMethod instanceof CreditCardData) {
                 $cardData = $paymentMethod;
                 $request = $this->maybeSetKey($request, 'number', $cardData->number);
-                $request = $this->maybeSetKey($request, 'scheme', $this->mapCardScheme(strtoupper($cardData->getCardType())));
+                $request = $this->maybeSetKey(
+                    $request,
+                    'scheme',
+                    $this->mapCardScheme(strtoupper($cardData->getCardType()))
+                );
                 $hashValue = $cardData->number;
             } elseif ($paymentMethod instanceof RecurringPaymentMethod) {
                 $storedCard = $paymentMethod;
@@ -108,19 +117,31 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
                 $hashValue = $storedCard->customerKey;
             }
 
-            $hash = GenerationUtils::generateHash($this->sharedSecret, implode('.', [$timestamp, $this->merchantId, $hashValue]));
+            $hash = GenerationUtils::generateHash(
+                $this->sharedSecret,
+                implode('.', [$timestamp, $this->merchantId, $hashValue])
+            );
             $headers['Authorization'] = sprintf('securehash %s', $hash);
 
             $rawResponse = $this->doTransaction('POST', 'protocol-versions', json_encode($request), null, $headers);
             return $this->mapResponse($rawResponse);
         } elseif ($transType === TransactionType::VERIFY_SIGNATURE) {
-            $hash = GenerationUtils::generateHash($this->sharedSecret, implode('.', [$timestamp, $this->merchantId, $builder->getServerTransactionId()]));
+            $hash = GenerationUtils::generateHash(
+                $this->sharedSecret,
+                implode('.', [$timestamp, $this->merchantId, $builder->getServerTransactionId()])
+            );
             $headers['Authorization'] = sprintf('securehash %s', $hash);
 
             $queryValues = [];
             $queryValues['merchant_id'] = $this->merchantId;
             $queryValues['request_timestamp'] = $timestamp;
-            $rawResponse = $this->doTransaction('GET', sprintf('authentications/%s', $builder->getServerTransactionId()), null, $queryValues, $headers);
+            $rawResponse = $this->doTransaction(
+                'GET',
+                sprintf('authentications/%s', $builder->getServerTransactionId()),
+                null,
+                $queryValues,
+                $headers
+            );
             return $this->mapResponse($rawResponse);
         } elseif ($transType === TransactionType::INITIATE_AUTHENTICATION) {
             $orderId = $builder->getOrderId();
@@ -132,7 +153,11 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
 
             $request = $this->maybeSetKey($request, 'request_timestamp', $timestamp);
             $request = $this->maybeSetKey($request, 'authentication_source', $builder->getAuthenticationSource());
-            $request = $this->maybeSetKey($request, 'authentication_request_type', $builder->getAuthenticationRequestType());
+            $request = $this->maybeSetKey(
+                $request,
+                'authentication_request_type',
+                $builder->getAuthenticationRequestType()
+            );
             $request = $this->maybeSetKey($request, 'message_category', $builder->getMessageCategory());
             $request = $this->maybeSetKey($request, 'message_version', '2.1.0');
             $request = $this->maybeSetKey($request, 'server_trans_id', $secureEcom->serverTransactionId);
@@ -141,7 +166,11 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
             $request = $this->maybeSetKey($request, 'challenge_notification_url', $this->challengeNotificationUrl);
             $request = $this->maybeSetKey($request, 'method_url_completion', $builder->getMethodUrlCompletion());
             $request = $this->maybeSetKey($request, 'merchant_contact_url', $this->merchantContactUrl);
-            $request = $this->maybeSetKey($request, 'merchant_initiated_request_type', $builder->getMerchantInitiatedRequestType());
+            $request = $this->maybeSetKey(
+                $request,
+                'merchant_initiated_request_type',
+                $builder->getMerchantInitiatedRequestType()
+            );
 
             // card details
             $hashValue = '';
@@ -149,12 +178,28 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
             if ($paymentMethod instanceof CreditCardData) {
                 $cardData = $paymentMethod;
                 $hashValue = $cardData->number;
-                
+
                 $request['card_detail'] = $this->maybeSetKey($request['card_detail'], 'number', $cardData->number);
-                $request['card_detail'] = $this->maybeSetKey($request['card_detail'], 'scheme', strtoupper($cardData->getCardType()));
-                $request['card_detail'] = $this->maybeSetKey($request['card_detail'], 'expiry_month', $cardData->expMonth);
-                $request['card_detail'] = $this->maybeSetKey($request['card_detail'], 'expiry_year', substr($cardData->expYear, 2));
-                $request['card_detail'] = $this->maybeSetKey($request['card_detail'], 'full_name', $cardData->cardHolderName);
+                $request['card_detail'] = $this->maybeSetKey(
+                    $request['card_detail'],
+                    'scheme',
+                    strtoupper($cardData->getCardType())
+                );
+                $request['card_detail'] = $this->maybeSetKey(
+                    $request['card_detail'],
+                    'expiry_month',
+                    $cardData->expMonth
+                );
+                $request['card_detail'] = $this->maybeSetKey(
+                    $request['card_detail'],
+                    'expiry_year',
+                    substr($cardData->expYear, 2)
+                );
+                $request['card_detail'] = $this->maybeSetKey(
+                    $request['card_detail'],
+                    'full_name',
+                    $cardData->cardHolderName
+                );
 
                 if (!empty($cardData->cardHolderName)) {
                     $names = explode(' ', $cardData->cardHolderName);
@@ -169,163 +214,492 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
                 $storedCard = $paymentMethod;
                 $hashValue = $storedCard->customerKey;
 
-                $request['card_detail'] = $this->maybeSetKey($request['card_detail'], 'payer_reference', $storedCard->customerKey);
-                $request['card_detail'] = $this->maybeSetKey($request['card_detail'], 'payment_method_reference', $storedCard->key);
+                $request['card_detail'] = $this->maybeSetKey(
+                    $request['card_detail'],
+                    'payer_reference',
+                    $storedCard->customerKey
+                );
+                $request['card_detail'] = $this->maybeSetKey(
+                    $request['card_detail'],
+                    'payment_method_reference',
+                    $storedCard->key
+                );
             }
 
             // order details
             $request['order'] = [];
-            $request['order'] = $this->maybeSetKey($request['order'], 'amount', preg_replace('/[^0-9]/', '', sprintf('%01.2f', $builder->getAmount())));
+            $request['order'] = $this->maybeSetKey(
+                $request['order'],
+                'amount',
+                preg_replace('/[^0-9]/', '', sprintf('%01.2f', $builder->getAmount()))
+            );
             $request['order'] = $this->maybeSetKey($request['order'], 'currency', $builder->getCurrency());
             $request['order'] = $this->maybeSetKey($request['order'], 'id', $orderId);
-            $request['order'] = $this->maybeSetKey($request['order'], 'address_match_indicator', ($builder->isAddressMatchIndicator() ? true : false));
-            $request['order'] = $this->maybeSetKey($request['order'], 'date_time_created', (new \DateTime($builder->getOrderCreateDate()))->format(\DateTime::RFC3339_EXTENDED));
+            $request['order'] = $this->maybeSetKey(
+                $request['order'],
+                'address_match_indicator',
+                $builder->isAddressMatchIndicator()
+            );
+            $request['order'] = $this->maybeSetKey(
+                $request['order'],
+                'date_time_created',
+                (new \DateTime($builder->getOrderCreateDate()))->format(\DateTime::RFC3339_EXTENDED)
+            );
             $request['order'] = $this->maybeSetKey($request['order'], 'gift_card_count', $builder->getGiftCardCount());
-            $request['order'] = $this->maybeSetKey($request['order'], 'gift_card_currency', $builder->getGiftCardCurrency());
-            $request['order'] = $this->maybeSetKey($request['order'], 'gift_card_amount', preg_replace('/[^0-9]/', '', sprintf('%01.2f', $builder->getGiftCardAmount())));
+            $request['order'] = $this->maybeSetKey(
+                $request['order'],
+                'gift_card_currency',
+                $builder->getGiftCardCurrency()
+            );
+            $request['order'] = $this->maybeSetKey(
+                $request['order'],
+                'gift_card_amount',
+                preg_replace('/[^0-9]/', '', sprintf('%01.2f', $builder->getGiftCardAmount()))
+            );
             $request['order'] = $this->maybeSetKey($request['order'], 'delivery_email', $builder->getDeliveryEmail());
-            $request['order'] = $this->maybeSetKey($request['order'], 'delivery_timeframe', $builder->getDeliveryTimeframe());
+            $request['order'] = $this->maybeSetKey(
+                $request['order'],
+                'delivery_timeframe',
+                $builder->getDeliveryTimeframe()
+            );
             $request['order'] = $this->maybeSetKey($request['order'], 'shipping_method', $builder->getShippingMethod());
-            $request['order'] = $this->maybeSetKey($request['order'], 'shipping_name_matches_cardholder_name', $builder->getShippingNameMatchesCardHolderName());
-            $request['order'] = $this->maybeSetKey($request['order'], 'preorder_indicator', $builder->getPreOrderIndicator());
-            $request['order'] = $this->maybeSetKey($request['order'], 'reorder_indicator', $builder->getReorderIndicator());
-            $request['order'] = $this->maybeSetKey($request['order'], 'transaction_type', $builder->getOrderTransactionType());
-            $request['order'] = $this->maybeSetKey($request['order'], 'preorder_availability_date', null !== $builder->getPreOrderAvailabilityDate() ? date('Y-m-d', $builder->getPreOrderAvailabilityDate()) : null);
+            $request['order'] = $this->maybeSetKey(
+                $request['order'],
+                'shipping_name_matches_cardholder_name',
+                $builder->getShippingNameMatchesCardHolderName()
+            );
+            $request['order'] = $this->maybeSetKey(
+                $request['order'],
+                'preorder_indicator',
+                $builder->getPreOrderIndicator()
+            );
+            $request['order'] = $this->maybeSetKey(
+                $request['order'],
+                'reorder_indicator',
+                $builder->getReorderIndicator()
+            );
+            $request['order'] = $this->maybeSetKey(
+                $request['order'],
+                'transaction_type',
+                $builder->getOrderTransactionType()
+            );
+            $request['order'] = $this->maybeSetKey(
+                $request['order'],
+                'preorder_availability_date',
+                null !== $builder->getPreOrderAvailabilityDate() ?
+                    date('Y-m-d', $builder->getPreOrderAvailabilityDate()) : null
+            );
 
             // shipping address
             $shippingAddress = $builder->getShippingAddress();
             if (!empty($shippingAddress)) {
                 $request['order']['shipping_address'] = [];
-                $request['order']['shipping_address'] = $this->maybeSetKey($request['order']['shipping_address'], 'line1', $shippingAddress->streetAddress1);
-                $request['order']['shipping_address'] = $this->maybeSetKey($request['order']['shipping_address'], 'line2', $shippingAddress->streetAddress2);
-                $request['order']['shipping_address'] = $this->maybeSetKey($request['order']['shipping_address'], 'line3', $shippingAddress->streetAddress3);
-                $request['order']['shipping_address'] = $this->maybeSetKey($request['order']['shipping_address'], 'city', $shippingAddress->city);
-                $request['order']['shipping_address'] = $this->maybeSetKey($request['order']['shipping_address'], 'postal_code', $shippingAddress->postalCode);
-                $request['order']['shipping_address'] = $this->maybeSetKey($request['order']['shipping_address'], 'state', $shippingAddress->state);
-                $request['order']['shipping_address'] = $this->maybeSetKey($request['order']['shipping_address'], 'country', $shippingAddress->countryCode);
+                $request['order']['shipping_address'] = $this->maybeSetKey(
+                    $request['order']['shipping_address'],
+                    'line1',
+                    $shippingAddress->streetAddress1
+                );
+                $request['order']['shipping_address'] = $this->maybeSetKey(
+                    $request['order']['shipping_address'],
+                    'line2',
+                    $shippingAddress->streetAddress2
+                );
+                $request['order']['shipping_address'] = $this->maybeSetKey(
+                    $request['order']['shipping_address'],
+                    'line3',
+                    $shippingAddress->streetAddress3
+                );
+                $request['order']['shipping_address'] = $this->maybeSetKey(
+                    $request['order']['shipping_address'],
+                    'city',
+                    $shippingAddress->city
+                );
+                $request['order']['shipping_address'] = $this->maybeSetKey(
+                    $request['order']['shipping_address'],
+                    'postal_code',
+                    $shippingAddress->postalCode
+                );
+                $request['order']['shipping_address'] = $this->maybeSetKey(
+                    $request['order']['shipping_address'],
+                    'state',
+                    $shippingAddress->state
+                );
+                $request['order']['shipping_address'] = $this->maybeSetKey(
+                    $request['order']['shipping_address'],
+                    'country',
+                    $shippingAddress->countryCode
+                );
             }
 
             // payer
             $request['payer'] = [];
             $request['payer'] = $this->maybeSetKey($request['payer'], 'email', $builder->getCustomerEmail() ?? null);
             $request['payer'] = $this->maybeSetKey($request['payer'], 'id', $builder->getCustomerAccountId());
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'account_age', $builder->getAccountAgeIndicator());
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'account_creation_date', null !== $builder->getAccountCreateDate() ? date('Y-m-d', strtotime($builder->getAccountCreateDate())) : null);
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'account_change_indicator', $builder->getAccountChangeIndicator());
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'account_change_date', null !== $builder->getAccountChangeDate() ? date('Y-m-d', strtotime($builder->getAccountChangeDate())) : null);
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'account_password_change_indicator', $builder->getPasswordChangeIndicator());
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'account_password_change_date', null !== $builder->getPasswordChangeDate() ? date('Y-m-d', strtotime($builder->getPasswordChangeDate())) : null);
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'payment_account_age_indicator', $builder->getAccountAgeIndicator());
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'payment_account_creation_date', null !== $builder->getAccountCreateDate() ? date('Y-m-d', strtotime($builder->getAccountCreateDate())) : null);
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'purchase_count_last_6months', $builder->getNumberOfPurchasesInLastSixMonths());
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'transaction_count_last_24hours', $builder->getNumberOfTransactionsInLast24Hours());
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'transaction_count_last_year', $builder->getNumberOfTransactionsInLastYear());
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'provision_attempt_count_last_24hours', $builder->getNumberOfAddCardAttemptsInLast24Hours());
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'shipping_address_creation_indicator', $builder->getShippingAddressUsageIndicator());
-            $request['payer'] = $this->maybeSetKey($request['payer'], 'shipping_address_creation_date', null !== $builder->getShippingAddressCreateDate() ? date('Y-m-d', strtotime($builder->getShippingAddressCreateDate())) : null);
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'account_age',
+                $builder->getAccountAgeIndicator()
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'account_creation_date',
+                null !== $builder->getAccountCreateDate() ? date(
+                    'Y-m-d',
+                    strtotime($builder->getAccountCreateDate())
+                ) : null
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'account_change_indicator',
+                $builder->getAccountChangeIndicator()
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'account_change_date',
+                null !== $builder->getAccountChangeDate() ? date(
+                    'Y-m-d',
+                    strtotime($builder->getAccountChangeDate())
+                ) : null
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'account_password_change_indicator',
+                $builder->getPasswordChangeIndicator()
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'account_password_change_date',
+                null !== $builder->getPasswordChangeDate() ? date(
+                    'Y-m-d',
+                    strtotime($builder->getPasswordChangeDate())
+                ) : null
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'payment_account_age_indicator',
+                $builder->getAccountAgeIndicator()
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'payment_account_creation_date',
+                null !== $builder->getAccountCreateDate() ? date(
+                    'Y-m-d',
+                    strtotime($builder->getAccountCreateDate())
+                ) : null
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'purchase_count_last_6months',
+                $builder->getNumberOfPurchasesInLastSixMonths()
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'transaction_count_last_24hours',
+                $builder->getNumberOfTransactionsInLast24Hours()
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'transaction_count_last_year',
+                $builder->getNumberOfTransactionsInLastYear()
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'provision_attempt_count_last_24hours',
+                $builder->getNumberOfAddCardAttemptsInLast24Hours()
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'shipping_address_creation_indicator',
+                $builder->getShippingAddressUsageIndicator()
+            );
+            $request['payer'] = $this->maybeSetKey(
+                $request['payer'],
+                'shipping_address_creation_date',
+                null !== $builder->getShippingAddressCreateDate() ? date(
+                    'Y-m-d',
+                    strtotime($builder->getShippingAddressCreateDate())
+                ) : null
+            );
 
             // suspicious activity
             if ($builder->getPreviousSuspiciousActivity() != null) {
-                $request['payer'] = $this->maybeSetKey($request['payer'], 'suspicious_account_activity', $builder->getPreviousSuspiciousActivity() ? 'SUSPICIOUS_ACTIVITY' : 'NO_SUSPICIOUS_ACTIVITY');
+                $request['payer'] = $this->maybeSetKey(
+                    $request['payer'],
+                    'suspicious_account_activity',
+                    $builder->getPreviousSuspiciousActivity() ? 'SUSPICIOUS_ACTIVITY' : 'NO_SUSPICIOUS_ACTIVITY'
+                );
             }
 
             // home phone
             if (!empty($builder->getHomeNumber())) {
                 $request['payer']['home_phone'] = [];
-                $request['payer']['home_phone'] = $this->maybeSetKey($request['payer']['home_phone'], 'country_code', $builder->getHomeCountryCode());
-                $request['payer']['home_phone'] = $this->maybeSetKey($request['payer']['home_phone'], 'subscriber_number', $builder->getHomeNumber());
+                $request['payer']['home_phone'] = $this->maybeSetKey(
+                    $request['payer']['home_phone'],
+                    'country_code',
+                    $builder->getHomeCountryCode()
+                );
+                $request['payer']['home_phone'] = $this->maybeSetKey(
+                    $request['payer']['home_phone'],
+                    'subscriber_number',
+                    $builder->getHomeNumber()
+                );
             }
 
             // work phone
             if (!empty($builder->getWorkNumber())) {
                 $request['payer']['work_phone'] = [];
-                $request['payer']['work_phone'] = $this->maybeSetKey($request['payer']['work_phone'], 'country_code', $builder->getWorkCountryCode());
-                $request['payer']['work_phone'] = $this->maybeSetKey($request['payer']['work_phone'], 'subscriber_number', $builder->getWorkNumber());
+                $request['payer']['work_phone'] = $this->maybeSetKey(
+                    $request['payer']['work_phone'],
+                    'country_code',
+                    $builder->getWorkCountryCode()
+                );
+                $request['payer']['work_phone'] = $this->maybeSetKey(
+                    $request['payer']['work_phone'],
+                    'subscriber_number',
+                    $builder->getWorkNumber()
+                );
             }
 
             // payer login data
             if ($builder->hasPayerLoginData()) {
                 $request['payer_login_data'] = [];
-                $request['payer_login_data'] = $this->maybeSetKey($request['payer_login_data'], 'authentication_data', $builder->getCustomerAuthenticationData());
-                $request['payer_login_data'] = $this->maybeSetKey($request['payer_login_data'], 'authentication_timestamp', $builder->getCustomerAuthenticationTimestamp());
-                $request['payer_login_data'] = $this->maybeSetKey($request['payer_login_data'], 'authentication_type', $builder->getCustomerAuthenticationMethod());
+                $request['payer_login_data'] = $this->maybeSetKey(
+                    $request['payer_login_data'],
+                    'authentication_data',
+                    $builder->getCustomerAuthenticationData()
+                );
+                $request['payer_login_data'] = $this->maybeSetKey(
+                    $request['payer_login_data'],
+                    'authentication_timestamp',
+                    $builder->getCustomerAuthenticationTimestamp()
+                );
+                $request['payer_login_data'] = $this->maybeSetKey(
+                    $request['payer_login_data'],
+                    'authentication_type',
+                    $builder->getCustomerAuthenticationMethod()
+                );
             }
 
             // prior authentication data
             if ($builder->hasPriorAuthenticationData()) {
                 $request['payer_prior_three_ds_authentication_data'] = [];
-                $request['payer_prior_three_ds_authentication_data'] = $this->maybeSetKey($request['payer_prior_three_ds_authentication_data'], 'authentication_method', $builder->getPriorAuthenticationMethod());
-                $request['payer_prior_three_ds_authentication_data'] = $this->maybeSetKey($request['payer_prior_three_ds_authentication_data'], 'acs_transaction_id', $builder->getPriorAuthenticationTransactionId());
-                $request['payer_prior_three_ds_authentication_data'] = $this->maybeSetKey($request['payer_prior_three_ds_authentication_data'], 'authentication_timestamp', date('Y-m-d\TH:i:s.u\Z', strtotime($builder->getPriorAuthenticationTimestamp())));
-                $request['payer_prior_three_ds_authentication_data'] = $this->maybeSetKey($request['payer_prior_three_ds_authentication_data'], 'authentication_data', $builder->getPriorAuthenticationData());
+                $request['payer_prior_three_ds_authentication_data'] = $this->maybeSetKey(
+                    $request['payer_prior_three_ds_authentication_data'],
+                    'authentication_method',
+                    $builder->getPriorAuthenticationMethod()
+                );
+                $request['payer_prior_three_ds_authentication_data'] = $this->maybeSetKey(
+                    $request['payer_prior_three_ds_authentication_data'],
+                    'acs_transaction_id',
+                    $builder->getPriorAuthenticationTransactionId()
+                );
+                $request['payer_prior_three_ds_authentication_data'] = $this->maybeSetKey(
+                    $request['payer_prior_three_ds_authentication_data'],
+                    'authentication_timestamp',
+                    date('Y-m-d\TH:i:s.u\Z', strtotime($builder->getPriorAuthenticationTimestamp()))
+                );
+                $request['payer_prior_three_ds_authentication_data'] = $this->maybeSetKey(
+                    $request['payer_prior_three_ds_authentication_data'],
+                    'authentication_data',
+                    $builder->getPriorAuthenticationData()
+                );
             }
 
             // recurring authorization data
             if ($builder->hasRecurringAuthData()) {
                 $request['recurring_authorization_data'] = [];
-                $request['recurring_authorization_data'] = $this->maybeSetKey($request['recurring_authorization_data'], 'max_number_of_installments', $builder->getMaxNumberOfInstallments());
-                $request['recurring_authorization_data'] = $this->maybeSetKey($request['recurring_authorization_data'], 'frequency', $builder->getRecurringAuthorizationFrequency());
-                $request['recurring_authorization_data'] = $this->maybeSetKey($request['recurring_authorization_data'], 'expiry_date', date('Y-m-d\TH:i:s.u\Z', strtotime($builder->getRecurringAuthorizationExpiryDate())));
+                $request['recurring_authorization_data'] = $this->maybeSetKey(
+                    $request['recurring_authorization_data'],
+                    'max_number_of_installments',
+                    $builder->getMaxNumberOfInstallments()
+                );
+                $request['recurring_authorization_data'] = $this->maybeSetKey(
+                    $request['recurring_authorization_data'],
+                    'frequency',
+                    $builder->getRecurringAuthorizationFrequency()
+                );
+                $request['recurring_authorization_data'] = $this->maybeSetKey(
+                    $request['recurring_authorization_data'],
+                    'expiry_date',
+                    date('Y-m-d\TH:i:s.u\Z', strtotime($builder->getRecurringAuthorizationExpiryDate()))
+                );
             }
 
             // billing details
             $billingAddress = $builder->getBillingAddress();
             if (!empty($billingAddress)) {
                 $request['payer']['billing_address'] = [];
-                $request['payer']['billing_address'] = $this->maybeSetKey($request['payer']['billing_address'], 'line1', $billingAddress->streetAddress1);
-                $request['payer']['billing_address'] = $this->maybeSetKey($request['payer']['billing_address'], 'line2', $billingAddress->streetAddress2);
-                $request['payer']['billing_address'] = $this->maybeSetKey($request['payer']['billing_address'], 'line3', $billingAddress->streetAddress3);
-                $request['payer']['billing_address'] = $this->maybeSetKey($request['payer']['billing_address'], 'city', $billingAddress->city);
-                $request['payer']['billing_address'] = $this->maybeSetKey($request['payer']['billing_address'], 'postal_code', $billingAddress->postalCode);
-                $request['payer']['billing_address'] = $this->maybeSetKey($request['payer']['billing_address'], 'state', $billingAddress->state);
-                $request['payer']['billing_address'] = $this->maybeSetKey($request['payer']['billing_address'], 'country', $billingAddress->countryCode);
+                $request['payer']['billing_address'] = $this->maybeSetKey(
+                    $request['payer']['billing_address'],
+                    'line1',
+                    $billingAddress->streetAddress1
+                );
+                $request['payer']['billing_address'] = $this->maybeSetKey(
+                    $request['payer']['billing_address'],
+                    'line2',
+                    $billingAddress->streetAddress2
+                );
+                $request['payer']['billing_address'] = $this->maybeSetKey(
+                    $request['payer']['billing_address'],
+                    'line3',
+                    $billingAddress->streetAddress3
+                );
+                $request['payer']['billing_address'] = $this->maybeSetKey(
+                    $request['payer']['billing_address'],
+                    'city',
+                    $billingAddress->city
+                );
+                $request['payer']['billing_address'] = $this->maybeSetKey(
+                    $request['payer']['billing_address'],
+                    'postal_code',
+                    $billingAddress->postalCode
+                );
+                $request['payer']['billing_address'] = $this->maybeSetKey(
+                    $request['payer']['billing_address'],
+                    'state',
+                    $billingAddress->state
+                );
+                $request['payer']['billing_address'] = $this->maybeSetKey(
+                    $request['payer']['billing_address'],
+                    'country',
+                    $billingAddress->countryCode
+                );
             }
 
             // mobile phone
             if (!empty($builder->getMobileNumber())) {
                 $request['payer']['mobile_phone'] = [];
-                $request['payer']['mobile_phone'] = $this->maybeSetKey($request['payer']['mobile_phone'], 'country_code', $builder->getMobileCountryCode());
-                $request['payer']['mobile_phone'] = $this->maybeSetKey($request['payer']['mobile_phone'], 'subscriber_number', $builder->getMobileNumber());
+                $request['payer']['mobile_phone'] = $this->maybeSetKey(
+                    $request['payer']['mobile_phone'],
+                    'country_code',
+                    $builder->getMobileCountryCode()
+                );
+                $request['payer']['mobile_phone'] = $this->maybeSetKey(
+                    $request['payer']['mobile_phone'],
+                    'subscriber_number',
+                    $builder->getMobileNumber()
+                );
             }
 
             // browser_data
             $browserData = $builder->getBrowserData();
             if (!empty($browserData)) {
                 $request['browser_data'] = [];
-                $request['browser_data'] = $this->maybeSetKey($request['browser_data'], 'accept_header', $browserData->acceptHeader);
-                $request['browser_data'] = $this->maybeSetKey($request['browser_data'], 'color_depth', $browserData->colorDepth);
+                $request['browser_data'] = $this->maybeSetKey(
+                    $request['browser_data'],
+                    'accept_header',
+                    $browserData->acceptHeader
+                );
+                $request['browser_data'] = $this->maybeSetKey(
+                    $request['browser_data'],
+                    'color_depth',
+                    $browserData->colorDepth
+                );
                 $request['browser_data'] = $this->maybeSetKey($request['browser_data'], 'ip', $browserData->ipAddress);
-                $request['browser_data'] = $this->maybeSetKey($request['browser_data'], 'java_enabled', $browserData->javaEnabled);
-                $request['browser_data'] = $this->maybeSetKey($request['browser_data'], 'javascript_enabled', $browserData->javaScriptEnabled);
-                $request['browser_data'] = $this->maybeSetKey($request['browser_data'], 'language', $browserData->language);
-                $request['browser_data'] = $this->maybeSetKey($request['browser_data'], 'screen_height', $browserData->screenHeight);
-                $request['browser_data'] = $this->maybeSetKey($request['browser_data'], 'screen_width', $browserData->screenWidth);
-                $request['browser_data'] = $this->maybeSetKey($request['browser_data'], 'challenge_window_size', $browserData->challengWindowSize);
-                $request['browser_data'] = $this->maybeSetKey($request['browser_data'], 'timezone', $browserData->timeZone);
-                $request['browser_data'] = $this->maybeSetKey($request['browser_data'], 'user_agent', $browserData->userAgent);
+                $request['browser_data'] = $this->maybeSetKey(
+                    $request['browser_data'],
+                    'java_enabled',
+                    $browserData->javaEnabled
+                );
+                $request['browser_data'] = $this->maybeSetKey(
+                    $request['browser_data'],
+                    'javascript_enabled',
+                    $browserData->javaScriptEnabled
+                );
+                $request['browser_data'] = $this->maybeSetKey(
+                    $request['browser_data'],
+                    'language',
+                    $browserData->language
+                );
+                $request['browser_data'] = $this->maybeSetKey(
+                    $request['browser_data'],
+                    'screen_height',
+                    $browserData->screenHeight
+                );
+                $request['browser_data'] = $this->maybeSetKey(
+                    $request['browser_data'],
+                    'screen_width',
+                    $browserData->screenWidth
+                );
+                $request['browser_data'] = $this->maybeSetKey(
+                    $request['browser_data'],
+                    'challenge_window_size',
+                    $browserData->challengWindowSize
+                );
+                $request['browser_data'] = $this->maybeSetKey(
+                    $request['browser_data'],
+                    'timezone',
+                    $browserData->timeZone
+                );
+                $request['browser_data'] = $this->maybeSetKey(
+                    $request['browser_data'],
+                    'user_agent',
+                    $browserData->userAgent
+                );
             }
 
             // mobile fields
             if ($builder->hasMobileFields()) {
                 $request['sdk_information'] = [];
-                $request['sdk_information'] = $this->maybeSetKey($request['sdk_information'], 'application_id', $builder->getApplicationId());
-                $request['sdk_information'] = $this->maybeSetKey($request['sdk_information'], 'ephemeral_public_key', $builder->getEphemeralPublicKey());
-                $request['sdk_information'] = $this->maybeSetKey($request['sdk_information'], 'maximum_timeout', $builder->getMaximumTimeout());
-                $request['sdk_information'] = $this->maybeSetKey($request['sdk_information'], 'reference_number', $builder->getReferenceNumber());
-                $request['sdk_information'] = $this->maybeSetKey($request['sdk_information'], 'sdk_trans_id', $builder->getSdkTransactionId());
-                $request['sdk_information'] = $this->maybeSetKey($request['sdk_information'], 'encoded_data', $builder->getEncodedData());
+                $request['sdk_information'] = $this->maybeSetKey(
+                    $request['sdk_information'],
+                    'application_id',
+                    $builder->getApplicationId()
+                );
+                $request['sdk_information'] = $this->maybeSetKey(
+                    $request['sdk_information'],
+                    'ephemeral_public_key',
+                    $builder->getEphemeralPublicKey()
+                );
+                $request['sdk_information'] = $this->maybeSetKey(
+                    $request['sdk_information'],
+                    'maximum_timeout',
+                    $builder->getMaximumTimeout()
+                );
+                $request['sdk_information'] = $this->maybeSetKey(
+                    $request['sdk_information'],
+                    'reference_number',
+                    $builder->getReferenceNumber()
+                );
+                $request['sdk_information'] = $this->maybeSetKey(
+                    $request['sdk_information'],
+                    'sdk_trans_id',
+                    $builder->getSdkTransactionId()
+                );
+                $request['sdk_information'] = $this->maybeSetKey(
+                    $request['sdk_information'],
+                    'encoded_data',
+                    $builder->getEncodedData()
+                );
             }
 
             // device render options
             if ($builder->getSdkInterface() != null || $builder->getSdkUiTypes() != null) {
                 $request['sdk_information']['device_render_options'] = [];
-                $request['sdk_information']['device_render_options'] = $this->maybeSetKey($request['sdk_information']['device_render_options'], 'sdk_interface', $builder->getSdkInterface());
-                $request['sdk_information']['device_render_options'] = $this->maybeSetKey($request['sdk_information']['device_render_options'], 'sdk_ui_type', $builder->getSdkUiTypes());
+                $request['sdk_information']['device_render_options'] = $this->maybeSetKey(
+                    $request['sdk_information']['device_render_options'],
+                    'sdk_interface',
+                    $builder->getSdkInterface()
+                );
+                $request['sdk_information']['device_render_options'] = $this->maybeSetKey(
+                    $request['sdk_information']['device_render_options'],
+                    'sdk_ui_type',
+                    $builder->getSdkUiTypes()
+                );
             }
 
-            $hash = GenerationUtils::generateHash($this->sharedSecret, implode('.', [$timestamp, $this->merchantId, $hashValue, $secureEcom->serverTransactionId]));
+            $hash = GenerationUtils::generateHash(
+                $this->sharedSecret,
+                implode('.', [$timestamp, $this->merchantId, $hashValue, $secureEcom->serverTransactionId])
+            );
             $headers['Authorization'] = sprintf('securehash %s', $hash);
-            $rawResponse = $this->doTransaction('POST', 'authentications', json_encode($request, JSON_UNESCAPED_SLASHES), null, $headers);
+            $rawResponse = $this->doTransaction(
+                'POST',
+                'authentications',
+                json_encode($request, JSON_UNESCAPED_SLASHES),
+                null,
+                $headers
+            );
             return $this->mapResponse($rawResponse);
         }
 
@@ -410,8 +784,8 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
     }
 
     /**
-     * @throws GatewayException
-     * @return string */
+     * @return string *@throws GatewayException
+     */
     private function handleResponse(GatewayResponse $response)
     {
         if ($response->statusCode != 200 && $response->statusCode != 204) {

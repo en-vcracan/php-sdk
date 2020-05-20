@@ -290,7 +290,7 @@ class ManagementBuilder extends TransactionBuilder
     /**
      * @return ManagementBuilder
      */
-    public function withIssuerData(CardIssuerEntryTag $tag, String $value)
+    public function withIssuerData(CardIssuerEntryTag $tag, string $value)
     {
         if ($this->issuerData == null) {
             $this->issuerData = [];

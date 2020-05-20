@@ -131,7 +131,7 @@ class HpaInterface implements IDeviceInterface
                 . "<ECRId>1004</ECRId>"
                 . "<Request>LineItem</Request>"
                 . "<RequestId>%s</RequestId>"
-                ."<LineItemTextLeft>{$lineItemDetails->leftText}</LineItemTextLeft>";
+                . "<LineItemTextLeft>{$lineItemDetails->leftText}</LineItemTextLeft>";
         
         if (!empty($lineItemDetails->rightText)) {
             $message .= sprintf("<LineItemTextRight>%s</LineItemTextRight>", $lineItemDetails->rightText);

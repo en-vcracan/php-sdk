@@ -28,7 +28,7 @@ class CreditTest extends TestCase
     public function testCreditReverse()
     {
         $this->expectException(UnsupportedTransactionException::class);
-        $this->expectExceptionMessage("selected gateway does not support this transaction type");
+        $this->expectExceptionMessage('selected gateway does not support this transaction type');
 
         $this->card->reverse(15)
             ->withAllowDuplicates(true)

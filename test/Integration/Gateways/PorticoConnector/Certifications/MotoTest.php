@@ -2,6 +2,7 @@
 
 namespace GlobalPayments\Api\Tests\Integration\Gateways\PorticoConnector\Certifications;
 
+use GlobalPayments\Api\Entities\Exceptions\UnsupportedTransactionException;
 use GlobalPayments\Api\ServicesConfig;
 use GlobalPayments\Api\ServicesContainer;
 use GlobalPayments\Api\Entities\Address;
@@ -1009,12 +1010,11 @@ class MotoTest extends TestCase
     }
 
     /// Time Out Reversal
-
-    /**
-     * @expectedException GlobalPayments\Api\Entities\Exceptions\UnsupportedTransactionException
-     */
+    
     public function test036bTimeoutReversal()
     {
+        $this->expectException(UnsupportedTransactionException::class);
+
         $sale = TestCards::visaManual()->charge(911)
             ->withCurrency('USD')
             ->withClientTransactionId('987321654')

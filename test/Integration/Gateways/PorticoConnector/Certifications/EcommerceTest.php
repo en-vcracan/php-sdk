@@ -10,6 +10,7 @@ use GlobalPayments\Api\Entities\Enums\TaxType;
 use GlobalPayments\Api\Entities\Enums\TransactionModifier;
 use GlobalPayments\Api\Entities\Exceptions\ApiException;
 use GlobalPayments\Api\Entities\Exceptions\GatewayException;
+use GlobalPayments\Api\Entities\Exceptions\UnsupportedTransactionException;
 use GlobalPayments\Api\Entities\Transaction;
 use GlobalPayments\Api\PaymentMethods\CreditCardData;
 use GlobalPayments\Api\PaymentMethods\CreditTrackData;
@@ -979,11 +980,10 @@ class EcommerceTest extends TestCase
 
     /// Time Out Reversal
 
-    /**
-     * @expectedException GlobalPayments\Api\Entities\Exceptions\UnsupportedTransactionException
-     */
     public function test036bTimeoutReversal()
     {
+        $this->expectException(UnsupportedTransactionException::class);
+
         $sale = TestCards::visaManual()->charge(911)
             ->withCurrency('USD')
             ->withClientTransactionId('987321654')

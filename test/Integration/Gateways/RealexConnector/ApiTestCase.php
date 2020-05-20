@@ -627,12 +627,11 @@ class ApiTestCase extends TestCase
     
     /* 31. Mobile payment without Token value */
 
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage  token cannot be null for this transaction type
-     */
     public function testauthMobileWithoutToken()
     {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('token cannot be null for this transaction type');
+
         $config = new ServicesConfig();
         $config->merchantId = 'heartlandgpsandbox';
         $config->accountId = 'apitest';
@@ -653,12 +652,11 @@ class ApiTestCase extends TestCase
     
     /* 32. Mobile payment without Mobile Type */
 
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage  mobileType cannot be null for this transaction type
-     */
     public function testauthMobileWithoutType()
     {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('mobileType cannot be null for this transaction type');
+
         $config = new ServicesConfig();
         $config->merchantId = 'heartlandgpsandbox';
         $config->accountId = 'apitest';
@@ -679,12 +677,11 @@ class ApiTestCase extends TestCase
     
     /* 33. Google payment without amount */
 
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage  Amount and Currency cannot be null for google payment
-     */
     public function testauthMobileWithoutAmount()
     {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('Amount and Currency cannot be null for google payment');
+
         $config = new ServicesConfig();
         $config->merchantId = 'heartlandgpsandbox';
         $config->accountId = 'apitest';
@@ -706,12 +703,11 @@ class ApiTestCase extends TestCase
     
     /* 34. Google payment without Currency */
 
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage  Amount and Currency cannot be null for google payment
-     */
     public function testauthMobileWithoutCurrency()
     {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('Amount and Currency cannot be null for google payment');
+
         $config = new ServicesConfig();
         $config->merchantId = 'heartlandgpsandbox';
         $config->accountId = 'apitest';

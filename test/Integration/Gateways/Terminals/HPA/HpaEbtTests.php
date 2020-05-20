@@ -15,7 +15,7 @@ class HpaEbtTests extends TestCase
 
     private $device;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->device = DeviceService::create($this->getConfig());
 
@@ -23,7 +23,7 @@ class HpaEbtTests extends TestCase
         $this->device->openLane();
     }
     
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->waitAndReset();
     }

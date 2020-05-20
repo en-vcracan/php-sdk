@@ -38,7 +38,7 @@ class ValidationTest extends TestCase
     public function testCreditAuthNoCurrency()
     {
         $this->expectException(BuilderException::class);
-        $this->expectExceptionMessage("currency cannot be null");
+        $this->expectExceptionMessage('currency cannot be null');
 
         $this->card->authorize(14)
             ->execute();
@@ -47,7 +47,7 @@ class ValidationTest extends TestCase
     public function testCreditAuthNoPaymentMethod()
     {
         $this->expectException(BuilderException::class);
-        $this->expectExceptionMessage("paymentMethod cannot be null");
+        $this->expectExceptionMessage('paymentMethod cannot be null');
 
         $this->card->authorize(14)
             ->withCurrency('USD')
@@ -58,7 +58,7 @@ class ValidationTest extends TestCase
     public function testCreditSaleNoAmount()
     {
         $this->expectException(BuilderException::class);
-        $this->expectExceptionMessage("amount cannot be null");
+        $this->expectExceptionMessage('amount cannot be null');
 
         $this->card->charge()
             ->execute();
@@ -67,7 +67,7 @@ class ValidationTest extends TestCase
     public function testCreditSaleNoCurrency()
     {
         $this->expectException(BuilderException::class);
-        $this->expectExceptionMessage("currency cannot be null");
+        $this->expectExceptionMessage('currency cannot be null');
 
         $this->card->charge(14)
             ->execute();
@@ -76,7 +76,7 @@ class ValidationTest extends TestCase
     public function testCreditSaleNoPaymentMethod()
     {
         $this->expectException(BuilderException::class);
-        $this->expectExceptionMessage("paymentMethod cannot be null");
+        $this->expectExceptionMessage('paymentMethod cannot be null');
 
         $this->card->charge(14)
             ->withCurrency('USD')

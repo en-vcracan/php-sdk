@@ -2,6 +2,7 @@
 
 namespace GlobalPayments\Api\Tests\Integration\Gateways\RealexConnector;
 
+use GlobalPayments\Api\Entities\Exceptions\GatewayException;
 use GlobalPayments\Api\ServicesConfig;
 use GlobalPayments\Api\ServicesContainer;
 use GlobalPayments\Api\Entities\MerchantDataCollection;
@@ -760,13 +761,12 @@ class Secure3dServiceTests extends TestCase
         $this->assertFalse((bool)$secureEcom->enrolled);
     }
 
-    /**
-     * @expectedException GlobalPayments\Api\Entities\Exceptions\GatewayException
-     */
-    // public function testCheckVersion_Not_ISecure3d()
-    // {
-    //     $secureEcom = Secure3dService::checkEnrollment(new DebitTrackData)
-    //         ->execute(Secure3dVersion::ANY);
-    //     $this->assertNotNull($secureEcom);
-    // }
+//     public function testCheckVersion_Not_ISecure3d()
+//     {
+//         $this->expectException(GatewayException::class);
+//
+//         $secureEcom = Secure3dService::checkEnrollment(new DebitTrackData)
+//             ->execute(Secure3dVersion::ANY);
+//         $this->assertNotNull($secureEcom);
+//     }
 }

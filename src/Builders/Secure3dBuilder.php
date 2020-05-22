@@ -86,7 +86,7 @@ class Secure3dBuilder extends BaseBuilder
     public $giftCardCount;
     /** @var string */
     public $giftCardCurrency;
-    /** @var decimal */
+    /** @var float */
     public $giftCardAmount;
     /** @var string */
     public $homeCountryCode;
@@ -334,7 +334,7 @@ class Secure3dBuilder extends BaseBuilder
         return $this->giftCardCurrency;
     }
 
-    /** @return decimal */
+    /** @return float */
     public function getGiftCardAmount()
     {
         return $this->giftCardAmount;

@@ -450,8 +450,8 @@ class RealexConnector extends XmlGateway implements IPaymentGateway, IRecurringS
         }
 
         // mpi
-        $secureEcom = $builder->paymentMethod->threeDSecure;
-        if (!empty($secureEcom)) {
+        if (isset($builder->paymentMethod->threeDSecure)) {
+            $secureEcom = $builder->paymentMethod->threeDSecure;
             $mpi = $xml->createElement("mpi");
             $mpi->appendChild($xml->createElement("eci", $secureEcom->eci));
             $mpi->appendChild($xml->createElement("cavv", $secureEcom->cavv));

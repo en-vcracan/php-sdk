@@ -2,7 +2,9 @@
 
 namespace GlobalPayments\Api\Builders;
 
+use DateTime;
 use GlobalPayments\Api\Entities\Enums\ReportType;
+use GlobalPayments\Api\Entities\Enums\TimeZoneConversion;
 use GlobalPayments\Api\ServicesContainer;
 use GlobalPayments\Api\Entities\Reporting\SearchCriteria;
 use GlobalPayments\Api\Entities\Reporting\SearchCriteriaBuilder;

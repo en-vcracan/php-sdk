@@ -8,6 +8,7 @@ use GlobalPayments\Api\PaymentMethods\CreditCardData;
 use GlobalPayments\Api\Services\CreditService;
 use GlobalPayments\Api\ServicesConfig;
 use GlobalPayments\Api\ServicesContainer;
+use GlobalPayments\Api\Tests\Data\TestCards;
 use PHPUnit\Framework\TestCase;
 use GlobalPayments\Api\Entities\MerchantDataCollection;
 use GlobalPayments\Api\Entities\ThreeDSecure;
@@ -62,7 +63,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001037141112;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'James Mason';
 
         $enrolled = $card->verifyEnrolled(100, 'USD');
@@ -130,7 +131,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001037141112;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'John Smith';
 
         $enrolled = $card->verifyEnrolled(1, 'USD');
@@ -168,7 +169,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001037141112;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'James Mason';
 
         $amount = 100;
@@ -209,7 +210,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001037141112;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'John Smith';
 
         $enrolled = $card->verifyEnrolled(1, 'USD');
@@ -225,7 +226,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001038443335;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'John Smith';
 
         $enrolled = $card->verifyEnrolled(1, 'USD');
@@ -282,7 +283,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001037141112;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'Philip Marlowe';
         $card->threeDSecure = $secureEcom;
 
@@ -299,7 +300,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001038443335;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'John Smith';
 
         $enrolled = $card->verifyEnrolled(10, 'USD');
@@ -320,7 +321,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001038488884;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'John Smith';
 
         $enrolled = $card->verifyEnrolled(10, 'USD');
@@ -342,7 +343,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001036298889;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'John Smith';
 
         $card->verifyEnrolled(10, 'USD');
@@ -353,7 +354,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001036853337;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'John Smith';
 
         $enrolled = $card->verifyEnrolled(10, 'USD');
@@ -384,7 +385,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001037167778;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'John Smith';
 
         $enrolled = $card->verifyEnrolled(10, 'USD');
@@ -414,7 +415,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001037461114;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'John Smith';
 
         $enrolled = $card->verifyEnrolled(10, 'USD');
@@ -445,7 +446,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001037484447;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'John Smith';
 
         $enrolled = $card->verifyEnrolled(10, 'USD');
@@ -477,7 +478,7 @@ class Realex3dSecureTests extends TestCase
         $card = new CreditCardData();
         $card->number = 4012001037490006;
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = 'John Smith';
 
         $enrolled = $card->verifyEnrolled(10, 'USD');

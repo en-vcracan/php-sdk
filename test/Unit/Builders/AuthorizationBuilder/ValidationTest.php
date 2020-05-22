@@ -6,6 +6,7 @@ use GlobalPayments\Api\Entities\Exceptions\BuilderException;
 use GlobalPayments\Api\PaymentMethods\CreditCardData;
 use GlobalPayments\Api\ServicesConfig;
 use GlobalPayments\Api\ServicesContainer;
+use GlobalPayments\Api\Tests\Data\TestCards;
 use PHPUnit\Framework\TestCase;
 
 class ValidationTest extends TestCase
@@ -18,7 +19,7 @@ class ValidationTest extends TestCase
         $card = new CreditCardData();
         $card->number = '4111111111111111';
         $card->expMonth = 12;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = '123';
         $card->cardHolderName = 'Joe Smith';
         $this->card = $card;

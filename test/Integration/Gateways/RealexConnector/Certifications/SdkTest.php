@@ -12,6 +12,7 @@ use GlobalPayments\Api\Entities\Enums\AddressType;
 use GlobalPayments\Api\Entities\Enums\CvnPresenceIndicator;
 use GlobalPayments\Api\Entities\Enums\ReasonCode;
 use GlobalPayments\Api\PaymentMethods\CreditCardData;
+use GlobalPayments\Api\Tests\Data\TestCards;
 use PHPUnit\Framework\TestCase;
 
 class RealexSdkCertification extends TestCase
@@ -39,7 +40,7 @@ class RealexSdkCertification extends TestCase
         $card = new CreditCardData();
         $card->number = "4263970000005262";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
         $card->cardHolderName = "James Mason";
@@ -737,7 +738,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "424242000000000000000";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -759,7 +760,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "42424242424";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -781,7 +782,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4263970000005262#";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -821,7 +822,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -842,7 +843,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "3a4wpIwep3uviSnW9XEB3a4wpIwep3uviSnW9XEB3a4wpIwepeep3a4wpIwep3uviSnW9XEB3a4wpIwep3uviSnW9XEB3a4wpIwepeep";
 
         // request
@@ -862,7 +863,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "James~Mason";
 
         // request
@@ -918,7 +919,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 20;
-        $card->expYear = 2012;
+        $card->expYear = TestCards::expiredCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -1062,7 +1063,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
 
         // request
@@ -1101,7 +1102,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "12345";
 
         // request
@@ -1122,7 +1123,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "374101000000608";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
 
         // request
@@ -1159,7 +1160,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::ILLEGIBLE;
 
@@ -1180,7 +1181,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::NOT_ON_CARD;
 
@@ -1201,7 +1202,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::NOT_REQUESTED;
 
@@ -1226,7 +1227,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvnPresenceIndicator = 5;
 
         // request
@@ -1246,7 +1247,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvnPresenceIndicator = 0;
 
         // request
@@ -2498,7 +2499,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "V002625938386848";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -2573,7 +2574,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = " 4002 6259 3838 6848";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -2648,7 +2649,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -2757,7 +2758,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 20;
-        $card->expYear = 2012;
+        $card->expYear = TestCards::expiredCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -2796,7 +2797,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2015;
+        $card->expYear = TestCards::expiredCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -2907,7 +2908,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 20;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -3055,7 +3056,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
 
         // request
@@ -3095,7 +3096,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "12345";
 
         // request
@@ -3134,7 +3135,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "374101000000608";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
 
         // request
@@ -3175,7 +3176,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "374101000000608";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -3212,7 +3213,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvnPresenceIndicator = 0;
 
         // request
@@ -3250,7 +3251,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvnPresenceIndicator = CvnPresenceIndicator::ILLEGIBLE;
 
         // request
@@ -3288,7 +3289,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvnPresenceIndicator = CvnPresenceIndicator::NOT_ON_CARD;
 
         // request
@@ -3326,7 +3327,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvnPresenceIndicator = CvnPresenceIndicator::NOT_REQUESTED;
 
         // request
@@ -3366,7 +3367,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2015;
+        $card->expYear = TestCards::expiredCardExpYear();
         $card->cvn = "1234";
 
         // request
@@ -3441,7 +3442,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
 
         // request
@@ -3481,7 +3482,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2015;
+        $card->expYear = TestCards::expiredCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -3520,7 +3521,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2015;
+        $card->expYear = TestCards::expiredCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -3559,7 +3560,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2015;
+        $card->expYear = TestCards::expiredCardExpYear();
         $card->cvn = "1234";
 
         // request
@@ -3599,7 +3600,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2015;
+        $card->expYear = TestCards::expiredCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -3638,7 +3639,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
 
         // request
@@ -3748,7 +3749,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 11;
-        $card->expYear = 2015;
+        $card->expYear = TestCards::expiredCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -3826,7 +3827,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
 
         // request
@@ -3865,7 +3866,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5425230000004415";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -3903,7 +3904,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5425230000004415";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -3943,7 +3944,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5425230000004415";
         $card->expMonth = 11;
-        $card->expYear = 2015;
+        $card->expYear = TestCards::expiredCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -4023,7 +4024,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5425230000004415";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
 
         // request
@@ -4062,7 +4063,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "374101000000608";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
 
         // request
@@ -4103,7 +4104,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "374101000000608";
         $card->expMonth = 11;
-        $card->expYear = 2015;
+        $card->expYear = TestCards::expiredCardExpYear();
         $card->cvn = "1234";
 
         // request
@@ -4185,7 +4186,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "30384800000000";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -4225,7 +4226,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "30450100000000";
         $card->expMonth = 11;
-        $card->expYear = 2015;
+        $card->expYear = TestCards::expiredCardExpYear();
 
         // request
         $response = $card->charge(100.01)
@@ -4304,7 +4305,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1";
 
         // request
@@ -4344,7 +4345,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "2";
 
         // request
@@ -4384,7 +4385,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "3";
 
         // request
@@ -4422,7 +4423,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "4";
 
         // request
@@ -4462,7 +4463,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "5";
 
         // request
@@ -4502,7 +4503,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "6";
 
         // request
@@ -4542,7 +4543,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "7";
 
         // request
@@ -4582,7 +4583,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "8";
 
         // request
@@ -4622,7 +4623,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "9";
 
         // request
@@ -4662,7 +4663,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "10";
 
         // request
@@ -4702,7 +4703,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "11";
 
         // request
@@ -4742,7 +4743,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "12";
 
         // request
@@ -4782,7 +4783,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "13";
 
         // request
@@ -4820,7 +4821,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "14";
 
         // request
@@ -4858,7 +4859,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "15";
 
         // request
@@ -8852,7 +8853,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -8874,7 +8875,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -8896,7 +8897,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -8918,7 +8919,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -8940,7 +8941,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -8962,7 +8963,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -8984,7 +8985,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9006,7 +9007,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9028,7 +9029,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9050,7 +9051,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9072,7 +9073,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9094,7 +9095,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9116,7 +9117,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9138,7 +9139,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9160,7 +9161,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9182,7 +9183,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9204,7 +9205,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9226,7 +9227,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9248,7 +9249,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9270,7 +9271,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9292,7 +9293,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9314,7 +9315,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9336,7 +9337,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9358,7 +9359,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9380,7 +9381,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9402,7 +9403,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9424,7 +9425,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9446,7 +9447,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9468,7 +9469,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9490,7 +9491,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9512,7 +9513,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9534,7 +9535,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9556,7 +9557,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9578,7 +9579,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9600,7 +9601,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9622,7 +9623,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->verify()
@@ -9645,7 +9646,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermeloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooon";
 
         // request
@@ -9667,7 +9668,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9689,7 +9690,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9711,7 +9712,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9735,7 +9736,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 18;
-        $card->expYear = 2012;
+        $card->expYear = TestCards::expiredCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9781,7 +9782,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9803,7 +9804,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9825,7 +9826,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9847,7 +9848,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9869,7 +9870,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -9893,7 +9894,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cardHolderName = "Peter Watermelon";
 
@@ -9918,7 +9919,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1.23457E+18";
         $card->cardHolderName = "Peter Watermelon";
 
@@ -9942,7 +9943,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "374101000000608";
         $card->expMonth = 12;
-        $card->expYear = 2019;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cardHolderName = "Peter Watermelon";
 
@@ -9967,7 +9968,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "7";
         $card->cardHolderName = "Peter Watermelon";
 
@@ -9992,7 +9993,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "7";
         $card->cardHolderName = "Peter Watermelon";
 
@@ -10015,7 +10016,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10040,7 +10041,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10062,7 +10063,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10084,7 +10085,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10106,7 +10107,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10128,7 +10129,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10150,7 +10151,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10172,7 +10173,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10194,7 +10195,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10216,7 +10217,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10238,7 +10239,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10260,7 +10261,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10282,7 +10283,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10304,7 +10305,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10326,7 +10327,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10348,7 +10349,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10370,7 +10371,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10392,7 +10393,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10414,7 +10415,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10436,7 +10437,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10458,7 +10459,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10480,7 +10481,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10502,7 +10503,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10524,7 +10525,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10545,7 +10546,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10567,7 +10568,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10589,7 +10590,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10611,7 +10612,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10633,7 +10634,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10655,7 +10656,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10677,7 +10678,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10699,7 +10700,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10721,7 +10722,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10743,7 +10744,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
 
         // request
         $response = $card->refund(1)
@@ -10766,7 +10767,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
 
         // request
@@ -10788,7 +10789,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10832,7 +10833,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 18;
-        $card->expYear = 2012;
+        $card->expYear = TestCards::expiredCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10876,7 +10877,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10898,7 +10899,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10920,7 +10921,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10942,7 +10943,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10964,7 +10965,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -10986,7 +10987,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11010,7 +11011,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123456789";
         $card->cardHolderName = "Peter Watermelon";
 
@@ -11034,7 +11035,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "374101000000608";
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cardHolderName = "Peter Watermelon";
 
@@ -11060,7 +11061,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4242424242424240";
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "7";
         $card->cardHolderName = "Peter Watermelon";
 
@@ -11085,7 +11086,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "12#";
         $card->cardHolderName = "Peter Watermelon";
 
@@ -11108,7 +11109,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11130,7 +11131,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11152,7 +11153,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11174,7 +11175,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11196,7 +11197,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11218,7 +11219,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11240,7 +11241,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11262,7 +11263,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11287,7 +11288,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11309,7 +11310,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11331,7 +11332,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11355,7 +11356,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11379,7 +11380,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11401,7 +11402,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11425,7 +11426,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11447,7 +11448,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11471,7 +11472,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11495,7 +11496,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -11519,7 +11520,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2018;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "Peter Watermelon";
 
         // request
@@ -14593,7 +14594,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // build transaction
         $saleResponse = $card->charge(100.01)
@@ -14622,7 +14623,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "3a4wpIwep3uviSnW9XEB3a4wpIwep3uviSnW9XEB3a4wpIwepeep3a4wpIwep3uviSnW9XEB3a4wpIwep3uviSnW9XEB3a4wpIwepeep";
 
         // build transaction
@@ -14650,7 +14651,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cardHolderName = "James~Mason";
 
         // build transaction
@@ -14730,7 +14731,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 20;
-        $card->expYear = 2012;
+        $card->expYear = TestCards::expiredCardExpYear();
 
         // build transaction
         $saleResponse = $card->charge(100.01)
@@ -14938,7 +14939,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
 
         // build transaction
@@ -14969,7 +14970,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "374101000000608";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
 
         // build transaction
         $saleResponse = $card->charge(100.01)
@@ -14998,7 +14999,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "12345";
 
         // build transaction
@@ -15027,7 +15028,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "374101000000608";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
 
         // build transaction
@@ -15080,7 +15081,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::ILLEGIBLE;
 
@@ -15109,7 +15110,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::NOT_ON_CARD;
 
@@ -15138,7 +15139,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::NOT_REQUESTED;
 
@@ -15167,7 +15168,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvnPresenceIndicator = 5;
 
         // build transaction
@@ -15195,7 +15196,7 @@ class RealexSdkCertification extends TestCase
         // create card
         $card = $this->getBaseCardData();
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = 0;
 
@@ -16696,7 +16697,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001038443335";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -16719,7 +16720,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001038488884";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -16742,7 +16743,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001036298889";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -16765,7 +16766,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001036853337";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -16788,7 +16789,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -16811,7 +16812,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037167778";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -16834,7 +16835,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -16857,7 +16858,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037484447";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -16880,7 +16881,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037490006";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -16905,7 +16906,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5100000000000198�";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -16930,7 +16931,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5100000000000149";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -16955,7 +16956,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5100000000000172";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -16980,7 +16981,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5100000000000297";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17005,7 +17006,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5100000000000131";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17030,7 +17031,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5100000000000206";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17055,7 +17056,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5100000000000131";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17080,7 +17081,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5100000000000214";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17105,7 +17106,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "5100000000000164";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17130,7 +17131,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "370537726695896�";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17155,7 +17156,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "344598846104303";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17180,7 +17181,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "342911579886552";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17205,7 +17206,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "377775599797356";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17230,7 +17231,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "371810438025523";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17255,7 +17256,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "374973180958759";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17280,7 +17281,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "371810438025523";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17305,7 +17306,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "376515222233960";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17330,7 +17331,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "372749236937027";
         $card->expMonth = 10;
-        $card->expYear = 2025;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17353,7 +17354,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17376,7 +17377,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17399,7 +17400,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17422,7 +17423,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17445,7 +17446,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17468,7 +17469,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17491,7 +17492,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17514,7 +17515,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17537,7 +17538,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17560,7 +17561,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17583,7 +17584,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17606,7 +17607,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17629,7 +17630,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17652,7 +17653,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17675,7 +17676,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17698,7 +17699,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17721,7 +17722,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17744,7 +17745,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17767,7 +17768,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17790,7 +17791,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17813,7 +17814,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17836,7 +17837,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17859,7 +17860,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17882,7 +17883,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17905,7 +17906,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17928,7 +17929,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17951,7 +17952,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17974,7 +17975,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -17997,7 +17998,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18020,7 +18021,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18043,7 +18044,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18066,7 +18067,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18089,7 +18090,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18111,7 +18112,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18134,7 +18135,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18159,7 +18160,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "42424242424";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18184,7 +18185,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4263970000005262#";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18207,7 +18208,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->CvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18232,7 +18233,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18257,7 +18258,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
         $card->cardHolderName = "3a4wpIwep3uviSnW9XEB3a4wpIwep3uviSnW9XEB3a4wpIwepeep3a4wpIwep3uviSnW9XEB3a4wpIwep3uviSnW9XEB3a4wpIwepeep";
@@ -18281,7 +18282,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
         $card->cardHolderName = "James~Mason";
@@ -18305,7 +18306,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18328,7 +18329,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18353,7 +18354,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 20;
-        $card->expYear = 2012;
+        $card->expYear = TestCards::expiredCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18399,7 +18400,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18422,7 +18423,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18445,7 +18446,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18468,7 +18469,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18491,7 +18492,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18514,7 +18515,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18539,7 +18540,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18564,7 +18565,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "371810438025523";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18589,7 +18590,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "12345";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18614,7 +18615,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "371810438025523";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "1234";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18637,7 +18638,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::PRESENT;
 
@@ -18660,7 +18661,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::ILLEGIBLE;
 
@@ -18683,7 +18684,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::NOT_ON_CARD;
 
@@ -18706,7 +18707,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "";
         $card->cvnPresenceIndicator = CvnPresenceIndicator::NOT_REQUESTED;
 
@@ -18731,7 +18732,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = 5;
 
@@ -18754,7 +18755,7 @@ class RealexSdkCertification extends TestCase
         $card = $this->getBaseCardData();
         $card->number = "4012001037141112";
         $card->expMonth = 12;
-        $card->expYear = 2020;
+        $card->expYear = TestCards::validCardExpYear();
         $card->cvn = "123";
         $card->cvnPresenceIndicator = 0;
 

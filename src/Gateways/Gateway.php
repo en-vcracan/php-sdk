@@ -56,8 +56,8 @@ abstract class Gateway
      * @param string|null $data
      * @param array<string,string>|null $queryStringParams
      *
-     * @throws \Exception
      * @return GatewayResponse
+     * @throws \Exception
      */
     protected function sendRequest(
         $verb,
@@ -79,6 +79,13 @@ abstract class Gateway
             foreach ($this->headers as $key => $value) {
                 $headers[] = $key . ': ' . $value;
             }
+            //we are going to disable phpcs for a bit here
+            //this constant does not exist until PHP 5.5.19
+            // phpcs:disable
+            if (!defined('CURL_SSLVERSION_TLSv1_2')) {
+                define('CURL_SSLVERSION_TLSv1_2', 6);
+            }
+            // phpcs:enable
 
             curl_setopt($request, CURLOPT_CONNECTTIMEOUT, $this->timeout);
             curl_setopt($request, CURLOPT_TIMEOUT, $this->timeout);
@@ -90,8 +97,10 @@ abstract class Gateway
             curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($request, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
             curl_setopt($request, CURLOPT_VERBOSE, false);
+            //since CURL_SSLVERSION_TLSv1_2 does not exist until PHP 5.5.19, we will disable this check
+            // phpcs:disable
             curl_setopt($request, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
-
+            // phpcs:enable
             if ($this->curlOptions != null && !empty($this->curlOptions)) {
                 curl_setopt_array($request, $this->curlOptions);
             }

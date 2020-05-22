@@ -14,7 +14,7 @@ use GlobalPayments\Api\Entities\Enums\HppVersion;
 use GlobalPayments\Api\Entities\Exceptions\ApiException;
 use PHPUnit\Framework\TestCase;
 
-class HppTestCase extends TestCase
+class HppExtraTest extends TestCase
 {
 
     /** @var HostedService */

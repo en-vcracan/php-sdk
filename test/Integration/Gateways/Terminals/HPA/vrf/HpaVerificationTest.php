@@ -9,7 +9,7 @@ use GlobalPayments\Api\Services\DeviceService;
 use PHPUnit\Framework\TestCase;
 use GlobalPayments\Api\Tests\Integration\Gateways\Terminals\RequestIdProvider;
 
-class HpaVerificationTests extends TestCase
+class HpaVerificationTest extends TestCase
 {
     public function setUp(): void
     {

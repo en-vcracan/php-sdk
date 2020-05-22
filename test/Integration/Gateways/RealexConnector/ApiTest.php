@@ -27,7 +27,7 @@ use GlobalPayments\Api\Entities\Enums\FraudFilterMode;
 use GlobalPayments\Api\Entities\DecisionManager;
 use GlobalPayments\Api\Entities\Enums\Risk;
 
-class ApiTestCase extends TestCase
+class ApiTest extends TestCase
 {
     /* 01. Process Payment Authorisation */
 

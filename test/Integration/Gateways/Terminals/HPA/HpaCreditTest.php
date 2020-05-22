@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use GlobalPayments\Api\Tests\Integration\Gateways\Terminals\RequestIdProvider;
 use GlobalPayments\Api\Entities\Enums\PaymentMethodType;
 
-class HpaCreditTests extends TestCase
+class HpaCreditTest extends TestCase
 {
 
     private $device;

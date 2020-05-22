@@ -19,7 +19,7 @@ use GlobalPayments\Api\Builders\TransactionReportBuilder;
 use DateTime;
 use DateInterval;
 
-class PorticoReportingTests extends TestCase
+class PorticoReportingTest extends TestCase
 {
     protected $card;
     private $enableCryptoUrl = true;

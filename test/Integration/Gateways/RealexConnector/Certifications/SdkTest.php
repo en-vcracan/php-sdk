@@ -15,7 +15,7 @@ use GlobalPayments\Api\PaymentMethods\CreditCardData;
 use GlobalPayments\Api\Tests\Data\TestCards;
 use PHPUnit\Framework\TestCase;
 
-class RealexSdkCertification extends TestCase
+class SdkTest extends TestCase
 {
     public function tearDown(): void
     {

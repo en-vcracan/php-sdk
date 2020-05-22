@@ -10,7 +10,7 @@ use GlobalPayments\Api\PaymentMethods\CreditCardData;
 use GlobalPayments\Api\Tests\Data\TestCards;
 use PHPUnit\Framework\TestCase;
 
-class PorticoReportingTests extends TestCase
+class PorticoTokenManagementTest extends TestCase
 {
     protected $token;
     

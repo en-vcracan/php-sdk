@@ -2,6 +2,7 @@
 
 namespace GlobalPayments\Api\Tests\Integration\Gateways\Terminals\HPA;
 
+use GlobalPayments\Api\Entities\Exceptions\BuilderException;
 use GlobalPayments\Api\Terminals\ConnectionConfig;
 use GlobalPayments\Api\Terminals\Enums\ConnectionModes;
 use GlobalPayments\Api\Terminals\Enums\DeviceType;
@@ -10,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use GlobalPayments\Api\Tests\Integration\Gateways\Terminals\RequestIdProvider;
 use GlobalPayments\Api\Entities\Enums\PaymentMethodType;
 
-class HpaEbtTests extends TestCase
+class HpaDebitTest extends TestCase
 {
 
     private $device;
@@ -19,7 +20,7 @@ class HpaEbtTests extends TestCase
     {
         $this->device = DeviceService::create($this->getConfig());
 
-        //open lane for EBT transactions
+        //open lane for Debit transactions
         $this->device->openLane();
     }
     
@@ -35,7 +36,7 @@ class HpaEbtTests extends TestCase
         $config->port = '12345';
         $config->deviceType = DeviceType::HPA_ISC250;
         $config->connectionMode = ConnectionModes::TCP_IP;
-        $config->timeout = 180;
+        $config->timeout = 60;
         $config->requestIdProvider = new RequestIdProvider();
 
         return $config;
@@ -47,28 +48,19 @@ class HpaEbtTests extends TestCase
         $this->device->reset();
     }
 
-    public function testEbtBalance()
+    public function testDebitSale()
     {
-        $response = $this->device->ebtBalance()
+        $response = $this->device->debitSale(10)
                 ->execute();
 
         $this->assertNotNull($response);
         $this->assertEquals('0', $response->resultCode);
+        $this->assertNotNull($response->transactionId);
     }
 
-    public function testEbtPurchase()
+    public function testDebitRefund()
     {
-        $saleResponse = $this->device->ebtPurchase(10)
-                ->execute();
-        
-        $this->assertNotNull($saleResponse);
-        $this->assertEquals('0', $saleResponse->resultCode);
-        $this->assertNotNull($saleResponse->transactionId);
-    }
-
-    public function testEbtRefund()
-    {
-        $saleResponse = $this->device->ebtPurchase(15)
+        $saleResponse = $this->device->debitSale(15)
                 ->execute();
 
         $this->assertNotNull($saleResponse);
@@ -77,8 +69,32 @@ class HpaEbtTests extends TestCase
 
         $this->waitAndReset();
 
-        $response = $this->device->ebtRefund(15)
+        $response = $this->device->debitRefund(15)
                 ->withTransactionId($saleResponse->transactionId)
+                ->execute();
+
+        $this->assertNotNull($response);
+        $this->assertEquals('0', $response->resultCode);
+    }
+
+    public function testSaleWithoutAmount()
+    {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('amount cannot be null for this transaction type');
+
+        $response = $this->device->debitSale()
+                ->execute();
+
+        $this->assertNotNull($response);
+        $this->assertEquals('0', $response->resultCode);
+    }
+
+    public function testRefundWithoutAmount()
+    {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('amount cannot be null for this transaction type');
+
+        $response = $this->device->debitRefund()
                 ->execute();
 
         $this->assertNotNull($response);
@@ -87,12 +103,12 @@ class HpaEbtTests extends TestCase
     
     public function testSaleStartCard()
     {
-        $response = $this->device->startCard(PaymentMethodType::EBT);
+        $response = $this->device->startCard(PaymentMethodType::DEBIT);
 
         $this->assertNotNull($response);
         $this->assertEquals('0', $response->resultCode);
         
-        $response = $this->device->ebtPurchase(15)
+        $response = $this->device->debitSale(15)
                 ->execute();
 
         $this->assertNotNull($response);

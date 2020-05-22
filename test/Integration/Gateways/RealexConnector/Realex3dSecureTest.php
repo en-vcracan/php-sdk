@@ -15,7 +15,7 @@ use GlobalPayments\Api\Entities\ThreeDSecure;
 use GlobalPayments\Api\Tests\Integration\Gateways\RealexConnector\ThreeDSecureAcsClient;
 use GlobalPayments\Api\Utils\GenerationUtils;
 
-class Realex3dSecureTests extends TestCase
+class Realex3dSecureTest extends TestCase
 {
     public function setUp(): void
     {

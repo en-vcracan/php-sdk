@@ -9,9 +9,10 @@ use GlobalPayments\Api\Terminals\Enums\DeviceType;
 use GlobalPayments\Api\Services\DeviceService;
 use PHPUnit\Framework\TestCase;
 use GlobalPayments\Api\Tests\Integration\Gateways\Terminals\RequestIdProvider;
+use GlobalPayments\Api\Terminals\Enums\CurrencyType;
 use GlobalPayments\Api\Entities\Enums\PaymentMethodType;
 
-class HpaDebitTests extends TestCase
+class HpaGiftTest extends TestCase
 {
 
     private $device;
@@ -20,7 +21,7 @@ class HpaDebitTests extends TestCase
     {
         $this->device = DeviceService::create($this->getConfig());
 
-        //open lane for Debit transactions
+        //open lane for EBT transactions
         $this->device->openLane();
     }
     
@@ -36,7 +37,7 @@ class HpaDebitTests extends TestCase
         $config->port = '12345';
         $config->deviceType = DeviceType::HPA_ISC250;
         $config->connectionMode = ConnectionModes::TCP_IP;
-        $config->timeout = 60;
+        $config->timeout = 180;
         $config->requestIdProvider = new RequestIdProvider();
 
         return $config;
@@ -48,67 +49,98 @@ class HpaDebitTests extends TestCase
         $this->device->reset();
     }
 
-    public function testDebitSale()
+    public function testGiftSale()
     {
-        $response = $this->device->debitSale(10)
+        $response = $this->device->giftSale(100)
                 ->execute();
-
-        $this->assertNotNull($response);
-        $this->assertEquals('0', $response->resultCode);
-        $this->assertNotNull($response->transactionId);
-    }
-
-    public function testDebitRefund()
-    {
-        $saleResponse = $this->device->debitSale(15)
-                ->execute();
-
-        $this->assertNotNull($saleResponse);
-        $this->assertEquals('0', $saleResponse->resultCode);
-        $this->assertNotNull($saleResponse->transactionId);
-
-        $this->waitAndReset();
-
-        $response = $this->device->debitRefund(15)
-                ->withTransactionId($saleResponse->transactionId)
-                ->execute();
-
+        
         $this->assertNotNull($response);
         $this->assertEquals('0', $response->resultCode);
     }
-
-    public function testSaleWithoutAmount()
+    
+    public function testLoyaltySale()
     {
-        $this->expectException(BuilderException::class);
-        $this->expectExceptionMessage('amount cannot be null for this transaction type');
-
-        $response = $this->device->debitSale()
-                ->execute();
-
-        $this->assertNotNull($response);
-        $this->assertEquals('0', $response->resultCode);
-    }
-
-    public function testRefundWithoutAmount()
-    {
-        $this->expectException(BuilderException::class);
-        $this->expectExceptionMessage('amount cannot be null for this transaction type');
-
-        $response = $this->device->debitRefund()
+        $response = $this->device->giftSale(100)
+                ->withCurrency(CurrencyType::POINTS)
                 ->execute();
 
         $this->assertNotNull($response);
         $this->assertEquals('0', $response->resultCode);
     }
     
+    public function testGiftAddValue()
+    {
+        $response = $this->device->giftAddValue(100)
+                ->execute();
+
+        $this->assertNotNull($response);
+        $this->assertEquals('0', $response->resultCode);
+    }
+    
+    public function testLoyaltyAddValue()
+    {
+        $response = $this->device->giftAddValue(100)
+                ->withCurrency(CurrencyType::POINTS)
+                ->execute();
+
+        $this->assertNotNull($response);
+        $this->assertEquals('0', $response->resultCode);
+    }
+    
+    public function testGiftVoid()
+    {
+        $responseSale = $this->device->giftSale(100)
+                ->execute();
+
+        $this->assertNotNull($responseSale);
+        $this->assertEquals('0', $responseSale->resultCode);
+        
+        $this->waitAndReset();
+        
+        $response = $this->device->giftVoid()
+                ->withTransactionId($responseSale->transactionId)
+                ->execute();
+
+        $this->assertNotNull($response);
+        $this->assertEquals('0', $response->resultCode);
+    }
+    
+    public function testGiftBalance()
+    {
+        $response = $this->device->giftBalance()
+                ->execute();
+
+        $this->assertNotNull($response);
+        $this->assertEquals('0', $response->resultCode);
+    }
+    
+    public function testLoyaltyBalance()
+    {
+        $response = $this->device->giftBalance()
+                ->withCurrency(CurrencyType::POINTS)
+                ->execute();
+
+        $this->assertNotNull($response);
+        $this->assertEquals('0', $response->resultCode);
+    }
+
+    public function testAddValueWithoutAmount()
+    {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('amount cannot be null for this transaction type');
+
+        $this->device->giftAddValue()
+                ->execute();
+    }
+    
     public function testSaleStartCard()
     {
-        $response = $this->device->startCard(PaymentMethodType::DEBIT);
+        $response = $this->device->startCard(PaymentMethodType::GIFT);
 
         $this->assertNotNull($response);
         $this->assertEquals('0', $response->resultCode);
         
-        $response = $this->device->debitSale(15)
+        $response = $this->device->giftSale(100)
                 ->execute();
 
         $this->assertNotNull($response);

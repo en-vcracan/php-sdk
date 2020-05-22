@@ -18,7 +18,7 @@ use GlobalPayments\Api\Terminals\HPA\Entities\LineItem;
 use GlobalPayments\Api\Terminals\HPA\Entities\Enums\HpaSendFileType;
 use GlobalPayments\Api\Terminals\HPA\Entities\SendFileData;
 
-class HpaAdminTests extends TestCase
+class HpaAdminTest extends TestCase
 {
 
     private $device;

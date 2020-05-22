@@ -36,7 +36,7 @@ use GlobalPayments\Api\Entities\Enums\CustomerAuthenticationMethod;
 use GlobalPayments\Api\Entities\Enums\SdkInterface;
 use GlobalPayments\Api\Entities\Enums\SdkUiType;
 
-class Secure3dServiceTests extends TestCase
+class Secure3dServiceTest extends TestCase
 {
     private $card;
     private $stored;

@@ -815,7 +815,7 @@ class SdkTest extends TestCase
         $this->expectException(GatewayException::class);
 
         $this->markTestSkipped('Exception not thrown');
-        
+
         $config = $this->getBaseConfig();
         ServicesContainer::configure($config);
 
@@ -935,7 +935,7 @@ class SdkTest extends TestCase
         $this->expectException(GatewayException::class);
 
         $this->markTestSkipped('Exception not thrown');
-        
+
         $config = $this->getBaseConfig();
         ServicesContainer::configure($config);
 
@@ -1220,7 +1220,7 @@ class SdkTest extends TestCase
         $this->expectException(GatewayException::class);
 
         $this->markTestSkipped('Exception not thrown');
-        
+
         $config = $this->getBaseConfig();
         ServicesContainer::configure($config);
 
@@ -2965,7 +2965,7 @@ class SdkTest extends TestCase
         $this->expectException(GatewayException::class);
 
         $this->markTestSkipped('Exception not thrown');
-        
+
         $config = $this->getBaseConfig();
         $config->timeout = 20000;
         $config->channel = "ECOM";
@@ -10733,7 +10733,7 @@ class SdkTest extends TestCase
         $this->assertNotNull($response);
         $this->assertEquals("00", $response->responseCode);
     }
-    
+
     public function testCredit013b()
     {
         $config = $this->getBaseConfig();
@@ -10859,12 +10859,16 @@ class SdkTest extends TestCase
         $card->cardHolderName = "Peter Watermelon";
 
         // request
-        $response = $card->refund(1)
-            ->withCurrency("EUR")
-            ->withDescription("JAVA-Credit")
-            ->execute();
-        $this->assertNotNull($response);
-        $this->assertEquals("00", $response->responseCode);
+        try {
+            $response = $card->refund(1)
+                ->withCurrency("EUR")
+                ->withDescription("JAVA-Credit")
+                ->execute();
+
+            $this->assertEquals(502, $response->responseCode);
+        } catch (GatewayException $e) {
+            $this->assertEquals(502, $e->responseCode);
+        }
     }
 
     public function testCredit015a()
@@ -15159,7 +15163,7 @@ class SdkTest extends TestCase
         $this->assertNotNull($response);
         $this->assertEquals("00", $response->responseCode);
     }
-    
+
     public function testManual020b()
     {
         $config = $this->getBaseConfig();
@@ -16255,13 +16259,17 @@ class SdkTest extends TestCase
         $this->tearDown();
 
         // request
-        $response = $card->charge(100.01)
-            ->withCurrency("USD")
-            ->withCustomerIpAddress("1234.123.123.123")
-            ->withDescription("JAVA-Manual-031c1")
-            ->execute();
-        $this->assertNotNull($response);
-        $this->assertEquals("00", $response->responseCode);
+        try {
+            $response = $card->charge(100.01)
+                ->withCurrency("USD")
+                ->withCustomerIpAddress("1234.123.123.123")
+                ->withDescription("JAVA-Manual-031c1")
+                ->execute();
+
+            $this->assertEquals(506, $response->responseCode);
+        } catch (GatewayException $e) {
+            $this->assertEquals(506, $e->responseCode);
+        }
     }
 
     public function testManual031c2()
@@ -16281,13 +16289,16 @@ class SdkTest extends TestCase
         $this->tearDown();
 
         // request
-        $response = $card->charge(100.01)
-            ->withCurrency("GBP")
-            ->withCustomerIpAddress("123~.123.123.123")
-            ->withDescription("JAVA-Manual-031c2")
-            ->execute();
-        $this->assertNotNull($response);
-        $this->assertEquals("00", $response->responseCode);
+        try {
+            $response = $card->charge(100.01)
+                ->withCurrency("GBP")
+                ->withCustomerIpAddress("123~.123.123.123")
+                ->withDescription("JAVA-Manual-031c2")
+                ->execute();
+            $this->assertEquals(506, $response->responseCode);
+        } catch (GatewayException $e) {
+            $this->assertEquals(506, $e->responseCode);
+        }
     }
 
     public function testManual032a()
@@ -16443,13 +16454,16 @@ class SdkTest extends TestCase
         $this->tearDown();
 
         // request
-        $response = $card->charge(100.01)
-            ->withCurrency("USD")
-            ->withAddress($billingAddress)
-            ->withDescription("JAVA-Manual-033c1")
-            ->execute();
-        $this->assertNotNull($response);
-        $this->assertEquals("00", $response->responseCode);
+        try {
+            $response = $card->charge(100.01)
+                ->withCurrency("USD")
+                ->withAddress($billingAddress)
+                ->withDescription("JAVA-Manual-033c1")
+                ->execute();
+            $this->assertEquals(506, $response->responseCode);
+        } catch (GatewayException $e) {
+            $this->assertEquals(506, $e->responseCode);
+        }
     }
 
     public function testManual033c2()
@@ -16473,13 +16487,16 @@ class SdkTest extends TestCase
         $this->tearDown();
 
         // request
-        $response = $card->charge(100.01)
-            ->withCurrency("GBP")
-            ->withAddress($shippingAddress, AddressType::SHIPPING)
-            ->withDescription("JAVA-Manual-033c2")
-            ->execute();
-        $this->assertNotNull($response);
-        $this->assertEquals("00", $response->responseCode);
+        try {
+            $response = $card->charge(100.01)
+                ->withCurrency("GBP")
+                ->withAddress($shippingAddress, AddressType::SHIPPING)
+                ->withDescription("JAVA-Manual-033c2")
+                ->execute();
+            $this->assertEquals(506, $response->responseCode);
+        } catch (GatewayException $e) {
+            $this->assertEquals(506, $e->responseCode);
+        }
     }
 
     public function testManual034a()
@@ -16598,13 +16615,16 @@ class SdkTest extends TestCase
         $this->tearDown();
 
         // request
-        $response = $card->charge(100.01)
-            ->withCurrency("EUR")
-            ->withAddress($billingAddress)
-            ->withDescription("JAVA-Manual-034c1")
-            ->execute();
-        $this->assertNotNull($response);
-        $this->assertEquals("00", $response->responseCode);
+        try {
+            $response = $card->charge(100.01)
+                ->withCurrency("EUR")
+                ->withAddress($billingAddress)
+                ->withDescription("JAVA-Manual-034c1")
+                ->execute();
+            $this->assertEquals(506, $response->responseCode);
+        } catch (GatewayException $e) {
+            $this->assertEquals(506, $e->responseCode);
+        }
     }
 
     public function testManual034c2()
@@ -16628,13 +16648,16 @@ class SdkTest extends TestCase
         $this->tearDown();
 
         // request
-        $response = $card->charge(100.01)
-            ->withCurrency("USD")
-            ->withAddress($shippingAddress, AddressType::SHIPPING)
-            ->withDescription("JAVA-Manual-034c2")
-            ->execute();
-        $this->assertNotNull($response);
-        $this->assertEquals("00", $response->responseCode);
+        try {
+            $response = $card->charge(100.01)
+                ->withCurrency("USD")
+                ->withAddress($shippingAddress, AddressType::SHIPPING)
+                ->withDescription("JAVA-Manual-034c2")
+                ->execute();
+            $this->assertEquals(506, $response->responseCode);
+        } catch (GatewayException $e) {
+            $this->assertEquals(506, $e->responseCode);
+        }
     }
 
     public function testManual035a()
@@ -18223,8 +18246,6 @@ class SdkTest extends TestCase
 
     public function testverifyenrolled024b()
     {
-        $this->expectException(GatewayException::class);
-
         $config = $this->getBaseConfig();
         $config->timeout = 60000;
         ServicesContainer::configure($config);
@@ -18369,8 +18390,6 @@ class SdkTest extends TestCase
 
     public function testverifyenrolled025d()
     {
-        $this->expectException(GatewayException::class);
-
         $config = $this->getBaseConfig();
         $config->timeout = 60000;
         ServicesContainer::configure($config);
@@ -18722,8 +18741,6 @@ class SdkTest extends TestCase
 
     public function testverifyenrolled030b()
     {
-        $this->expectException(GatewayException::class);
-
         $config = $this->getBaseConfig();
         $config->timeout = 60000;
         ServicesContainer::configure($config);

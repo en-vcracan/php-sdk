@@ -2,6 +2,18 @@
 
 namespace GlobalPayments\Api\Builders;
 
+use DateTime;
+use GlobalPayments\Api\Entities\Enums\CustomerAuthenticationMethod;
+use GlobalPayments\Api\Entities\Enums\DeliveryTimeFrame;
+use GlobalPayments\Api\Entities\Enums\MessageVersion;
+use GlobalPayments\Api\Entities\Enums\MethodUrlCompletion;
+use GlobalPayments\Api\Entities\Enums\OrderTransactionType;
+use GlobalPayments\Api\Entities\Enums\PreOrderIndicator;
+use GlobalPayments\Api\Entities\Enums\PriorAuthenticationMethod;
+use GlobalPayments\Api\Entities\Enums\ReorderIndicator;
+use GlobalPayments\Api\Entities\Enums\SdkInterface;
+use GlobalPayments\Api\Entities\Enums\SdkUiType;
+use GlobalPayments\Api\Entities\Enums\ShippingMethod;
 use GlobalPayments\Api\ServicesContainer;
 use GlobalPayments\Api\Entities\Exceptions\ApiException;
 use GlobalPayments\Api\Entities\Exceptions\BuilderException;
@@ -74,7 +86,7 @@ class Secure3dBuilder extends BaseBuilder
     public $giftCardCount;
     /** @var string */
     public $giftCardCurrency;
-    /** @var decimal */
+    /** @var float */
     public $giftCardAmount;
     /** @var string */
     public $homeCountryCode;
@@ -322,7 +334,7 @@ class Secure3dBuilder extends BaseBuilder
         return $this->giftCardCurrency;
     }
 
-    /** @return decimal */
+    /** @return float */
     public function getGiftCardAmount()
     {
         return $this->giftCardAmount;
@@ -611,7 +623,7 @@ class Secure3dBuilder extends BaseBuilder
     public function getVersion()
     {
         if (!empty($this->threeDSecure)) {
-            return $this->threeDSecure->version;
+            return $this->threeDSecure->getVersion();
         }
         return null;
     }
@@ -715,8 +727,11 @@ class Secure3dBuilder extends BaseBuilder
         return $this;
     }
 
-    /** @return Secure3dBuilder */
-    public function withAddressMatchIndicator(bool $value)
+    /**
+     * @param bool $value
+     * @return Secure3dBuilder
+     */
+    public function withAddressMatchIndicator($value)
     {
         $this->addressMatchIndicator = $value;
         return $this;
@@ -1030,8 +1045,11 @@ class Secure3dBuilder extends BaseBuilder
         return $this;
     }
 
-    /** @return Secure3dBuilder */
-    public function withPreviousSuspiciousActivity(bool $previousSuspiciousActivity)
+    /**
+     * @param bool $previousSuspiciousActivity
+     * @return Secure3dBuilder
+     */
+    public function withPreviousSuspiciousActivity($previousSuspiciousActivity)
     {
         $this->previousSuspiciousActivity = $previousSuspiciousActivity;
         return $this;

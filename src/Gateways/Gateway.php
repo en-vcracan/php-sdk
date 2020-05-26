@@ -79,7 +79,7 @@ abstract class Gateway
             foreach ($this->headers as $key => $value) {
                 $headers[] = $key . ': ' . $value;
             }
-            // Disable phpcs here since this constant does not exist until PHP 5.5.19
+            // Disable phpcs here since this constant does not exist until PHP 5.5.19.
             // phpcs:disable
             if (!defined('CURL_SSLVERSION_TLSv1_2')) {
                 define('CURL_SSLVERSION_TLSv1_2', 6);
@@ -96,7 +96,7 @@ abstract class Gateway
             curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($request, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
             curl_setopt($request, CURLOPT_VERBOSE, false);
-            // Since CURL_SSLVERSION_TLSv1_2 does not exist until PHP 5.5.19, disable checking this line
+            // Since CURL_SSLVERSION_TLSv1_2 does not exist until PHP 5.5.19, disable checking this line.
             // phpcs:disable
             curl_setopt($request, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
             // phpcs:enable

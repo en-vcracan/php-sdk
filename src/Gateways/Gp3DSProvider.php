@@ -336,7 +336,7 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
             $request['payer'] = $this->maybeSetKey(
                 $request['payer'],
                 'email',
-                null !== $builder->getCustomerEmail() ? $builder->getCustomerEmail() : null
+                $builder->getCustomerEmail()
             );
             $request['payer'] = $this->maybeSetKey($request['payer'], 'id', $builder->getCustomerAccountId());
             $request['payer'] = $this->maybeSetKey(
@@ -722,8 +722,8 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
             $secureEcom->enrolled = (bool)$doc['enrolled'];
         }
         $secureEcom->issuerAcsUrl =
-            (isset($doc['method_url']) ? $doc['method_url'] : null) .
-            (isset($doc['challenge_request_url']) ? $doc['challenge_request_url'] : null);
+            (isset($doc['method_url']) ? $doc['method_url'] : "") .
+            (isset($doc['challenge_request_url']) ? $doc['challenge_request_url'] : "");
 
         // get authentication data
         $secureEcom->acsTransactionId = isset($doc['acs_trans_id']) ? $doc['acs_trans_id'] : null;

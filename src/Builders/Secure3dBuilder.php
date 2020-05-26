@@ -623,7 +623,7 @@ class Secure3dBuilder extends BaseBuilder
     public function getVersion()
     {
         if (!empty($this->threeDSecure)) {
-            return $this->threeDSecure->version;
+            return $this->threeDSecure->getVersion();
         }
         return null;
     }

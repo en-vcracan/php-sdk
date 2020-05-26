@@ -212,8 +212,8 @@ class SearchCriteriaBuilder
     {
         $this->reportBuilder = $reportBuilder;
     }
-    // and is a reserved keyword which can only be used as a method name starting PHP 7
-    // doing breaking changes is ill advised so we will disable checks for this part
+    // Function name "and" contains a reserved keyword which can only be used as a method name starting PHP 7
+    // doing breaking changes is ill advised so disable checks for this part
     // phpcs:disable
     public function and($criteria, $value)
     {

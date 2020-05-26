@@ -722,8 +722,8 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
             $secureEcom->enrolled = (bool)$doc['enrolled'];
         }
         $secureEcom->issuerAcsUrl =
-            (isset($doc['method_url']) ? $doc['method_url'] : "") .
-            (isset($doc['challenge_request_url']) ? $doc['challenge_request_url'] : "");
+            (isset($doc['method_url']) ? $doc['method_url'] : '') .
+            (isset($doc['challenge_request_url']) ? $doc['challenge_request_url'] : '');
 
         // get authentication data
         $secureEcom->acsTransactionId = isset($doc['acs_trans_id']) ? $doc['acs_trans_id'] : null;

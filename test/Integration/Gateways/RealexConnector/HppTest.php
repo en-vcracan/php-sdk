@@ -3,6 +3,7 @@
 namespace GlobalPayments\Api\Test\Integration\Gateways\RealexConnector;
 
 use GlobalPayments\Api\Entities\Address;
+use GlobalPayments\Api\Entities\Exceptions\BuilderException;
 use GlobalPayments\Api\Services\HostedService;
 use GlobalPayments\Api\ServicesConfig;
 use GlobalPayments\Api\ServicesContainer;
@@ -161,56 +162,50 @@ class HppTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException GlobalPayments\Api\Entities\Exceptions\BuilderException
-     */
     public function testAuthNoAmount()
     {
+        $this->expectException(BuilderException::class);
+
         $service = $this->basicSetup();
         $service->authorize(null)->withCurrency("USD")->serialize();
     }
 
-    /**
-     * @expectedException GlobalPayments\Api\Entities\Exceptions\BuilderException
-     */
     public function testAuthNoCurrency()
     {
+        $this->expectException(BuilderException::class);
+
         $service = $this->basicSetup();
         $service->authorize(10)->serialize();
     }
 
-    /**
-     * @expectedException GlobalPayments\Api\Entities\Exceptions\BuilderException
-     */
     public function testSaleNoAmount()
     {
+        $this->expectException(BuilderException::class);
+
         $service = $this->basicSetup();
         $service->charge(null)->withCurrency("USD")->serialize();
     }
 
-    /**
-     * @expectedException GlobalPayments\Api\Entities\Exceptions\BuilderException
-     */
     public function testSaleNoCurrency()
     {
+        $this->expectException(BuilderException::class);
+
         $service = $this->basicSetup();
         $service->charge(10)->serialize();
     }
 
-    /**
-     * @expectedException GlobalPayments\Api\Entities\Exceptions\BuilderException
-     */
     public function testVerifyNoCurrency()
     {
+        $this->expectException(BuilderException::class);
+
         $service = $this->basicSetup();
         $service->verify()->serialize();
     }
 
-    /**
-     * @expectedException GlobalPayments\Api\Entities\Exceptions\BuilderException
-     */
     public function testVerifyWithAmount()
     {
+        $this->expectException(BuilderException::class);
+
         $service = $this->basicSetup();
         $service->verify()->withAmount(10)->serialize();
     }

@@ -19,7 +19,7 @@ class AchTest extends TestCase
     protected $address;
     private $enableCryptoUrl = true;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->eCheck = new ECheck();
         $this->eCheck->accountNumber = '1357902468';

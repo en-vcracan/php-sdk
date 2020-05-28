@@ -2,6 +2,7 @@
 
 namespace GlobalPayments\Api\Tests\Integration\Gateways\Terminals\HPA;
 
+use GlobalPayments\Api\Entities\Exceptions\BuilderException;
 use GlobalPayments\Api\Terminals\ConnectionConfig;
 use GlobalPayments\Api\Terminals\Enums\ConnectionModes;
 use GlobalPayments\Api\Terminals\Enums\DeviceType;
@@ -15,7 +16,7 @@ class HpaDebitTests extends TestCase
 
     private $device;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->device = DeviceService::create($this->getConfig());
 
@@ -23,7 +24,7 @@ class HpaDebitTests extends TestCase
         $this->device->openLane();
     }
     
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->waitAndReset();
     }
@@ -76,12 +77,11 @@ class HpaDebitTests extends TestCase
         $this->assertEquals('0', $response->resultCode);
     }
 
-    /**
-     * @expectedException GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage amount cannot be null for this transaction type
-     */
     public function testSaleWithoutAmount()
     {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('amount cannot be null for this transaction type');
+
         $response = $this->device->debitSale()
                 ->execute();
 
@@ -89,12 +89,11 @@ class HpaDebitTests extends TestCase
         $this->assertEquals('0', $response->resultCode);
     }
 
-    /**
-     * @expectedException GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage amount cannot be null for this transaction type
-     */
     public function testRefundWithoutAmount()
     {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('amount cannot be null for this transaction type');
+
         $response = $this->device->debitRefund()
                 ->execute();
 

@@ -24,7 +24,7 @@ class PorticoReportingTests extends TestCase
     protected $card;
     private $enableCryptoUrl = true;
     
-    public function setup()
+    public function setUp(): void
     {
         $this->card = new CreditCardData();
         $this->card->number = '4111111111111111';

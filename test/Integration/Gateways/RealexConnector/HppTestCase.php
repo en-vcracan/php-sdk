@@ -37,7 +37,7 @@ class HppTestCase extends TestCase
         return $config;
     }
 
-    public function setup()
+    public function setUp(): void
     {
         $this->service = new HostedService($this->config());
     }

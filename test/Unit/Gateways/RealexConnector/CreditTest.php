@@ -2,6 +2,7 @@
 
 namespace GlobalPayments\Api\Tests\Unit\Gateways\RealexConnector;
 
+use GlobalPayments\Api\Entities\Exceptions\UnsupportedTransactionException;
 use GlobalPayments\Api\PaymentMethods\CreditCardData;
 use GlobalPayments\Api\ServicesConfig;
 use GlobalPayments\Api\ServicesContainer;
@@ -11,7 +12,7 @@ class CreditTest extends TestCase
 {
     protected $card;
 
-    public function setup()
+    public function setUp(): void
     {
         $card = new CreditCardData();
         $card->number = '4111111111111111';
@@ -24,12 +25,11 @@ class CreditTest extends TestCase
         ServicesContainer::configure($this->getConfig());
     }
 
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\UnsupportedTransactionException
-     * @expectedExceptionMessage selected gateway does not support this transaction type
-     */
     public function testCreditReverse()
     {
+        $this->expectException(UnsupportedTransactionException::class);
+        $this->expectExceptionMessage('selected gateway does not support this transaction type');
+
         $this->card->reverse(15)
             ->withAllowDuplicates(true)
             ->execute();

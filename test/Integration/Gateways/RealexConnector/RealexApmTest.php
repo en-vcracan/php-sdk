@@ -2,6 +2,7 @@
 
 namespace GlobalPayments\Api\Tests\Integration\Gateways\RealexConnector;
 
+use GlobalPayments\Api\Entities\Exceptions\BuilderException;
 use GlobalPayments\Api\ServicesConfig;
 use GlobalPayments\Api\ServicesContainer;
 use GlobalPayments\Api\Entities\Exceptions\GatewayException;
@@ -25,7 +26,7 @@ class RealexApmTest extends TestCase {
         return $config;
     }
 
-    public function setup() {
+    public function setUp(): void {
         ServicesContainer::configure($this->config());
     }
 
@@ -55,12 +56,11 @@ class RealexApmTest extends TestCase {
         $this->assertEquals("01", $response->responseCode);
         $this->assertNotNull($response->alternativePaymentResponse);
     }
-    
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage  amount cannot be null for this transaction type
-     */
+
     public function testApmWithoutAmount() {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('amount cannot be null for this transaction type');
+
         $paymentMethod = new AlternativePaymentMethod(AlternativePaymentType::SOFORTUBERWEISUNG);
 
         $paymentMethod->returnUrl = 'https://www.example.com/returnUrl';
@@ -74,12 +74,11 @@ class RealexApmTest extends TestCase {
                 ->withDescription('New APM')
                 ->execute();
     }
-    
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage  currency cannot be null for this transaction type
-     */
+
     public function testApmWithoutCurrency() {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('currency cannot be null for this transaction type');
+
         $paymentMethod = new AlternativePaymentMethod(AlternativePaymentType::SOFORTUBERWEISUNG);
 
         $paymentMethod->returnUrl = 'https://www.example.com/returnUrl';
@@ -92,12 +91,11 @@ class RealexApmTest extends TestCase {
                 ->withDescription('New APM')
                 ->execute();
     }
-    
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage  returnUrl cannot be null for this transaction type
-     */
+
     public function testApmWithoutReturnUrl() {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('returnUrl cannot be null for this transaction type');
+
         $paymentMethod = new AlternativePaymentMethod(AlternativePaymentType::SOFORTUBERWEISUNG);
 
         $paymentMethod->statusUpdateUrl = 'https://www.example.com/statusUrl';
@@ -111,11 +109,10 @@ class RealexApmTest extends TestCase {
                 ->execute();
     }
 
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\BuilderException
-     * @expectedExceptionMessage  statusUpdateUrl cannot be null for this transaction type
-     */
     public function testApmWithoutstatusUpdateUrl() {
+        $this->expectException(BuilderException::class);
+        $this->expectExceptionMessage('statusUpdateUrl cannot be null for this transaction type');
+
         $paymentMethod = new AlternativePaymentMethod(AlternativePaymentType::SOFORTUBERWEISUNG);
 
         $paymentMethod->returnUrl = 'https://www.example.com/returnUrl';
@@ -128,12 +125,11 @@ class RealexApmTest extends TestCase {
                 ->withDescription('New APM')
                 ->execute();
     }
-
-    /**
-     * @expectedException \GlobalPayments\Api\Entities\Exceptions\GatewayException
-     * @expectedExceptionMessage  FAILED
-     */
+    
     public function testAPMRefundPendingTransaction() {
+        $this->expectException(GatewayException::class);
+        $this->expectExceptionMessage('FAILED');
+
         $paymentMethod = new AlternativePaymentMethod(AlternativePaymentType::TEST_PAY);
 
         $paymentMethod->returnUrl = 'https://www.example.com/returnUrl';

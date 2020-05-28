@@ -1,6 +1,7 @@
 <?php
 namespace GlobalPayments\Api\Tests\Integration\Gateways\Terminals\HPA;
 
+use GlobalPayments\Api\Entities\Exceptions\UnsupportedTransactionException;
 use GlobalPayments\Api\Terminals\ConnectionConfig;
 use GlobalPayments\Api\Terminals\Enums\ConnectionModes;
 use GlobalPayments\Api\Terminals\Enums\DeviceType;
@@ -10,7 +11,7 @@ use GlobalPayments\Api\Tests\Integration\Gateways\Terminals\RequestIdProvider;
 
 class HpaVerificationTests extends TestCase
 {
-    public function setup()
+    public function setUp(): void
     {
         $this->device = DeviceService::create($this->getConfig());
         
@@ -31,7 +32,7 @@ class HpaVerificationTests extends TestCase
         return $config;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         sleep(3);
         $this->device->reset();
@@ -217,12 +218,11 @@ class HpaVerificationTests extends TestCase
         Pass Criteria	The transaction is approved online.
         The transaction has been voided.
     */
-    
-    /**
-     * @expectedException GlobalPayments\Api\Entities\Exceptions\UnsupportedTransactionException
-     */
+
     public function testCase07()
     {
+        $this->expectException(UnsupportedTransactionException::class);
+
         $response = $this->device->debitSale(10)
           ->execute();
 

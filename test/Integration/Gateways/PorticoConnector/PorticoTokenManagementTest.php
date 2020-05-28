@@ -13,7 +13,7 @@ class PorticoReportingTests extends TestCase
 {
     protected $token;
     
-    public function setup() : void
+    public function setUp(): void
     {
         ServicesContainer::configure($this->getConfig());
 
@@ -27,7 +27,7 @@ class PorticoReportingTests extends TestCase
             $this->token = $card->tokenize()->execute()->token;
             $this->assertTrue(!empty($this->token), 'TOKEN COULD NOT BE GENERATED.');
         } catch (ApiException $exc) {
-            $this->fail($exc->message);
+            $this->fail($exc->getMessage());
         }
       
     }

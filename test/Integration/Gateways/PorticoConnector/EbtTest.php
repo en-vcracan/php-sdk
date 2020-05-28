@@ -13,7 +13,7 @@ class EbtTest extends TestCase
     protected $track;
     private $enableCryptoUrl = true;
 
-    public function setup()
+    public function setUp(): void
     {
 
         $this->card = TestCards::asEBTManual(TestCards::visaManual(), '32539F50C245A6A93D123412324000AA');

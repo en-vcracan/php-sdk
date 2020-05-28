@@ -13,7 +13,7 @@ class GiftTest extends TestCase
     protected $track;
     private $enableCryptoUrl = true;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->card = new GiftCard();
         $this->card->number = '5022440000000000007';

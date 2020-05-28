@@ -213,17 +213,14 @@ class SearchCriteriaBuilder
     {
         $this->reportBuilder = $reportBuilder;
     }
-    // Function name "and" contains a reserved keyword which can only be used as a method name starting PHP 7.
-    // Doing breaking changes is ill advised so disable checks for this part.
-    // phpcs:disable
-    public function and($criteria, $value)
+
+    public function andWith($criteria, $value)
     {
         if (property_exists($this, $criteria)) {
             $this->{$criteria} = $value;
         }
         return $this;
     }
-    // phpcs:enable
     
     public function execute($configName = "default")
     {

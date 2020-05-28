@@ -2,6 +2,7 @@
 
 namespace GlobalPayments\Api\Builders;
 
+use GlobalPayments\Api\Entities\Enums\ReasonCode;
 use GlobalPayments\Api\Entities\Enums\TaxType;
 use GlobalPayments\Api\Entities\Enums\TransactionModifier;
 use GlobalPayments\Api\Entities\Enums\TransactionType;
@@ -284,18 +285,6 @@ class ManagementBuilder extends TransactionBuilder
     public function withGratuity($gratuity)
     {
         $this->gratuity = $gratuity;
-        return $this;
-    }
-
-    /**
-     * @return ManagementBuilder
-     */
-    public function withIssuerData(CardIssuerEntryTag $tag, string $value)
-    {
-        if ($this->issuerData == null) {
-            $this->issuerData = [];
-        }
-        $this->issuerData[$tag] = $value;
         return $this;
     }
 

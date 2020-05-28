@@ -149,7 +149,7 @@ class ValidationClause
 
     /**
      *
-     * @param class $clazz
+     * @param string a class type $clazz
      * @param string $message
      *
      * @return ValidationTarget

@@ -33,7 +33,9 @@
 		<testsuite name="realex">
             <directory>./test/Integration/Gateways/RealexConnector/</directory>
         </testsuite>
-		
+        <testsuite name="terminals">
+            <directory>./test/Integration/Gateways/Terminals/</directory>
+        </testsuite>
     </testsuites>
 
     <filter>

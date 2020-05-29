@@ -4,6 +4,8 @@ namespace GlobalPayments\Api\Entities\Reporting;
 
 use DateTime;
 use GlobalPayments\Api\Builders\TransactionReportBuilder;
+use GlobalPayments\Api\Entities\Enums\PaymentMethodType;
+use GlobalPayments\Api\Entities\Enums\TransactionType;
 use GlobalPayments\Api\Entities\Reporting\SearchCriteria;
 use GlobalPayments\Api\Entities\Exceptions\ArgumentException;
 
@@ -75,7 +77,7 @@ class SearchCriteriaBuilder
     public $cardNumberLastFour;
     
     /**
-     * @var IEnumerable<CardType>
+     * @var array<CardType>
      */
     public $cardTypes;
     
@@ -165,7 +167,7 @@ class SearchCriteriaBuilder
     public $paymentMethodKey;
     
     /**
-     * @var IEnumerable<PaymentMethodType>
+     * @var array<PaymentMethodType>
      */
     public $paymentTypes;
     
@@ -175,12 +177,12 @@ class SearchCriteriaBuilder
     public $referenceNumber;
     
     /**
-     * @var IEnumerable<TransactionType>
+     * @var array<TransactionType>
      */
     public $transactionType;
     
     /**
-     * @var decimal
+     * @var float
      */
     public $settlementAmount;
     
@@ -213,17 +215,14 @@ class SearchCriteriaBuilder
     {
         $this->reportBuilder = $reportBuilder;
     }
-    // Function name "and" contains a reserved keyword which can only be used as a method name starting PHP 7.
-    // Doing breaking changes is ill advised so disable checks for this part.
-    // phpcs:disable
-    public function and($criteria, $value)
+
+    public function andWith($criteria, $value)
     {
         if (property_exists($this, $criteria)) {
             $this->{$criteria} = $value;
         }
         return $this;
     }
-    // phpcs:enable
     
     public function execute($configName = "default")
     {

@@ -136,7 +136,7 @@ class TransactionReportBuilder extends ReportBuilder
      */
     public function where($criteria, $value)
     {
-        return $this->searchBuilder->and($criteria, $value);
+        return $this->searchBuilder->andWith($criteria, $value);
     }
         
     protected function setupValidations()

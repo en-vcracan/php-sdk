@@ -243,7 +243,7 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
             $request['order'] = $this->maybeSetKey(
                 $request['order'],
                 'date_time_created',
-                (new \DateTime($builder->getOrderCreateDate()))->format(\DateTime::RFC3339_EXTENDED)
+                (new \DateTime($builder->getOrderCreateDate()))->format('Y-m-d\TH:i\Z')
             );
             $request['order'] = $this->maybeSetKey($request['order'], 'gift_card_count', $builder->getGiftCardCount());
             $request['order'] = $this->maybeSetKey(

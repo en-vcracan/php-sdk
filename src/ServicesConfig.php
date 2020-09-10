@@ -27,6 +27,10 @@ class ServicesConfig
     public $channel;
     public $hostedPaymentConfig;
 
+    //GP-API
+    public $appId;
+    public $appKey;
+
     /**
      * @var string
      */
@@ -66,6 +70,15 @@ class ServicesConfig
 
     public function validate()
     {
+
+        //GP-API Key
+        if ( (!empty($this->appId) || !empty($this->appKey)) && (
+                empty($this->appId) || empty($this->appKey)
+            )
+
+        ) {
+            throw new ConfigurationException("App Key and App ID are both requred for gp-api");
+        }
         // Portico API key
         if (!empty($this->secretApiKey)
             && (
@@ -83,7 +96,7 @@ class ServicesConfig
 
         // Portico legacy
         if ((
-            !empty($this->siteId)
+                !empty($this->siteId)
                 || !empty($this->licenseId)
                 || !empty($this->deviceId)
                 || !empty($this->username)
@@ -104,13 +117,13 @@ class ServicesConfig
 
         // Realex
         if ((empty($this->secretApiKey)
-            && (
-                empty($this->siteId)
-                && empty($this->licenseId)
-                && empty($this->deviceId)
-                && empty($this->username)
-                && empty($this->password)
-            ))
+                && (
+                    empty($this->siteId)
+                    && empty($this->licenseId)
+                    && empty($this->deviceId)
+                    && empty($this->username)
+                    && empty($this->password)
+                ))
             && empty($this->merchantId)
         ) {
             throw new ConfigurationException(

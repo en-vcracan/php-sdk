@@ -30,6 +30,8 @@ class ServicesConfig
     //GP-API
     public $appId;
     public $appKey;
+    public $apiVersion;
+    public $accessTokenManager;
 
     /**
      * @var string
@@ -72,12 +74,22 @@ class ServicesConfig
     {
 
         //GP-API Key
-        if ( (!empty($this->appId) || !empty($this->appKey)) && (
-                empty($this->appId) || empty($this->appKey)
+        if ((
+                !empty($this->appId) ||
+                !empty($this->appKey) ||
+                !empty($this->apiVersion) ||
+                !empty($this->accessTokenManager)
+            ) && (
+                empty($this->appId) ||
+                empty($this->appKey) ||
+                empty($this->apiVersion) ||
+                empty($this->accessTokenManager)
             )
 
         ) {
-            throw new ConfigurationException("App Key and App ID are both requred for gp-api");
+            throw new ConfigurationException(
+                "App Key, App ID, Api Version and an access token manager instance are required for gp-api"
+            );
         }
         // Portico API key
         if (!empty($this->secretApiKey)

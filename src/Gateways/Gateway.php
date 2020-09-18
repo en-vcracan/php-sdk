@@ -56,8 +56,8 @@ abstract class Gateway
      * @param string|null $data
      * @param array<string,string>|null $queryStringParams
      *
-     * @throws \Exception
      * @return GatewayResponse
+     * @throws \Exception
      */
     protected function sendRequest(
         $verb,
@@ -77,7 +77,7 @@ abstract class Gateway
 
             $headers = [];
             foreach ($this->headers as $key => $value) {
-                $headers[] = $key . ': '. $value;
+                $headers[] = $key . ': ' . $value;
             }
 
             curl_setopt($request, CURLOPT_CONNECTTIMEOUT, $this->timeout);

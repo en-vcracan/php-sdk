@@ -3,6 +3,7 @@
 namespace GlobalPayments\Api;
 
 use GlobalPayments\Api\Gateways\Gp3DSProvider;
+use GlobalPayments\Api\Gateways\GpApiConnector;
 use GlobalPayments\Api\Gateways\IPaymentGateway;
 use GlobalPayments\Api\Gateways\IRecurringService;
 use GlobalPayments\Api\Gateways\PayPlanConnector;
@@ -129,7 +130,7 @@ class ServicesContainer
 
                 static::$instance->setSecure3dProvider(Secure3dVersion::TWO, $secure3d2);
             }
-        } else {
+        } elseif (!empty($config->siteId)) {
             if (empty($config->serviceUrl) && !empty($config->secretApiKey)) {
                 $env = explode('_', $config->secretApiKey)[1];
                 if ($env == "prod") {
@@ -153,9 +154,9 @@ class ServicesContainer
             $gateway->curlOptions = $config->curlOptions;
 
             $payplanEndPoint = (strpos(strtolower($config->serviceUrl), 'cert.') > 0) ?
-                                '/Portico.PayPlan.v2/':
-                                '/PayPlan.v2/';
-            
+                '/Portico.PayPlan.v2/' :
+                '/PayPlan.v2/';
+
             $recurring = new PayPlanConnector();
             $recurring->siteId = $config->siteId;
             $recurring->licenseId = $config->licenseId;
@@ -170,6 +171,24 @@ class ServicesContainer
             $recurring->curlOptions = $config->curlOptions;
 
             static::$instance = new static($gateway, $recurring);
+        } elseif (!empty($config->appId)) {
+            $gateway = new GpApiConnector();
+            $gateway->appKey = $config->appKey;
+            $gateway->appId = $config->appId;
+            $gateway->apiVersion = $config->apiVersion;
+            $gateway->accessTokenManager = $config->accessTokenManager;
+            if (empty($config->serviceUrl)) {
+                if ($config->environment === Environment::TEST) {
+                    $config->serviceUrl = GpApiConnector::TEST_ENV;
+                } else {
+                    $config->serviceUrl = GpApiConnector::PRODUCTION_ENV;
+                }
+            }
+            $gateway->serviceUrl = $config->serviceUrl;
+            $gateway->accessTokenManager->initialize($config);
+
+
+            static::$instance = new static($gateway);
         }
     }
 

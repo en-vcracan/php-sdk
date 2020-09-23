@@ -39,10 +39,10 @@ abstract class RestGatewayWithCompression extends Gateway
             throw new GatewayException(
                 sprintf(
                     'Status Code: %s - %s',
-                    $response->statusCode,
-                    isset($error->error_description) ?
-                        $error->error_description :
-                        (isset($error->message) ? $error->message : (string)$error)
+                    $error->error_code,
+                    isset($error->detailed_error_description) ?
+                        $error->detailed_error_description :
+                        (isset($error->detailed_error_code) ? $error->detailed_error_code : (string)$error)
                 )
             );
         }

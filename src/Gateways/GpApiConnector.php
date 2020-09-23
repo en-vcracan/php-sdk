@@ -7,6 +7,7 @@ use GlobalPayments\Api\Builders\AuthorizationBuilder;
 use GlobalPayments\Api\Builders\ManagementBuilder;
 use GlobalPayments\Api\Builders\ReportBuilder;
 use GlobalPayments\Api\Entities\Exceptions\GatewayException;
+use GlobalPayments\Api\Entities\GpApi\CreatePaymentRequest;
 use GlobalPayments\Api\Entities\Transaction;
 use GlobalPayments\Api\Utils\AccessTokenManager;
 
@@ -29,18 +30,13 @@ class GpApiConnector extends RestGatewayWithCompression implements IPaymentGatew
 
     private function getConstantHeaders()
     {
+        $accessToken = $this->accessTokenManager->getAccessToken();
         $headers = array(
-          'X-GP-VERSION' => $this->apiVersion
+            'X-GP-VERSION' => $this->apiVersion,
+            'Authorization' => $accessToken->composeAuthorizationHeader()
         );
 
-        $headers = array_merge($headers, [
-           'Authorization' => ''
-        ]);
-
-        return [
-//            'Content-type' => 'application/json',
-            'X-GP-VERSION' => self::API_VERSION
-        ];
+        return $headers;
     }
 
     private function generateSecret()
@@ -63,7 +59,16 @@ class GpApiConnector extends RestGatewayWithCompression implements IPaymentGatew
      */
     public function processAuthorization(AuthorizationBuilder $builder)
     {
-        // TODO: Implement processAuthorization() method.
+        $transaction = CreatePaymentRequest::createFromAutorizationBuilder($builder);
+        $response = $this->doTransaction(
+            "POST",
+            "/transactions",
+            $transaction,
+            null,
+            $this->getConstantHeaders()
+        );
+
+        return $response;
     }
 
     /**

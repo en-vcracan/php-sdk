@@ -128,19 +128,35 @@ class ServicesConfig
         }
 
         // Realex
-        if ((empty($this->secretApiKey)
-                && (
-                    empty($this->siteId)
-                    && empty($this->licenseId)
-                    && empty($this->deviceId)
-                    && empty($this->username)
-                    && empty($this->password)
-                ))
-            && empty($this->merchantId)
-        ) {
-            throw new ConfigurationException(
-                "MerchantId should not be empty for this configuration."
-            );
+//        if ((empty($this->secretApiKey)
+//                && (
+//                    empty($this->siteId)
+//                    && empty($this->licenseId)
+//                    && empty($this->deviceId)
+//                    && empty($this->username)
+//                    && empty($this->password)
+//                ))
+//            && empty($this->merchantId)
+//        ) {
+//            throw new ConfigurationException(
+//                "MerchantId should not be empty for this configuration."
+//            );
+//        }
+        if ((
+            empty($this->secretApiKey) ||
+            empty($this->siteId) ||
+            empty($this->licenseId) ||
+            empty($this->deviceId) ||
+            empty($this->username) ||
+            empty($this->password)) && (
+             !empty($this->secretApiKey) ||
+             !empty($this->siteId) ||
+             !empty($this->licenseId) ||
+             !empty ($this->deviceId) ||
+             !empty($this->username) ||
+             !empty($this->password)
+            )) {
+            throw new ConfigurationException("This Realex configuration is incorrect");
         }
 
         // Service URL

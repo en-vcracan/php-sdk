@@ -397,6 +397,26 @@ class AuthorizationBuilder extends TransactionBuilder
     public $verifyAddress;
 
     /**
+     * Transaction channel for GP-API
+     * Can be CP (Card Present) or CNP (Card Not Present)
+     *
+     * @var $channel string
+     */
+    public $channel;
+
+    /**
+     * The account name under which the GP-API Transaction is made (see GP-API access Panel)
+     * @var $accountName string
+     */
+    public $accountName;
+
+    /**
+     * Country from which the transaction is done from
+     * @var $country string
+     */
+    public $country;
+
+    /**
      * {@inheritdoc}
      *
      * @param TransactionType $type Request transaction type
@@ -1112,6 +1132,30 @@ class AuthorizationBuilder extends TransactionBuilder
     public function withScheduleId($scheduleId)
     {
         $this->scheduleId = $scheduleId;
+        return $this;
+    }
+
+    /**
+     * Set the associated channel , CP or CNP
+     *
+     * @param $channel string
+     * @return AuthorizationBuilder
+     */
+    public function withChannel($channel)
+    {
+        $this->channel = $channel;
+        return $this;
+    }
+
+    public function withAccountName($accountName)
+    {
+        $this->accountName = $accountName;
+        return $this;
+    }
+
+    public function withCountry($country)
+    {
+        $this->country = $country;
         return $this;
     }
 }

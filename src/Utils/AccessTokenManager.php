@@ -33,12 +33,21 @@ class AccessTokenManager extends RestGatewayWithCompression
         );
 
         $request = $this->doTransaction("POST", $endPoint, $requestBody, null, $requestHeader);
-        $this->accessToken = $request;
-        return $request;
+//        $this->accessToken = $request;
+        $this->accessToken = new AccessToken(
+            $request->token,
+            $request->type,
+            $request->time_created,
+            $request->seconds_to_expire
+        );
+        return $this->accessToken;
     }
 
     public function getAccessToken()
     {
+        if (empty($this->accessToken) || ($this->accessToken->seconds_to_expire < 100)) {
+            $this->generateAccessToken();
+        }
         return $this->accessToken;
     }
 

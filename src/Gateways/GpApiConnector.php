@@ -6,7 +6,9 @@ namespace GlobalPayments\Api\Gateways;
 use GlobalPayments\Api\Builders\AuthorizationBuilder;
 use GlobalPayments\Api\Builders\ManagementBuilder;
 use GlobalPayments\Api\Builders\ReportBuilder;
+use GlobalPayments\Api\Entities\Enums\TransactionType;
 use GlobalPayments\Api\Entities\Exceptions\GatewayException;
+use GlobalPayments\Api\Entities\GpApi\CreatePaymentMethodRequest;
 use GlobalPayments\Api\Entities\GpApi\CreatePaymentRequest;
 use GlobalPayments\Api\Entities\Transaction;
 use GlobalPayments\Api\Utils\AccessTokenManager;
@@ -18,6 +20,8 @@ class GpApiConnector extends RestGatewayWithCompression implements IPaymentGatew
     const PRODUCTION_ENV = 'https://apis.globalpay.com/ucp';
     const TEST_ENV = 'https://apis.sandbox.globalpay.com/ucp';
     const ACCESS_TOKEN_ENDPOINT = '/accesstoken';
+    const TRANSACTION_ENDPOINT = '/transactions';
+    const PAYMENT_METHODS_ENDPOINT = '/payment-methods';
 
     public $appId;
     public $appKey;
@@ -65,14 +69,30 @@ class GpApiConnector extends RestGatewayWithCompression implements IPaymentGatew
      */
     public function processAuthorization(AuthorizationBuilder $builder)
     {
-        $transaction = CreatePaymentRequest::createFromAutorizationBuilder($builder, $this->accountNameManager);
-        $response = $this->doTransaction(
-            "POST",
-            "/transactions",
-            $transaction,
-            null,
-            $this->getConstantHeaders()
-        );
+        if (
+            $builder->transactionType == TransactionType::SALE ||
+            $builder->transactionType == TransactionType::REFUND) {
+            $transaction = CreatePaymentRequest::createFromAutorizationBuilder($builder, $this->accountNameManager);
+            $response = $this->doTransaction(
+                "POST",
+                self::TRANSACTION_ENDPOINT,
+                $transaction,
+                null,
+                $this->getConstantHeaders()
+            );
+        } elseif ($builder->transactionType == TransactionType::VERIFY) {
+            $transaction = CreatePaymentMethodRequest::createFromAuthorizationBuilder(
+                $builder,
+                $this->accountNameManager
+            );
+            $response = $this->doTransaction(
+                "POST",
+                self::PAYMENT_METHODS_ENDPOINT,
+                $transaction,
+                null,
+                $this->getConstantHeaders()
+            );
+        }
 
         return $response;
     }
@@ -86,7 +106,9 @@ class GpApiConnector extends RestGatewayWithCompression implements IPaymentGatew
      */
     public function manageTransaction(ManagementBuilder $builder)
     {
-        // TODO: Implement manageTransaction() method.
+//        if ($builder->transactionType == TransactionType::VERIFY) {
+//
+//        }
     }
 
     public function processReport(ReportBuilder $builder)

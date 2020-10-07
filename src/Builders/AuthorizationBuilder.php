@@ -1173,4 +1173,5 @@ class AuthorizationBuilder extends TransactionBuilder
         $this->captureMode = $captureMode;
         return $this;
     }
+
 }

@@ -14,6 +14,7 @@ use GlobalPayments\Api\Entities\Enums\Environment;
 use GlobalPayments\Api\Entities\Enums\Secure3dVersion;
 use GlobalPayments\Api\Entities\Enums\ServiceEndpoints;
 use GlobalPayments\Api\Entities\Exceptions\ConfigurationException;
+use GlobalPayments\Api\Utils\AccountNameManager;
 
 class ServicesContainer
 {
@@ -184,6 +185,11 @@ class ServicesContainer
                     $config->serviceUrl = GpApiConnector::PRODUCTION_ENV;
                 }
             }
+
+            if (empty($config->accountNameManager)) {
+                $config->accountNameManager = new AccountNameManager();
+            }
+            $gateway->accountNameManager = $config->accountNameManager;
             $gateway->serviceUrl = $config->serviceUrl;
             $gateway->accessTokenManager->initialize($config);
 

@@ -11,6 +11,6 @@ class PaymentMethod
     public $entry_mode;
     /** @var $authentication Authentication */
     public $authentication;
-    /** @var $card Card */
+    /** @var $card CardNotPresent|CardPresent */
     public $card;
 }

@@ -4,6 +4,8 @@ namespace GlobalPayments\Api\Builders;
 
 use GlobalPayments\Api\Entities\Address;
 use GlobalPayments\Api\Entities\EcommerceInfo;
+use GlobalPayments\Api\Entities\Enums\GpApi\CaptureMode;
+use GlobalPayments\Api\Entities\Enums\GpApi\EntryMode;
 use GlobalPayments\Api\Entities\HostedPaymentData;
 use GlobalPayments\Api\Entities\Enums\AddressType;
 use GlobalPayments\Api\Entities\Enums\AliasAction;
@@ -404,17 +406,24 @@ class AuthorizationBuilder extends TransactionBuilder
      */
     public $channel;
 
-    /**
-     * The account name under which the GP-API Transaction is made (see GP-API access Panel)
-     * @var $accountName string
-     */
-    public $accountName;
 
     /**
      * Country from which the transaction is done from
      * @var $country string
      */
     public $country;
+
+    /**
+     * @see EntryMode for values
+     * @var $entryMode string
+     */
+    public $entryMode;
+
+    /**
+     * @see CaptureMode for values
+     * @var $captureMode string
+     */
+    public $captureMode;
 
     /**
      * {@inheritdoc}
@@ -439,8 +448,8 @@ class AuthorizationBuilder extends TransactionBuilder
     {
         parent::execute();
         return ServicesContainer::instance()
-                        ->getClient()
-                        ->processAuthorization($this);
+            ->getClient()
+            ->processAuthorization($this);
     }
 
     /**
@@ -470,70 +479,70 @@ class AuthorizationBuilder extends TransactionBuilder
     {
         $this->validations->of(
             TransactionType::AUTH |
-                        TransactionType::SALE |
-                        TransactionType::REFUND |
-                        TransactionType::ADD_VALUE
+            TransactionType::SALE |
+            TransactionType::REFUND |
+            TransactionType::ADD_VALUE
         )
-                ->with(TransactionModifier::NONE)
-                ->check('amount')->isNotNull()
-                ->check('currency')->isNotNull()
-                ->check('paymentMethod')->isNotNull();
-        
-        $this->validations->of(
-            TransactionType::AUTH |
-                        TransactionType::SALE
-        )
-                ->with(TransactionModifier::HOSTEDREQUEST)
-                ->check('amount')->isNotNull()
-                ->check('currency')->isNotNull();
+            ->with(TransactionModifier::NONE)
+            ->check('amount')->isNotNull()
+            ->check('currency')->isNotNull()
+            ->check('paymentMethod')->isNotNull();
 
         $this->validations->of(
             TransactionType::AUTH |
-                        TransactionType::SALE
+            TransactionType::SALE
         )
-                ->with(TransactionModifier::OFFLINE)
-                ->check('amount')->isNotNull()
-                ->check('currency')->isNotNull()
-                ->check('offlineAuthCode')->isNotNull();
+            ->with(TransactionModifier::HOSTEDREQUEST)
+            ->check('amount')->isNotNull()
+            ->check('currency')->isNotNull();
+
+        $this->validations->of(
+            TransactionType::AUTH |
+            TransactionType::SALE
+        )
+            ->with(TransactionModifier::OFFLINE)
+            ->check('amount')->isNotNull()
+            ->check('currency')->isNotNull()
+            ->check('offlineAuthCode')->isNotNull();
 
         $this->validations->of(TransactionType::BALANCE)
-                ->check('paymentMethod')->isNotNull();
+            ->check('paymentMethod')->isNotNull();
 
         $this->validations->of(TransactionType::ALIAS)
-                ->check('aliasAction')->isNotNull()
-                ->check('alias')->isNotNull();
+            ->check('aliasAction')->isNotNull()
+            ->check('alias')->isNotNull();
 
         $this->validations->of(TransactionType::REPLACE)
-                ->check('replacementCard')->isNotNull();
+            ->check('replacementCard')->isNotNull();
 
         $this->validations->of(
             TransactionType::AUTH |
-                        TransactionType::SALE
+            TransactionType::SALE
         )
-                ->with(TransactionModifier::ENCRYPTED_MOBILE)
-                ->check('paymentMethod')->isNotNull()
-                ->check('token')->isNotNullInSubProperty('paymentMethod')
-                ->check('mobileType')->isNotNullInSubProperty('paymentMethod');
-        
+            ->with(TransactionModifier::ENCRYPTED_MOBILE)
+            ->check('paymentMethod')->isNotNull()
+            ->check('token')->isNotNullInSubProperty('paymentMethod')
+            ->check('mobileType')->isNotNullInSubProperty('paymentMethod');
+
         $this->validations->of(
             TransactionType::VERIFY
         )
-                ->with(TransactionModifier::HOSTEDREQUEST)
-                ->check('currency')->isNotNull();
-        
+            ->with(TransactionModifier::HOSTEDREQUEST)
+            ->check('currency')->isNotNull();
+
         $this->validations->of(
             TransactionType::AUTH |
-                        TransactionType::SALE
+            TransactionType::SALE
         )
-                ->with(TransactionModifier::ALTERNATIVE_PAYMENT_METHOD)
-                ->check('amount')->isNotNull()
-                ->check('currency')->isNotNull()
-                ->check('paymentMethod')->isNotNull()
-                ->check('alternativePaymentMethodType')->isNotNullInSubProperty('paymentMethod')
-                ->check('returnUrl')->isNotNullInSubProperty('paymentMethod')
-                ->check('statusUpdateUrl')->isNotNullInSubProperty('paymentMethod')
-                ->check('country')->isNotNullInSubProperty('paymentMethod')
-                ->check('accountHolderName')->isNotNullInSubProperty('paymentMethod');
+            ->with(TransactionModifier::ALTERNATIVE_PAYMENT_METHOD)
+            ->check('amount')->isNotNull()
+            ->check('currency')->isNotNull()
+            ->check('paymentMethod')->isNotNull()
+            ->check('alternativePaymentMethodType')->isNotNullInSubProperty('paymentMethod')
+            ->check('returnUrl')->isNotNullInSubProperty('paymentMethod')
+            ->check('statusUpdateUrl')->isNotNullInSubProperty('paymentMethod')
+            ->check('country')->isNotNullInSubProperty('paymentMethod')
+            ->check('accountHolderName')->isNotNullInSubProperty('paymentMethod');
     }
 
     /**
@@ -560,11 +569,11 @@ class AuthorizationBuilder extends TransactionBuilder
     /**
      * Set the request alias
      *
-     * @internal
      * @param string $aliasAction Request alias action
      * @param string $alias Request alias
      *
      * @return AuthorizationBuilder
+     * @internal
      */
     public function withAlias($aliasAction, $alias)
     {
@@ -612,7 +621,7 @@ class AuthorizationBuilder extends TransactionBuilder
         return $this;
     }
 
-    /** @return AuthorizationBuilder  */
+    /** @return AuthorizationBuilder */
     public function withAmountEstimated($value)
     {
         $this->amountEstimated = $value;
@@ -1044,10 +1053,10 @@ class AuthorizationBuilder extends TransactionBuilder
      */
     public function withConvenienceAmount($convenienceAmount)
     {
-        $this->convenienceAmount  = $convenienceAmount ;
+        $this->convenienceAmount = $convenienceAmount;
         return $this;
     }
-    
+
     /**
      * Set the request shippingAmount
      *
@@ -1147,15 +1156,21 @@ class AuthorizationBuilder extends TransactionBuilder
         return $this;
     }
 
-    public function withAccountName($accountName)
-    {
-        $this->accountName = $accountName;
-        return $this;
-    }
-
     public function withCountry($country)
     {
         $this->country = $country;
+        return $this;
+    }
+
+    public function withEntryMode($entryMode)
+    {
+        $this->entryMode = $entryMode;
+        return $this;
+    }
+
+    public function withCaptureMode($captureMode)
+    {
+        $this->captureMode = $captureMode;
         return $this;
     }
 }

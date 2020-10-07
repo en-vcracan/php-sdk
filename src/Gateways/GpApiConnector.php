@@ -10,6 +10,7 @@ use GlobalPayments\Api\Entities\Exceptions\GatewayException;
 use GlobalPayments\Api\Entities\GpApi\CreatePaymentRequest;
 use GlobalPayments\Api\Entities\Transaction;
 use GlobalPayments\Api\Utils\AccessTokenManager;
+use GlobalPayments\Api\Utils\AccountNameManager;
 
 class GpApiConnector extends RestGatewayWithCompression implements IPaymentGateway
 {
@@ -26,6 +27,11 @@ class GpApiConnector extends RestGatewayWithCompression implements IPaymentGatew
      * @var AccessTokenManager
      */
     public $accessTokenManager;
+
+    /**
+     * @var $accountNameManager AccountNameManager
+     */
+    public $accountNameManager;
 
 
     private function getConstantHeaders()
@@ -59,7 +65,7 @@ class GpApiConnector extends RestGatewayWithCompression implements IPaymentGatew
      */
     public function processAuthorization(AuthorizationBuilder $builder)
     {
-        $transaction = CreatePaymentRequest::createFromAutorizationBuilder($builder);
+        $transaction = CreatePaymentRequest::createFromAutorizationBuilder($builder, $this->accountNameManager);
         $response = $this->doTransaction(
             "POST",
             "/transactions",

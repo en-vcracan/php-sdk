@@ -32,6 +32,7 @@ class ServicesConfig
     public $appKey;
     public $apiVersion;
     public $accessTokenManager;
+    public $accountNameManager;
 
     /**
      * @var string
@@ -142,7 +143,7 @@ class ServicesConfig
 //                "MerchantId should not be empty for this configuration."
 //            );
 //        }
-        if ((
+        if ( !empty($this->merchantId) && (
             empty($this->secretApiKey) ||
             empty($this->siteId) ||
             empty($this->licenseId) ||

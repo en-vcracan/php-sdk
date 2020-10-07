@@ -4,7 +4,7 @@
 namespace GlobalPayments\Api\Entities\GpApi\DTO;
 
 
-class Card
+class CardNotPresent
 {
     public $number;
     public $expiry_month;

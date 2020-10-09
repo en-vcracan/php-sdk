@@ -110,6 +110,60 @@ class CreditCardTest extends TestCase
         $this->assertEquals('00', $response->payment_method->result);
 
     }
+    
+    public function testCardTokenization()
+    {
+        $card = new CreditCardData();
+        $card->number = "4263970000005262";
+        $card->expMonth = 12;
+        $card->expYear = 2025;
+        $card->cvn = "131";
+        $card->cardHolderName = "James Mason";
+
+        try {
+            // process an auto-capture authorization
+            $response = $card->tokenize()
+                ->execute();
+
+        } catch (ApiException $e) {
+            $this->fail('Credit Card Tokenization failed ' . $e->getMessage());
+        }
+
+        $this->assertEquals('00', $response->result);
+    }
+
+    public function testTokenizationThenTokenRetrievalBasedOnId()
+    {
+        $card = new CreditCardData();
+        $card->number = "4263970000005262";
+        $card->expMonth = 12;
+        $card->expYear = 2025;
+        $card->cvn = "131";
+        $card->cardHolderName = "James Mason";
+
+        try {
+            // process an auto-capture authorization
+            $response = $card->tokenize()
+                ->execute();
+
+        } catch (ApiException $e) {
+            $this->fail('Credit Card Tokenization failed ' . $e->getMessage());
+        }
+
+        $tokenId = $response->id;
+
+        $tokenizedCard = new CreditCardData();
+        $tokenizedCard->token = $tokenId;
+
+        try {
+            $response = $tokenizedCard->verify()->execute();
+        } catch (ApiException $e) {
+            $this->fail('Credit Card token retrieval failed ' . $e->getMessage());
+        }
+
+        $this->assertEquals('00', $response->action->result_code);
+
+    }
 
     public function setUpConfig()
     {
@@ -119,7 +173,7 @@ class CreditCardTest extends TestCase
         //this is gpapistuff stuff
         $config->appId = 'VuKlC2n1cr5LZ8fzLUQhA7UObVks6tFF';
         $config->appKey = 'NmGM0kg92z2gA7Og';
-        $config->apiVersion = '2020-01-20';
+        $config->apiVersion = '2020-04-10';
         $config->serviceUrl = 'https://apis.sandbox.globalpay.com/ucp';
         $config->accessTokenManager = $accessTokenManager;
         $config->accountNameManager = $accountNameManager;

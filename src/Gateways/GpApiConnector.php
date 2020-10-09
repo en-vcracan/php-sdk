@@ -81,17 +81,28 @@ class GpApiConnector extends RestGatewayWithCompression implements IPaymentGatew
                 $this->getConstantHeaders()
             );
         } elseif ($builder->transactionType == TransactionType::VERIFY) {
-            $transaction = CreatePaymentMethodRequest::createFromAuthorizationBuilder(
-                $builder,
-                $this->accountNameManager
-            );
-            $response = $this->doTransaction(
-                "POST",
-                self::PAYMENT_METHODS_ENDPOINT,
-                $transaction,
-                null,
-                $this->getConstantHeaders()
-            );
+            //or in other words, if we need to tokenize
+            if ($builder->requestMultiUseToken) {
+                $transaction = CreatePaymentMethodRequest::createFromAuthorizationBuilder(
+                    $builder,
+                    $this->accountNameManager
+                );
+                $response = $this->doTransaction(
+                    "POST",
+                    self::PAYMENT_METHODS_ENDPOINT,
+                    $transaction,
+                    null,
+                    $this->getConstantHeaders()
+                );
+                //otherwise we just retrieve the payment method behind the token
+            } else {
+                $response = $this->doTransaction(
+                    "GET",
+                    self::PAYMENT_METHODS_ENDPOINT . '/' . $builder->paymentMethod->token,
+                    null,
+                    $this->getConstantHeaders()
+                );
+            }
         }
 
         return $response;

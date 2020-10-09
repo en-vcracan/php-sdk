@@ -34,8 +34,8 @@ class CreatePaymentMethodRequest
         $associatedCard->expiry_year = substr(str_pad($builderCard->expYear, 4, '0', STR_PAD_LEFT), 2, 2);;
 
         $createPaymentMethodRequest->account_name = $accountNameManager->tokenizationAccount;
-//        $createPaymentMethodRequest->name = $builder->name ? $builder->name : "";
-        $createPaymentMethodRequest->name = null;
+        $createPaymentMethodRequest->name = $builder->description ? $builder->description : null;
+//        $createPaymentMethodRequest->name = null;
         $createPaymentMethodRequest->reference = $builder->clientTransactionId ?
             $builder->clientTransactionId : GenerationUtils::generateOrderId();
         $createPaymentMethodRequest->card = $associatedCard;

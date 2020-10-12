@@ -163,8 +163,16 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
             $request = $this->maybeSetKey($request, 'server_trans_id', $secureEcom->serverTransactionId);
             $request = $this->maybeSetKey($request, 'merchant_id', $this->merchantId);
             $request = $this->maybeSetKey($request, 'account_id', $this->accountId);
-            $request = $this->maybeSetKey($request, 'challenge_notification_url', $this->challengeNotificationUrl);
-            $request = $this->maybeSetKey($request, 'challenge_request_indicator', $builder->getChallengeRequestIndicator());
+            $request = $this->maybeSetKey(
+                $request,
+                'challenge_notification_url',
+                $this->challengeNotificationUrl
+            );
+            $request = $this->maybeSetKey(
+                $request,
+                'challenge_request_indicator',
+                $builder->getChallengeRequestIndicator()
+            );
             $request = $this->maybeSetKey($request, 'method_url_completion', $builder->getMethodUrlCompletion());
             $request = $this->maybeSetKey($request, 'merchant_contact_url', $this->merchantContactUrl);
             $request = $this->maybeSetKey(
@@ -182,7 +190,8 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
 
                 $request['card_detail'] = $this->maybeSetKey(
                     $request['card_detail'],
-                    'number', $cardData->number
+                    'number',
+                    $cardData->number
                 );
                 $request['card_detail'] = $this->maybeSetKey(
                     $request['card_detail'],
@@ -729,7 +738,7 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
         // check enrolled
         $secureEcom->serverTransactionId = isset($doc['server_trans_id']) ? $doc['server_trans_id'] : null;
         if (array_key_exists('enrolled', $doc)) {
-            $secureEcom->enrolled = (bool)$doc['enrolled'];
+            $secureEcom->enrolled = (bool) $doc['enrolled'];
         }
         $secureEcom->issuerAcsUrl =
             (isset($doc['method_url']) ? $doc['method_url'] : '') .
@@ -749,7 +758,7 @@ class Gp3DSProvider extends RestGateway implements ISecure3dProvider
 
         // challenge mandated
         if (array_key_exists('challenge_mandated', $doc)) {
-            $secureEcom->challengeMandated = (bool)$doc['challenge_mandated'];
+            $secureEcom->challengeMandated = (bool) $doc['challenge_mandated'];
         }
 
         // initiate authentication

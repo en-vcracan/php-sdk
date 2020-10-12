@@ -37,7 +37,7 @@ use GlobalPayments\Api\Terminals\PAX\Responses\PaxEBTResponse;
 
 /*
  * Main controller class for Heartland payment application
- * 
+ *
  */
 
 class PaxController extends DeviceController
@@ -70,10 +70,10 @@ class PaxController extends DeviceController
 
     /*
      * Send control message to device
-     * 
+     *
      * @param string $message control message to device
-     * 
-     * @return PaxResponse parsed device response 
+     *
+     * @return PaxResponse parsed device response
      */
 
     public function send($message, $requestType = null)
@@ -170,8 +170,10 @@ class PaxController extends DeviceController
                 if (empty($card->token)) {
                     $account->accountNumber = $card->number;
                     $account->expd = $card->getShortExpiry();
-                    if ($builder->transactionType != TransactionType::VERIFY &&
-                            $builder->transactionType != TransactionType::REFUND) {
+                    if (
+                        $builder->transactionType != TransactionType::VERIFY &&
+                            $builder->transactionType != TransactionType::REFUND
+                    ) {
                         $account->cvvCode = $card->cvn;
                     }
                 } else {

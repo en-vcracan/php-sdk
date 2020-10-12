@@ -1,4 +1,5 @@
 <?php
+
 namespace GlobalPayments\Api\Entities\Enums;
 
 use GlobalPayments\Api\Entities\Enum;
@@ -15,5 +16,5 @@ class Secure3dPaymentDataSource extends Enum
     const MASTERCARD_3DSECURE = 'MasterCard 3DSecure';
     const VISA_3DSECURE = 'Visa 3DSecure';
     const UPEXPRESS_3DSECURE = 'UPExpress 3DSecure';
-    const UPSECUREPLUS_3DSECURE	= 'UPSecurePlus 3DSecure';
+    const UPSECUREPLUS_3DSECURE = 'UPSecurePlus 3DSecure';
 }

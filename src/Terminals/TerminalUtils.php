@@ -79,11 +79,11 @@ class TerminalUtils
         if (! empty($buffer)) {
             $length = strlen($buffer);
             if ($buffer[$length - 1] != ControlCodes::ETX) {
-                $length --;
+                $length--;
             }
 
             $lrc = 0;
-            for ($i = 1; $i < strlen($buffer); $i ++) {
+            for ($i = 1; $i < strlen($buffer); $i++) {
                 $lrc = ($lrc ^ ord($buffer[$i]));
             }
             return chr($lrc);

@@ -1,4 +1,5 @@
 <?php
+
 namespace GlobalPayments\Api\Terminals\Builders;
 
 use GlobalPayments\Api\Terminals\Builders\TerminalBuilder;

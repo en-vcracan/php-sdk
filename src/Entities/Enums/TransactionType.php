@@ -40,4 +40,3 @@ class TransactionType extends Enum
     const TOKEN_UPDATE = 2147483648; // 1 << 31
     const BENEFIT_WITHDRAWAL = 4294967296; // 1 <<32
 }
-

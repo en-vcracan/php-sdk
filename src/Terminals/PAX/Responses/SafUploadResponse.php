@@ -1,4 +1,5 @@
 <?php
+
 namespace GlobalPayments\Api\Terminals\PAX\Responses;
 
 use GlobalPayments\Api\Terminals\TerminalUtils;
@@ -36,12 +37,14 @@ class SafUploadResponse extends PaxDeviceResponse
             $this->totalCount = (int) $messageReader->readToCode(ControlCodes::FS);
             $totalAmount = $messageReader->readToCode(ControlCodes::FS);
             $this->totalAmount = isset($totalAmount) ? TerminalUtils::reformatAmount($totalAmount) : '';
-            
+
             $this->timeStamp = (int) $messageReader->readToCode(ControlCodes::FS);
             $this->safUploadedCount = (int) $messageReader->readToCode(ControlCodes::FS);
             $safUploadedAmount = $messageReader->readToCode(ControlCodes::FS);
-            $this->safUploadedAmount = isset($safUploadedAmount) ? TerminalUtils::reformatAmount($safUploadedAmount) : '';
-            
+            $this->safUploadedAmount = isset($safUploadedAmount)
+                ? TerminalUtils::reformatAmount($safUploadedAmount)
+                : '';
+
             $this->safFailedCount = (int) $messageReader->readToCode(ControlCodes::FS);
             $this->safFailedTotal = (int) $messageReader->readToCode(ControlCodes::FS);
         }

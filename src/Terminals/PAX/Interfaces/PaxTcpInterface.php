@@ -62,11 +62,17 @@ class PaxTcpInterface implements IDeviceCommInterface
         // open socket
         try {
             if ($this->deviceDetails->connectionMode === ConnectionModes::SSL_TCP) {
+                // Disable phpcs here since this constant does not exist until PHP 5.5.19.
+                // phpcs:disable
+                if (!defined('STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT')) {
+                    define('STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT', 33);
+                }
                 $context = stream_context_create([
                     'ssl' => [
                         "crypto_method" => STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT
                     ]
                 ]);
+                // phpcs:enable
                 
                 stream_context_set_option($context, 'ssl', 'allow_self_signed', true);
                 stream_context_set_option($context, 'ssl', 'verify_peer', false); //true
@@ -120,7 +126,7 @@ class PaxTcpInterface implements IDeviceCommInterface
         if ($this->tcpConnection !== null) {
             try {
                 TerminalUtils::manageLog($this->deviceDetails->logManagementProvider, "Input Message: $message");
-                for ($i=0; $i < 3; $i++) {
+                for ($i = 0; $i < 3; $i++) {
                     fputs($this->tcpConnection, $message);
                     $bytesReceived = $this->getTerminalResponseAsync();
                     

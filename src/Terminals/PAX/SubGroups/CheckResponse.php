@@ -1,4 +1,5 @@
 <?php
+
 namespace GlobalPayments\Api\Terminals\PAX\SubGroups;
 
 use GlobalPayments\Api\Terminals\Interfaces\IResponseSubGroup;

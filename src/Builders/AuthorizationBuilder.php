@@ -421,7 +421,7 @@ class AuthorizationBuilder extends TransactionBuilder
     /*
      * Card on File field
      * @var string
-     * 
+     *
      */
     public $cardBrandTransactionId;
     

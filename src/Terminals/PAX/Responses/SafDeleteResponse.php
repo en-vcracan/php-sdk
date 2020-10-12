@@ -1,4 +1,5 @@
 <?php
+
 namespace GlobalPayments\Api\Terminals\PAX\Responses;
 
 use GlobalPayments\Api\Terminals\PAX\Entities\Enums\PaxMessageId;

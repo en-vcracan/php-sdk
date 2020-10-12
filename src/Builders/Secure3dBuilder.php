@@ -62,6 +62,8 @@ class Secure3dBuilder extends BaseBuilder
     public $billingAddress;
     /** @var BrowserData */
     public $browserData;
+    /** @var ChallengeRequestIndicator  */
+    public $challengeRequestIndicator;
     /** @var string */
     public $currency;
     /** @var string */
@@ -262,6 +264,11 @@ class Secure3dBuilder extends BaseBuilder
         return $this->browserData;
     }
 
+    /** @return string */
+    public function getChallengeRequestIndicator()
+    {
+        return $this->challengeRequestIndicator;
+    }
     /** @return string */
     public function getCurrency()
     {
@@ -772,6 +779,13 @@ class Secure3dBuilder extends BaseBuilder
         return $this;
     }
 
+    /** @return Secure3dBuilder */
+    public function withChallengeRequestIndicator($challengeRequestIndicator)
+    {
+        $this->challengeRequestIndicator = $challengeRequestIndicator;
+        return $this;
+    }
+    
     /** @return Secure3dBuilder */
     public function withCustomerAccountId($customerAccountId)
     {

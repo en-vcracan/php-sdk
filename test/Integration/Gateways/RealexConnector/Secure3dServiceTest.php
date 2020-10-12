@@ -35,6 +35,7 @@ use GlobalPayments\Api\Entities\Enums\PriorAuthenticationMethod;
 use GlobalPayments\Api\Entities\Enums\CustomerAuthenticationMethod;
 use GlobalPayments\Api\Entities\Enums\SdkInterface;
 use GlobalPayments\Api\Entities\Enums\SdkUiType;
+use GlobalPayments\Api\Entities\Enums\ChallengeRequestIndicator;
 
 class Secure3dServiceTest extends TestCase
 {
@@ -89,7 +90,6 @@ class Secure3dServiceTest extends TestCase
         $this->browserData->challengWindowSize = ChallengeWindowSize::WINDOWED_600X400;
         $this->browserData->timeZone = '0';
         $this->browserData->userAgent = 'Mozilla/5.0 (Windows NT 6.1; Win64, x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36';
-
     }
 
     protected function getConfig()
@@ -164,6 +164,7 @@ class Secure3dServiceTest extends TestCase
                 ->withAddress($this->shippingAddress, AddressType::SHIPPING)
                 ->withBrowserData($this->browserData)
                 ->withMethodUrlCompletion(MethodUrlCompletion::NO)
+                ->withChallengeRequestIndicator(ChallengeRequestIndicator::NO_PREFERENCE)
                 ->execute();
             $this->assertNotNull($initAuth);
 
@@ -253,7 +254,6 @@ class Secure3dServiceTest extends TestCase
         } else {
             $this->fail('Card not enrolled');
         }
-
     }
 
     public function testFullCycle_v2_StoredCard()
@@ -294,7 +294,6 @@ class Secure3dServiceTest extends TestCase
             } else {
                 $this->fail('Signature verification failed.');
             }
-
         } else {
             $this->fail('Card not enrolled');
         }
@@ -338,7 +337,6 @@ class Secure3dServiceTest extends TestCase
             } else {
                 $this->fail('Signature verification failed.');
             }
-
         } else {
             $this->fail('Card not enrolled');
         }
@@ -382,7 +380,6 @@ class Secure3dServiceTest extends TestCase
             } else {
                 $this->fail('Signature verification failed.');
             }
-
         } else {
             $this->fail('Card not enrolled');
         }
@@ -577,7 +574,7 @@ class Secure3dServiceTest extends TestCase
                 // optionals
                 ->withPriorAuthenticationMethod(PriorAuthenticationMethod::FRICTIONLESS_AUTHENTICATION)
                 ->withPriorAuthenticationTransactionId('26c3f619-39a4-4040-bf1f-6fd433e6d615')
-                ->withPriorAuthenticationTimestamp((new \DateTime('2019-01-10T12:57:33.333Z'))->format(\DateTime::RFC3339_EXTENDED))                
+                ->withPriorAuthenticationTimestamp((new \DateTime('2019-01-10T12:57:33.333Z'))->format(\DateTime::RFC3339_EXTENDED))
 
                 ->execute();
             $this->assertNotNull($initAuth);
@@ -725,7 +722,7 @@ class Secure3dServiceTest extends TestCase
                 ->withReferenceNumber('3DS_LOA_SDK_PPFU_020100_00007')
                 ->withSdkTransactionId('b2385523-a66c-4907-ac3c-91848e8c0067')
                 ->withEncodedData('ew0KCSJEViI6ICIxLjAiLA0KCSJERCI6IHsNCgkJIkMwMDEiOiAiQW5kcm9pZCIsDQoJCSJDMDAyIjogIkhUQyBPbmVfTTgiLA0KCQkiQzAwNCI6ICI1LjAuMSIsDQoJCSJDMDA1IjogImVuX1VTIiwNCgkJIkMwMDYiOiAiRWFzdGVybiBTdGFuZGFyZCBUaW1lIiwNCgkJIkMwMDciOiAiMDY3OTc5MDMtZmI2MS00MWVkLTk0YzItNGQyYjc0ZTI3ZDE4IiwNCgkJIkMwMDkiOiAiSm9obidzIEFuZHJvaWQgRGV2aWNlIg0KCX0sDQoJIkRQTkEiOiB7DQoJCSJDMDEwIjogIlJFMDEiLA0KCQkiQzAxMSI6ICJSRTAzIg0KCX0sDQoJIlNXIjogWyJTVzAxIiwgIlNXMDQiXQ0KfQ0K')
-
+                ->withMaximumTimeout(5)
                 ->execute();
             $this->assertNotNull($initAuth);
 

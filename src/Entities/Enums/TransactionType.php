@@ -38,4 +38,6 @@ class TransactionType extends Enum
     const DATA_COLLECT = 536870912; // 1 << 29
     const PRE_AUTH_COMPLETION = 1073741824; // 1 << 30
     const TOKEN_UPDATE = 2147483648; // 1 << 31
+    const BENEFIT_WITHDRAWAL = 4294967296; // 1 <<32
 }
+

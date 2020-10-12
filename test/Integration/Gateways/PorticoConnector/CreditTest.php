@@ -9,6 +9,8 @@ use GlobalPayments\Api\Services\CreditService;
 use GlobalPayments\Api\ServicesConfig;
 use GlobalPayments\Api\ServicesContainer;
 use PHPUnit\Framework\TestCase;
+use GlobalPayments\Api\Entities\Enums\StoredCredentialInitiator;
+use GlobalPayments\Api\Entities\Transaction;
 
 class CreditTest extends TestCase
 {
@@ -266,5 +268,97 @@ class CreditTest extends TestCase
                               'https://cert.api2-c.heartlandportico.com/':
                               'https://cert.api2.heartlandportico.com';
         return $config;
+    }
+    
+    public function testCreditSaleWithCOF()
+    {
+        $response = $this->card->charge(15)
+            ->withCurrency('USD')
+            ->withAllowDuplicates(true)
+            ->withCardBrandStorage(StoredCredentialInitiator::CARDHOLDER)
+            ->execute();
+
+        $this->assertNotNull($response);
+        $this->assertEquals('00', $response->responseCode);
+        $this->assertNotNull($response->cardBrandTransactionId);
+
+        $nextResponse = $this->card->charge(15)
+            ->withCurrency('USD')
+            ->withAllowDuplicates(true)
+            ->withCardBrandStorage(StoredCredentialInitiator::MERCHANT, $response->cardBrandTransactionId)
+            ->execute();
+
+        $this->assertNotNull($nextResponse);
+        $this->assertEquals('00', $nextResponse->responseCode);
+    }
+    
+    public function testCreditVerifyWithCOF()
+    {
+        $response = $this->card->verify()
+            ->withAllowDuplicates(true)
+            ->withCardBrandStorage(StoredCredentialInitiator::CARDHOLDER)
+            ->execute();
+
+        $this->assertNotNull($response);
+        $this->assertEquals('00', $response->responseCode);
+        $this->assertNotNull($response->cardBrandTransactionId);
+
+        $nextResponse = $this->card->verify()
+            ->withAllowDuplicates(true)
+            ->withCardBrandStorage(StoredCredentialInitiator::MERCHANT, $response->cardBrandTransactionId)
+            ->execute();
+
+        $this->assertNotNull($nextResponse);
+        $this->assertEquals('00', $nextResponse->responseCode);
+    }
+    
+    public function testCreditAuthorizationWithCOF()
+    {
+        $response = $this->card->authorize(14)
+            ->withCurrency('USD')
+            ->withAllowDuplicates(true)
+            ->withCardBrandStorage(StoredCredentialInitiator::CARDHOLDER)
+            ->execute();
+
+        $this->assertNotNull($response);
+        $this->assertEquals('00', $response->responseCode);
+        $this->assertNotNull($response->cardBrandTransactionId);
+
+        $nextResponse = $this->card->authorize(14)
+            ->withCurrency('USD')
+            ->withAllowDuplicates(true)
+            ->withCardBrandStorage(StoredCredentialInitiator::MERCHANT, $response->cardBrandTransactionId)
+            ->execute();
+
+        $this->assertNotNull($nextResponse);
+        $this->assertEquals('00', $nextResponse->responseCode);
+        
+        $captureResponse = $nextResponse->capture(16)
+        ->withGratuity(2)
+        ->execute();
+        
+        $this->assertNotNull($captureResponse);
+        $this->assertEquals('00', $captureResponse->responseCode);
+    }
+
+    public function testCreditReverseViaClientTxnId()
+    {
+        $clientTxnId = time();
+
+        $authorization = $this->card->charge(420.69)
+            ->withClientTransactionId($clientTxnId)
+            ->withCurrency('USD')
+            ->withAllowDuplicates(true)
+            ->execute();
+
+        $this->assertNotNull($authorization);
+        $this->assertEquals('00', $authorization->responseCode);
+
+        $reverse = Transaction::fromClientTransactionId($clientTxnId)
+            ->reverse(420.69)
+            ->execute();
+            
+        $this->assertNotNull($reverse);
+        $this->assertEquals('00', $reverse->responseCode);
     }
 }

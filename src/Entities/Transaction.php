@@ -115,6 +115,13 @@ class Transaction
     public $emvIssuerResponse;
 
     /**
+     * The host response date
+     *
+     * @var DateTime
+     */
+    public $hostResponseDate;
+
+    /**
      * The remaining points on the account after the transaction.
      *
      * @var string
@@ -224,6 +231,19 @@ class Transaction
     public $avsAddressResponse;
     
     public $alternativePaymentResponse;
+    
+    public $customerReceipt;
+  
+    public $merchantReceipt;
+  
+    public $transactionKey;
+  
+    /*
+     * Card on File field response
+     * @var string
+     *
+     */
+    public $cardBrandTransactionId;
 
     /**
      * Creates a `Transaction` object from a stored transaction ID.
@@ -254,6 +274,26 @@ class Transaction
         $txn = new Transaction();
         $txn->transactionReference = new TransactionReference();
         $txn->transactionReference->transactionId = $transactionId;
+        $txn->transactionReference->paymentMethodType = $paymentMethodType;
+        $txn->transactionReference->orderId = $orderId;
+        return $txn;
+    }
+
+    public static function fromClientTransactionId($clientTransactionId, $orderId = null, $paymentMethodType = null)
+    {
+        try {
+            $paymentMethodType = PaymentMethodType::validate($orderId);
+        } catch (ArgumentException $ex) {
+            /** */
+        }
+
+        if ($orderId === null && $paymentMethodType === null) {
+            $paymentMethodType = PaymentMethodType::CREDIT;
+        }
+
+        $txn = new Transaction();
+        $txn->transactionReference = new TransactionReference();
+        $txn->transactionReference->clientTransactionId = $clientTransactionId;
         $txn->transactionReference->paymentMethodType = $paymentMethodType;
         $txn->transactionReference->orderId = $orderId;
         return $txn;

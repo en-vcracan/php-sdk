@@ -5,7 +5,9 @@ namespace GlobalPayments\Api\Entities\GpApi;
 
 
 use GlobalPayments\Api\Builders\AuthorizationBuilder;
+use GlobalPayments\Api\Builders\ManagementBuilder;
 use GlobalPayments\Api\Entities\GpApi\DTO\CardNotPresent;
+use GlobalPayments\Api\PaymentMethods\Credit;
 use GlobalPayments\Api\PaymentMethods\CreditCardData;
 use GlobalPayments\Api\Utils\AccountNameManager;
 use GlobalPayments\Api\Utils\GenerationUtils;
@@ -31,7 +33,7 @@ class CreatePaymentMethodRequest
         $builderCard = $builder->paymentMethod;
         $associatedCard->number = $builderCard->number;
         $associatedCard->expiry_month = (string)$builderCard->expMonth;
-        $associatedCard->expiry_year = substr(str_pad($builderCard->expYear, 4, '0', STR_PAD_LEFT), 2, 2);;
+        $associatedCard->expiry_year = substr(str_pad($builderCard->expYear, 4, '0', STR_PAD_LEFT), 2, 2);
 
         $createPaymentMethodRequest->account_name = $accountNameManager->tokenizationAccount;
         $createPaymentMethodRequest->name = $builder->description ? $builder->description : null;
@@ -42,6 +44,21 @@ class CreatePaymentMethodRequest
 
 
         return $createPaymentMethodRequest;
+    }
+
+    public static function createFromManagementBuilder(
+        ManagementBuilder $builder
+    ) {
+        $request = new CreatePaymentMethodRequest();
+        /** @var CreditCardData $builderCard */
+        $builderCard = $builder->paymentMethod;
+
+        $associatedCard = new CardNotPresent();
+        $associatedCard->expiry_month = (string)$builderCard->expMonth;
+        $associatedCard->expiry_year = substr(str_pad($builderCard->expYear, 4, '0', STR_PAD_LEFT), 2, 2);
+
+        $request->card = $associatedCard;
+        return $request;
     }
 
 }

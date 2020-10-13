@@ -117,9 +117,32 @@ class GpApiConnector extends RestGatewayWithCompression implements IPaymentGatew
      */
     public function manageTransaction(ManagementBuilder $builder)
     {
-//        if ($builder->transactionType == TransactionType::VERIFY) {
-//
-//        }
+        if ($builder->transactionType == TransactionType::DETOKENIZE) {
+            $response = $this->doTransaction(
+                'POST',
+                self::PAYMENT_METHODS_ENDPOINT . '/' . $builder->paymentMethod->token . '/detokenize',
+                null,
+                $this->getConstantHeaders()
+            );
+        } elseif ($builder->transactionType == TransactionType::TOKEN_DELETE) {
+            $response = $this->doTransaction(
+                'POST',
+                self::PAYMENT_METHODS_ENDPOINT . '/' . $builder->paymentMethod->token . '/delete',
+                null,
+                $this->getConstantHeaders()
+            );
+        } elseif ($builder->transactionType == TransactionType::TOKEN_UPDATE) {
+            $requestBody = CreatePaymentMethodRequest::createFromManagementBuilder($builder);
+            $response = $this->doTransaction(
+                'PATCH',
+                self::PAYMENT_METHODS_ENDPOINT . '/' . $builder->paymentMethod->token . '/edit',
+                $requestBody,
+                null,
+                $this->getConstantHeaders()
+            );
+        }
+
+        return $response;
     }
 
     public function processReport(ReportBuilder $builder)

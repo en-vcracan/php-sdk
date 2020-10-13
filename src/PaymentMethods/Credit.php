@@ -221,4 +221,14 @@ abstract class Credit implements
                         ->withOrderId($orderId)
                         ->execute();
     }
+
+    public function detokenize()
+    {
+        if (empty($this->token)) {
+            throw new BuilderException("Token cannot be null or empty");
+        }
+
+        $detokenizedRawData = (new ManagementBuilder(TransactionType::DETOKENIZE, $this))->execute();
+        return $detokenizedRawData;
+    }
 }

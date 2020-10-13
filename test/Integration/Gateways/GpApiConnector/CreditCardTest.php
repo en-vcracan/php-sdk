@@ -162,7 +162,104 @@ class CreditCardTest extends TestCase
         }
 
         $this->assertEquals('00', $response->action->result_code);
+    }
 
+    public function testCardTokenizationThenCardDetokenization()
+    {
+        $card = new CreditCardData();
+        $card->number = "4263970000005262";
+        $card->expMonth = 12;
+        $card->expYear = 2025;
+        $card->cvn = "131";
+        $card->cardHolderName = "James Mason";
+
+        try {
+            // process an auto-capture authorization
+            $response = $card->tokenize()
+                ->execute();
+
+        } catch (ApiException $e) {
+            $this->fail('Credit Card Tokenization failed ' . $e->getMessage());
+        }
+
+        $tokenId = $response->id;
+
+        $tokenizedCard = new CreditCardData();
+        $tokenizedCard->token = $tokenId;
+
+        try {
+            $response = $tokenizedCard->detokenize();
+        } catch (ApiException $e) {
+            $this->fail('Credit Card detokenization failed ' . $e->getMessage());
+        }
+
+        $this->assertEquals('00', $response->result);
+    }
+
+    public function testCardTokenizationThenDeletion()
+    {
+        $card = new CreditCardData();
+        $card->number = "4263970000005262";
+        $card->expMonth = 12;
+        $card->expYear = 2025;
+        $card->cvn = "131";
+        $card->cardHolderName = "James Mason";
+
+        try {
+            // process an auto-capture authorization
+            $response = $card->tokenize()
+                ->execute();
+
+        } catch (ApiException $e) {
+            $this->fail('Credit Card Tokenization failed ' . $e->getMessage());
+        }
+
+        $tokenId = $response->id;
+
+        $tokenizedCard = new CreditCardData();
+        $tokenizedCard->token = $tokenId;
+
+        try {
+            $response = $tokenizedCard->deleteToken();
+        } catch (ApiException $e) {
+            $this->fail('Credit Card token deletion failed ' . $e->getMessage());
+        }
+
+        $this->assertEquals(true, $response);
+    }
+
+    public function testCardTokenizationThenUpdate()
+    {
+        $card = new CreditCardData();
+        $card->number = "4263970000005262";
+        $card->expMonth = 12;
+        $card->expYear = 2025;
+        $card->cvn = "131";
+        $card->cardHolderName = "James Mason";
+
+        try {
+            // process an auto-capture authorization
+            $response = $card->tokenize()
+                ->execute();
+
+        } catch (ApiException $e) {
+            $this->fail('Credit Card Tokenization failed ' . $e->getMessage());
+        }
+
+        $tokenId = $response->id;
+
+        $tokenizedCard = new CreditCardData();
+        $tokenizedCard->token = $tokenId;
+        $tokenizedCard->expYear = '26';
+        $tokenizedCard->expMonth = '10';
+
+        try {
+            $response = $tokenizedCard->updateTokenExpiry();
+        } catch (ApiException $e) {
+            $this->fail('Credit Card token update failed ' . $e->getMessage());
+        }
+
+        $this->assertEquals(true, $response);
     }
 
     public function setUpConfig()

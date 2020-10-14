@@ -54,23 +54,27 @@ class CreatePaymentRequest
         $paymentMethod->first_name = $name[0];
         $paymentMethod->last_name = $name[1];
         $paymentMethod->entry_mode = $builder->entryMode ? $builder->entryMode : null;
-        if ($builder->channel == Channels::CNP) {
-            $card = new CardNotPresent();
-            $card->number = $paymentMethodContainer->number;
-            $card->expiry_month = $paymentMethodContainer->expMonth;
-            $card->expiry_year = substr(str_pad($paymentMethodContainer->expYear, 4, '0', STR_PAD_LEFT), 2, 2);
-            $card->cvv = $paymentMethodContainer->cvn;
-            $card->cvv_indicator = $card->cvv ? "PRESENT" : null;
-        } else {
-            $card = new CardPresent();
-            $card->track = $paymentMethodContainer->track;
-            $card->tag = $paymentMethodContainer->tag;
-            $card->brand_reference = $paymentMethodContainer->brandReference;
-            $card->chip_condition = $paymentMethodContainer->chipCondition;
-            $card->funding = $paymentMethodContainer->funding;
-        }
+        $paymentMethod->id = $paymentMethodContainer->token ? $paymentMethodContainer->token : null;
+        //or in other words, if we're not using a tokenized payment method, that means we're using a card
+        if (is_null($paymentMethod->id)) {
+            if ($builder->channel == Channels::CNP) {
+                $card = new CardNotPresent();
+                $card->number = $paymentMethodContainer->number;
+                $card->expiry_month = $paymentMethodContainer->expMonth;
+                $card->expiry_year = substr(str_pad($paymentMethodContainer->expYear, 4, '0', STR_PAD_LEFT), 2, 2);
+                $card->cvv = $paymentMethodContainer->cvn;
+                $card->cvv_indicator = $card->cvv ? "PRESENT" : null;
+            } else {
+                $card = new CardPresent();
+                $card->track = $paymentMethodContainer->track;
+                $card->tag = $paymentMethodContainer->tag;
+                $card->brand_reference = $paymentMethodContainer->brandReference;
+                $card->chip_condition = $paymentMethodContainer->chipCondition;
+                $card->funding = $paymentMethodContainer->funding;
+            }
 
-        $paymentMethod->card = $card;
+            $paymentMethod->card = $card;
+        }
         $paymentRequest->payment_method = $paymentMethod;
 //        $paymentRequest->payment_method->card->number = $paymentMethod->number;
 //        $paymentRequest->payment_method->card->expiry_month = $paymentMethod->expMonth;

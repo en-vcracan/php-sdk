@@ -108,7 +108,6 @@ class CreditCardTest extends TestCase
         }
 
         $this->assertEquals('00', $response->payment_method->result);
-
     }
     
     public function testCardTokenization()
@@ -132,7 +131,46 @@ class CreditCardTest extends TestCase
         $this->assertEquals('00', $response->result);
     }
 
-    public function testTokenizationThenTokenRetrievalBasedOnId()
+    public function testCardTokenizationThenPayingWithToken()
+    {
+        $card = new CreditCardData();
+        $card->number = "4263970000005262";
+        $card->expMonth = 12;
+        $card->expYear = 2025;
+        $card->cvn = "131";
+        $card->cardHolderName = "James Mason";
+
+        try {
+            // process an auto-capture authorization
+            $response = $card->tokenize()
+                ->execute();
+
+        } catch (ApiException $e) {
+            $this->fail('Credit Card Tokenization failed ' . $e->getMessage());
+        }
+
+        $tokenId = $response->id;
+
+        $tokenizedCard = new CreditCardData();
+        $tokenizedCard->token = $tokenId;
+        $tokenizedCard->cardHolderName = "James Mason";
+
+        try {
+            $response = $card->charge(669)
+                ->withCurrency("EUR")
+                ->withChannel(\GlobalPayments\Api\Entities\Enums\GpApi\Channels::CNP)
+                ->withCountry("US")
+                ->withOrderId("124214-214221")
+                ->withEntryMode(EntryMode::ECOM)
+                ->execute();
+        } catch (ApiException $e) {
+            $this->fail("Tokenized card transaction with ECOM transaction failed");
+        }
+
+        $this->assertEquals('00', $response->payment_method->result);
+    }
+
+    public function testCardTokenizationThenTokenRetrievalBasedOnId()
     {
         $card = new CreditCardData();
         $card->number = "4263970000005262";

@@ -34,7 +34,7 @@ abstract class Credit implements
 {
     public $encryptionData;
     public $paymentMethodType = PaymentMethodType::CREDIT;
-    
+
     /**
      * The token value representing the card.
      *
@@ -171,7 +171,7 @@ abstract class Credit implements
 
     /**
      * Updates the token expiry date with the values proced to the card object
-     * 
+     *
      * @return bool value indicating success/failure
      */
     public function updateTokenExpiry()
@@ -189,13 +189,14 @@ abstract class Credit implements
             return false;
         }
     }
-    
+
     /**
      * Deletes the token associated with the current card object
-     * 
+     *
      * @return bool value indicating success/failure
      */
-    public function deleteToken() {
+    public function deleteToken()
+    {
         if (empty($this->token)) {
             throw new BuilderException('Token cannot be null');
         }
@@ -213,13 +214,13 @@ abstract class Credit implements
     public function getDccRate($dccRateType, $amount, $currency, $ccp, $orderId)
     {
         return (new AuthorizationBuilder(TransactionType::DCC_RATE_LOOKUP, $this))
-                        ->withAmount($amount)
-                        ->withCurrency($currency)
-                        ->withDccRateType($dccRateType)
-                        ->withDccProcessor($ccp)
-                        ->withDccType("1")
-                        ->withOrderId($orderId)
-                        ->execute();
+            ->withAmount($amount)
+            ->withCurrency($currency)
+            ->withDccRateType($dccRateType)
+            ->withDccProcessor($ccp)
+            ->withDccType("1")
+            ->withOrderId($orderId)
+            ->execute();
     }
 
     public function detokenize()

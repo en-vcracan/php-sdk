@@ -4,6 +4,7 @@
 namespace Gateways\GpApiConnector;
 
 
+use GlobalPayments\Api\Entities\Enums\GatewayProvider;
 use GlobalPayments\Api\Entities\Exceptions\ApiException;
 use GlobalPayments\Api\PaymentMethods\DebitTrackData;
 use GlobalPayments\Api\ServicesConfig;
@@ -52,6 +53,7 @@ class DebitCardTest extends TestCase
         $config->appKey = 'NmGM0kg92z2gA7Og';
         $config->apiVersion = '2020-01-20';
         $config->serviceUrl = 'https://apis.sandbox.globalpay.com/ucp';
+        $config->gatewayProvider = GatewayProvider::GP_API;
         $config->accessTokenManager = $accessTokenManager;
         $config->accountNameManager = $accountNameManager;
 

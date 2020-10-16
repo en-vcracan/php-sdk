@@ -54,7 +54,7 @@ class CreatePaymentRequest
         $paymentMethod->first_name = $name[0];
         $paymentMethod->last_name = $name[1];
         $paymentMethod->entry_mode = $builder->entryMode ? $builder->entryMode : null;
-        $paymentMethod->id = $paymentMethodContainer->token ? $paymentMethodContainer->token : null;
+        $paymentMethod->id = !empty($paymentMethodContainer->token) ? $paymentMethodContainer->token : null;
         //or in other words, if we're not using a tokenized payment method, that means we're using a card
         if (is_null($paymentMethod->id)) {
             if ($builder->channel == Channels::CNP) {

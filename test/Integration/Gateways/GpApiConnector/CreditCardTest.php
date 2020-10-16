@@ -4,6 +4,7 @@
 namespace Gateways\GpApiConnector;
 
 
+use GlobalPayments\Api\Entities\Enums\GatewayProvider;
 use GlobalPayments\Api\Entities\Enums\GpApi\EntryMode;
 use GlobalPayments\Api\Entities\Exceptions\ApiException;
 use GlobalPayments\Api\PaymentMethods\CreditCardData;
@@ -312,6 +313,7 @@ class CreditCardTest extends TestCase
         $config->serviceUrl = 'https://apis.sandbox.globalpay.com/ucp';
         $config->accessTokenManager = $accessTokenManager;
         $config->accountNameManager = $accountNameManager;
+        $config->gatewayProvider = GatewayProvider::GP_API;
 
         return $config;
     }

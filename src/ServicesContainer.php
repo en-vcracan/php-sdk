@@ -11,10 +11,14 @@ use GlobalPayments\Api\Gateways\PorticoConnector;
 use GlobalPayments\Api\Gateways\RealexConnector;
 use GlobalPayments\Api\Gateways\ISecure3dProvider;
 use GlobalPayments\Api\Entities\Enums\Environment;
+use GlobalPayments\Api\Entities\Enums\GatewayProvider;
 use GlobalPayments\Api\Entities\Enums\Secure3dVersion;
 use GlobalPayments\Api\Entities\Enums\ServiceEndpoints;
 use GlobalPayments\Api\Entities\Exceptions\ConfigurationException;
 use GlobalPayments\Api\Utils\AccountNameManager;
+use GlobalPayments\Api\Gateways\MerchantwareConnector;
+use GlobalPayments\Api\Gateways\TransITConnector;
+
 
 class ServicesContainer
 {
@@ -86,7 +90,9 @@ class ServicesContainer
         $config->validate();
 
         $gateway = null;
-        if (!empty($config->merchantId)) {
+
+        // GP ECOM
+        if ($config->gatewayProvider === GatewayProvider::GP_ECOM) {
             if (empty($config->serviceUrl)) {
                 if ($config->environment === Environment::TEST) {
                     $config->serviceUrl = ServiceEndpoints::GLOBAL_ECOM_TEST;
@@ -132,47 +138,50 @@ class ServicesContainer
                 static::$instance->setSecure3dProvider(Secure3dVersion::TWO, $secure3d2);
             }
         } elseif (!empty($config->siteId)) {
-            if (empty($config->serviceUrl) && !empty($config->secretApiKey)) {
-                $env = explode('_', $config->secretApiKey)[1];
-                if ($env == "prod") {
-                    $config->serviceUrl = ServiceEndpoints::PORTICO_PRODUCTION;
+        // Genius
+        } elseif ($config->gatewayProvider === GatewayProvider::GENIUS) {
+            if (empty($config->serviceUrl)) {
+                if ($config->environment === Environment::TEST) {
+                    $config->serviceUrl = ServiceEndpoints::MERCHANTWARE_TEST;
                 } else {
-                    $config->serviceUrl = ServiceEndpoints::PORTICO_TEST;
+                    $config->serviceUrl = ServiceEndpoints::MERCHANTWARE_PRODUCTION;
                 }
             }
 
-            $gateway = new PorticoConnector();
-            $gateway->siteId = $config->siteId;
-            $gateway->licenseId = $config->licenseId;
-            $gateway->deviceId = $config->deviceId;
-            $gateway->username = $config->username;
-            $gateway->password = $config->password;
-            $gateway->secretApiKey = $config->secretApiKey;
-            $gateway->developerId = $config->developerId;
-            $gateway->versionNumber = $config->versionNumber;
+            $gateway = new MerchantwareConnector();
+            $gateway->merchantName = $config->merchantName;
+            $gateway->merchantSiteId = $config->merchantSiteId;
+            $gateway->merchantKey = $config->merchantKey;
+            $gateway->registerNumber = $config->registerNumber;
+            $gateway->terminalId = $config->terminalId;
             $gateway->timeout = $config->timeout;
-            $gateway->serviceUrl = $config->serviceUrl . '/Hps.Exchange.PosGateway/PosGatewayService.asmx';
-            $gateway->curlOptions = $config->curlOptions;
+            $gateway->serviceUrl = $config->serviceUrl;
 
-            $payplanEndPoint = (strpos(strtolower($config->serviceUrl), 'cert.') > 0) ?
-                '/Portico.PayPlan.v2/' :
-                '/PayPlan.v2/';
+            static::$instance = new static($gateway);
+        // TransIT
+        } elseif ($config->gatewayProvider === GatewayProvider::TRANSIT) {
+            if (empty($config->serviceUrl)) {
+                if ($config->environment === Environment::TEST) {
+                    $config->serviceUrl = ServiceEndpoints::TRANSIT_TEST;
+                } else {
+                    $config->serviceUrl = ServiceEndpoints::TRANSIT_PRODUCTION;
+                }
+            }
 
-            $recurring = new PayPlanConnector();
-            $recurring->siteId = $config->siteId;
-            $recurring->licenseId = $config->licenseId;
-            $recurring->deviceId = $config->deviceId;
-            $recurring->username = $config->username;
-            $recurring->password = $config->password;
-            $recurring->secretApiKey = $config->secretApiKey;
-            $recurring->developerId = $config->developerId;
-            $recurring->versionNumber = $config->versionNumber;
-            $recurring->timeout = $config->timeout;
-            $recurring->serviceUrl = $config->serviceUrl . $payplanEndPoint;
-            $recurring->curlOptions = $config->curlOptions;
-
-            static::$instance = new static($gateway, $recurring);
-        } elseif (!empty($config->appId)) {
+            $gateway = new TransITConnector();
+            $gateway->deviceId = $config->deviceId;
+            $gateway->merchantId = $config->merchantId;
+            $gateway->transactionKey = $config->transactionKey;
+            $gateway->manifest = $config->manifest;
+            $gateway->userId = $config->username;
+            $gateway->password = $config->password;
+            $gateway->developerId = $config->developerId;
+            $gateway->timeout = $config->timeout;
+            $gateway->serviceUrl = $config->serviceUrl;
+            $gateway->acceptorConfig = $config->acceptorConfig;
+            
+            static::$instance = new static($gateway);
+        } elseif (GatewayProvider::GP_API) {
             $gateway = new GpApiConnector();
             $gateway->appKey = $config->appKey;
             $gateway->appId = $config->appId;
@@ -195,6 +204,50 @@ class ServicesContainer
 
 
             static::$instance = new static($gateway);
+        } else {
+            if (empty($config->serviceUrl) && !empty($config->secretApiKey)) {
+                $env = explode('_', $config->secretApiKey)[1];
+                if ($env == "prod") {
+                    $config->serviceUrl = ServiceEndpoints::PORTICO_PRODUCTION;
+                } else {
+                    $config->serviceUrl = ServiceEndpoints::PORTICO_TEST;
+                }
+            }
+
+            $gateway = new PorticoConnector();
+            $gateway->siteId = $config->siteId;
+            $gateway->licenseId = $config->licenseId;
+            $gateway->deviceId = $config->deviceId;
+            $gateway->username = $config->username;
+            $gateway->password = $config->password;
+            $gateway->secretApiKey = $config->secretApiKey;
+            $gateway->developerId = $config->developerId;
+            $gateway->versionNumber = $config->versionNumber;
+            $gateway->timeout = $config->timeout;
+            $gateway->serviceUrl = $config->serviceUrl . '/Hps.Exchange.PosGateway/PosGatewayService.asmx';
+            $gateway->curlOptions = $config->curlOptions;
+
+
+            $payplanEndPoint = (strpos(strtolower($config->serviceUrl), 'cert.') > 0) ?
+                '/Portico.PayPlan.v2/' :
+                '/PayPlan.v2/';
+
+
+            static::$instance = new static($gateway);
+
+            if (!empty($config->dataClientId)) {
+                // TODO: Add data services connector class and code
+            } else {
+                static::$instance = new static($gateway);
+            }
+            
+
+            $recurring = new PayPlanConnector();
+            $recurring->secretApiKey = $config->secretApiKey;
+            $recurring->timeout = $config->timeout;
+            $recurring->serviceUrl = $config->serviceUrl . $config->getPayPlanEndpoint();
+
+            static::$instance = new static($gateway, $recurring);
         }
     }
 

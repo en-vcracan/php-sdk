@@ -90,6 +90,7 @@ abstract class Credit implements
      */
     public function charge($amount = null)
     {
+      
         return (new AuthorizationBuilder(TransactionType::SALE, $this))
             ->withAmount($amount != null ? $amount : ($this->threeDSecure != null ? $this->threeDSecure->getAmount() : null))
             ->withCurrency($this->threeDSecure != null ? $this->threeDSecure->getCurrency() : null)

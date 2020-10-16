@@ -3,6 +3,7 @@
 namespace GlobalPayments\Api\Builders;
 
 use GlobalPayments\Api\Entities\Address;
+use GlobalPayments\Api\Entities\AutoSubstantiation;
 use GlobalPayments\Api\Entities\EcommerceInfo;
 use GlobalPayments\Api\Entities\Enums\GpApi\CaptureMode;
 use GlobalPayments\Api\Entities\Enums\GpApi\EntryMode;
@@ -80,6 +81,9 @@ class AuthorizationBuilder extends TransactionBuilder
      */
     public $authAmount;
 
+    /** @var AutoSubstantiation */
+    public $autoSubstantiation;
+
     /**
      * Balance inquiry type
      *
@@ -97,6 +101,14 @@ class AuthorizationBuilder extends TransactionBuilder
     public $billingAddress;
 
     /**
+     * Indicates Card On File transaction
+     *
+     * @internal
+     * @var bool
+     */
+    public $cardOnFile;
+
+    /**
      * Request cashback amount
      *
      * @internal
@@ -111,6 +123,14 @@ class AuthorizationBuilder extends TransactionBuilder
      * @var string
      */
     public $clientTransactionId;
+
+    /**
+     * Request commercial data
+     *
+     * @internal
+     * @var CommercialData
+     */
+    public $commercialData;
 
     /**
      * Request currency
@@ -315,6 +335,15 @@ class AuthorizationBuilder extends TransactionBuilder
     public $requestMultiUseToken;
 
     /**
+     * To attach registration most recent change date value
+     * For use w/Discover cards on TransIT gateway
+     *
+     * @internal
+     * @var Date
+     */
+    public $lastRegisteredDate;
+
+    /**
      * Request replacement gift card
      *
      * @internal
@@ -424,6 +453,37 @@ class AuthorizationBuilder extends TransactionBuilder
      * @var $captureMode string
      */
     public $captureMode;
+    /**
+     * For TransIT cash amount for a specified transaction
+     * Note: If a decimal point is included, the amount reflects a dollar value.
+     *       If a decimal point is not included, the amount reflects a cent value.
+     *
+     * @internal
+     * @var string
+     */
+    public $cashTendered;
+    
+    /**
+     * For TransIT transaction discount details
+     *
+     * @internal
+     * @var string
+     */
+    public $discountDetails;
+
+    /**
+     * Card on File field
+     * @var string
+     *
+     */
+    public $cardBrandTransactionId;
+    
+    /**
+     * Card on File field
+     * @var string
+     *
+     */
+    public $transactionInitiator;
 
     /**
      * {@inheritdoc}
@@ -642,6 +702,32 @@ class AuthorizationBuilder extends TransactionBuilder
     }
 
     /**
+     * Sets the auto substantiation values for the transaction
+     *
+     * @param AutoSubstantiation
+     *
+     * @return AuthorizationBuilder
+     */
+    public function withAutoSubstantiation($autoSubstantiation)
+    {
+        $this->autoSubstantiation = $autoSubstantiation;
+        return $this;
+    }
+
+    /**
+     * Sets the commercial data values for use w/ lvl2 & lvl3 transactions
+     *
+     * @param CommercialData
+     *
+     * @return AuthorizationBuilder
+     */
+    public function withCommercialData($commercialData)
+    {
+        $this->commercialData = $commercialData;
+        return $this;
+    }
+
+    /**
      * Set the request's balance inquiry type
      *
      * @param string $balanceInquiryType Balance inquiry type
@@ -651,6 +737,19 @@ class AuthorizationBuilder extends TransactionBuilder
     public function withBalanceInquiryType($balanceInquiryType)
     {
         $this->balanceInquiryType = $balanceInquiryType;
+        return $this;
+    }
+
+    /**
+     * Set Card On File Indicator
+     *
+     * @param bool $cardOnFile
+     *
+     * @return AuthorizationBuilder
+     */
+    public function withCardOnFile($cardOnFile)
+    {
+        $this->cardOnFile = $cardOnFile;
         return $this;
     }
 
@@ -1053,7 +1152,7 @@ class AuthorizationBuilder extends TransactionBuilder
      */
     public function withConvenienceAmount($convenienceAmount)
     {
-        $this->convenienceAmount = $convenienceAmount;
+        $this->convenienceAmount  = $convenienceAmount;
         return $this;
     }
 
@@ -1173,5 +1272,59 @@ class AuthorizationBuilder extends TransactionBuilder
         $this->captureMode = $captureMode;
         return $this;
     }
+    
+    /**
+     * Set the associated schedule ID
+     *
+     * @param string $scheduleId
+     *
+     * @return AuthorizationBuilder
+     */
+    public function withDiscountDetails($discountDetails)
+    {
+        $this->discountDetails = $discountDetails;
+        return $this;
+    }
+    
+    /**
+     * Set the cash tendered amount
+     *
+     * @param string $cashTendered
+     *
+     * @return AuthorizationBuilder
+     */
+    public function withCashTenderedDetails($cashTendered)
+    {
+        $this->cashTendered = $cashTendered;
+        return $this;
+    }
+  
+    /**
+     * Set the Card on File storage
+     *
+     * @param string $transactionInitiator
+     * @param string $value
+     *
+     * @return AuthorizationBuilder
+     */
+    public function withCardBrandStorage($transactionInitiator, $value = '')
+    {
+        $this->transactionInitiator = $transactionInitiator;
+        $this->cardBrandTransactionId = $value;
+        return $this;
+    }
 
+    /**
+     * Set lastRegisteredDate - DD/MM/YYYY
+     * Used w/TransIT gateway
+     *
+     * @param bool $isRegistered
+     *
+     * @return AuthorizationBuilder
+     */
+    public function withLastRegisteredDate($date)
+    {
+        $this->lastRegisteredDate = $date;
+        return $this;
+    }
 }

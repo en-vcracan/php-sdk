@@ -181,7 +181,7 @@ class ServicesContainer
             $gateway->acceptorConfig = $config->acceptorConfig;
             
             static::$instance = new static($gateway);
-        } elseif (GatewayProvider::GP_API) {
+        } elseif ($config->gatewayProvider == GatewayProvider::GP_API) {
             $gateway = new GpApiConnector();
             $gateway->appKey = $config->appKey;
             $gateway->appId = $config->appId;
